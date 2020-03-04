@@ -1,12 +1,3 @@
-import React from 'react';
-import {Text, View} from 'react-native';
+import {Routes} from './src/Routes';
 
-const App = () => {
-  return (
-    <View>
-      <Text>Hello Hedda</Text>
-    </View>
-  );
-};
-
-export default App;
+export default Routes;
