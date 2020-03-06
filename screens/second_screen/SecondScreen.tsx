@@ -5,7 +5,7 @@ class SecondScreen extends Component {
   render() {
     return (
       <View style={style.container}>
-        <Text>SecondScreen</Text>
+        <Text></Text>
       </View>
     );
   }
