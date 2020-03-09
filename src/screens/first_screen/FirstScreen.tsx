@@ -1,18 +1,23 @@
 import React, {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import {connect} from 'react-redux';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {connect, ConnectedProps} from 'react-redux';
+import {RootState} from '/store/index';
+import {addAnimal} from '/store/actions/action';
 
-class FirstScreen extends Component {
+class FirstScreen extends Component<Props, {}> {
   render() {
     const {navigate} = this.props.navigation;
     return (
       <View style={style.container}>
+        <Text>Djur: {this.props.value}</Text>
         <View style={style.halfTwo}></View>
         <View style={style.halfOne}>
           <TouchableOpacity
             style={style.button}
             onPress={() => {
-              navigate('SecondScreen', mapDispatchToProps);
+              //navigate('SecondScreen', mapDispatchToProps);
+              this.props.addAnimal('Hund');
             }}>
             <Text style={style.buttonText}>Hund</Text>
           </TouchableOpacity>
@@ -28,16 +33,20 @@ class FirstScreen extends Component {
     );
   }
 }
-function mapStateToProps(state: {value: any}) {
+function mapStateToProps(state: RootState) {
   return {
-    value: state.value,
+    value: state.animalReducer.value,
   };
 }
-function mapDispatchToProps(state: any) {
-  return {
-    animalValue: () => ({type: 'ADD_ANIMAL'}),
-  };
-}
+const mapDispatchToProps = {
+  addAnimal,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type Props = PropsFromRedux & {
+  navigation: any;
+};
 
 const style = StyleSheet.create({
   container: {
@@ -67,4 +76,5 @@ const style = StyleSheet.create({
     padding: 20,
   },
 });
-export default connect(mapStateToProps, mapDispatchToProps)(FirstScreen);
+
+export default connector(FirstScreen);

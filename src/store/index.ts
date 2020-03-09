@@ -1,4 +1,4 @@
-import {createStore, combineReducers} from 'redux';
+import {combineReducers} from 'redux';
 import animalReducer from '../store/reducers/animalReducer';
 
 const rootReducer = combineReducers({
@@ -6,3 +6,5 @@ const rootReducer = combineReducers({
 });
 
 export default rootReducer;
+
+export type RootState = ReturnType<typeof rootReducer>;

@@ -1,9 +1,8 @@
-import {ADD_ANIMAL} from './types';
+import {ADD_ANIMAL, AnimalActionTypes} from './types';
 
-
-export const addAnimal: any(animal: any) => {
+export const addAnimal = (animal: string): AnimalActionTypes => {
   return {
     type: ADD_ANIMAL,
-    value: animal
+    value: animal,
   };
-}
+};
