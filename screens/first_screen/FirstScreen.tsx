@@ -12,7 +12,7 @@ class FirstScreen extends Component {
           <TouchableOpacity
             style={style.button}
             onPress={() => {
-              navigate('SecondScreen');
+              navigate('SecondScreen', mapDispatchToProps);
             }}>
             <Text style={style.buttonText}>Hund</Text>
           </TouchableOpacity>
@@ -28,6 +28,17 @@ class FirstScreen extends Component {
     );
   }
 }
+function mapStateToProps(state: {value: any}) {
+  return {
+    value: state.value,
+  };
+}
+function mapDispatchToProps(state: any) {
+  return {
+    animalValue: () => ({type: 'ADD_ANIMAL'}),
+  };
+}
+
 const style = StyleSheet.create({
   container: {
     flex: 1,
@@ -56,4 +67,4 @@ const style = StyleSheet.create({
     padding: 20,
   },
 });
-export default FirstScreen;
+export default connect(mapStateToProps, mapDispatchToProps)(FirstScreen);

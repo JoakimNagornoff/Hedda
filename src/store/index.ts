@@ -5,6 +5,4 @@ const rootReducer = combineReducers({
   animalReducer,
 });
 
-const store = () => createStore(rootReducer);
-
-export default store;
+export default rootReducer;
