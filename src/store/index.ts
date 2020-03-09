@@ -1,14 +1,10 @@
 import {createStore, combineReducers} from 'redux';
-import {animalReducer} from './reducers/animalReducer';
-import {IAnimalList} from './actions/types';
+import animalReducer from '../store/reducers/animalReducer';
 
-export interface IRootState {
-  animal: IAnimalList;
-}
+const rootReducer = combineReducers({
+  animalReducer,
+});
 
-const store = createStore<IRootState, any, any, any>(
-  combineReducers({
-    animal: animalReducer,
-  }),
-);
+const store = () => createStore(rootReducer);
+
 export default store;

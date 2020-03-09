@@ -1,15 +1,7 @@
-import {IAnimalList} from '../actions/types';
+import {ADD_ANIMAL} from '../actions/types';
 
-const init: IAnimalList = {
-  animalList: [],
+const initialState = {};
+const animalReducer = (state = initialState, action) => {
+  return state;
 };
-
-export function animalReducer(
-  state: IAnimalList = init,
-  action: any,
-): IAnimalList {
-  switch (action.type) {
-    default:
-      return state;
-  }
-}
+export default animalReducer;

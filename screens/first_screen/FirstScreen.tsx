@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {connect} from 'react-redux';
 
 class FirstScreen extends Component {
   render() {
@@ -10,7 +11,9 @@ class FirstScreen extends Component {
         <View style={style.halfOne}>
           <TouchableOpacity
             style={style.button}
-            onPress={() => navigate('SecondScreen')}>
+            onPress={() => {
+              navigate('SecondScreen');
+            }}>
             <Text style={style.buttonText}>Hund</Text>
           </TouchableOpacity>
           <TouchableOpacity style={style.button}>
