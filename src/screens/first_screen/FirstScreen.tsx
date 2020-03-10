@@ -10,14 +10,13 @@ class FirstScreen extends Component<Props, {}> {
     const {navigate} = this.props.navigation;
     return (
       <View style={style.container}>
-        <Text>Djur: {this.props.value}</Text>
         <View style={style.halfTwo}></View>
         <View style={style.halfOne}>
           <TouchableOpacity
             style={style.button}
             onPress={() => {
-              //navigate('SecondScreen', mapDispatchToProps);
               this.props.addAnimal('Hund');
+              navigate('SecondScreen');
             }}>
             <Text style={style.buttonText}>Hund</Text>
           </TouchableOpacity>
@@ -35,7 +34,7 @@ class FirstScreen extends Component<Props, {}> {
 }
 function mapStateToProps(state: RootState) {
   return {
-    value: state.animalReducer.value,
+    animalType: state.animalReducer.type,
   };
 }
 const mapDispatchToProps = {

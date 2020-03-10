@@ -4,45 +4,47 @@ import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '/store/index';
 import {
-  addAnimalName,
-  addAnimalRace,
-  addAnimalAge,
-  addAnimalGender,
+  addPersonName,
+  addPersonLastName,
+  addPersonEmail,
+  addPersonPostKod,
 } from 'store/actions/action';
 
-class SecondScreen extends Component<Props, {}> {
+class ThirdScreen extends Component<Props, {}> {
   render() {
-    //const {route} = this.props;
-    //const {animal} = route.params;
     const {navigate} = this.props.navigation;
     return (
       <View style={style.container}>
-        <Text style={style.title}>
-          Uppgifter om din {this.props.animalType}
-        </Text>
+        <Text style={style.title}>Uppgifter om ägaren</Text>
         <View style={style.halfOne}>
           <TextInput
             style={style.input}
-            placeholder="Namn"
+            placeholder="Förnamn"
             autoCapitalize="words"
-            value={this.props.animalName}
-            onChangeText={this.props.addAnimalName}></TextInput>
+            value={this.props.personName}
+            onChangeText={this.props.addPersonName}></TextInput>
           <TextInput
             style={style.input}
-            placeholder="Ras"
+            placeholder="Efternamn"
             autoCapitalize="words"
-            value={this.props.animalRace}
-            onChangeText={this.props.addAnimalRace}></TextInput>
+            value={this.props.personLastName}
+            onChangeText={this.props.addPersonLastName}></TextInput>
           <TextInput
             style={style.input}
-            placeholder="ålder"
+            placeholder="Email"
+            value={this.props.personEmail}
+            onChangeText={this.props.addPersonEmail}></TextInput>
+          <TextInput
+            style={style.input}
+            placeholder="Postkod"
             keyboardType="numeric"
-            age={this.props.animalAge}
-            onChangeText={this.props.addAnimalAge}></TextInput>
+            postkod={this.props.personPostKod}
+            onChangeText={this.props.addPersonPostKod}></TextInput>
+
           <TouchableOpacity
             style={style.button}
             onPress={() => {
-              navigate('ThirdScreen');
+              navigate('ForthScreen');
             }}>
             <Text style={style.buttonText}>Fortsätt</Text>
           </TouchableOpacity>
@@ -51,28 +53,27 @@ class SecondScreen extends Component<Props, {}> {
     );
   }
 }
-
 function mapStateToProps(state: RootState) {
   return {
-    animalType: state.animalReducer.type,
-    animalName: state.animalReducer.name,
-    animalRace: state.animalReducer.race,
-    animalGender: state.animalReducer.gender,
-    animalAge: state.animalReducer.age,
+    personName: state.personReducer.name,
+    personLastName: state.personReducer.lastName,
+    personEmail: state.personReducer.email,
+    personPostKod: state.personReducer.postkod,
   };
 }
 const mapDispatchToProps = {
-  addAnimalName,
-  addAnimalRace,
-  addAnimalAge,
+  addPersonName,
+  addPersonLastName,
+  addPersonEmail,
+  addPersonPostKod,
 };
-
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux & {
   navigation: any;
   route: any;
 };
+
 const style = StyleSheet.create({
   container: {
     flex: 1,
@@ -97,8 +98,8 @@ const style = StyleSheet.create({
     fontSize: 18,
     marginRight: 5,
     marginLeft: 5,
-    marginBottom: 25,
-    marginTop: 30,
+    marginBottom: 10,
+    marginTop: 15,
   },
   button: {
     marginTop: 80,
@@ -112,11 +113,11 @@ const style = StyleSheet.create({
     marginLeft: 5,
   },
   buttonText: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
     padding: 5,
   },
 });
 
-export default connector(SecondScreen);
+export default connector(ThirdScreen);

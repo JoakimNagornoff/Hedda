@@ -4,6 +4,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import HomeScreen from '/screens/home_screen/HomeScreen';
 import FirstScreen from '/screens/first_screen/FirstScreen';
 import SecondScreen from '/screens/second_screen/SecondScreen';
+import ThirdScreen from 'screens/ThirdScreen/ThirdScreen';
+import ForthScreen from 'screens/ForthScreen/ForthScreen';
 
 import rootReducer from './store/index';
 import {Provider} from 'react-redux';
@@ -19,8 +21,6 @@ store.subscribe(() => {
   console.log(store.getState());
 });
 
-//const store = createStore(rootReducer => [], {});
-
 export const Routes: React.FC<RoutesProps> = ({}) => {
   return (
     <Provider store={store}>
@@ -29,6 +29,8 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="FirstScreen" component={FirstScreen} />
           <Stack.Screen name="SecondScreen" component={SecondScreen} />
+          <Stack.Screen name="ThirdScreen" component={ThirdScreen} />
+          <Stack.Screen name="ForthScreen" component={ForthScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
