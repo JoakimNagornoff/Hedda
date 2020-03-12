@@ -5,6 +5,7 @@ import {
   ADD_ANIMAL_GENDER,
   ADD_ANIMAL_AGE,
   ADD_ANIMAL_RACE,
+  ADD_ANIMAL_CASTRATED,
   ADD_PERSON_NAME,
   ADD_PERSON_LASTNAME,
   ADD_PERSON_EMAIL,
@@ -42,6 +43,12 @@ export const addAnimalAge = (age: number): AnimalActionTypes => {
   return {
     type: ADD_ANIMAL_AGE,
     data: age,
+  };
+};
+export const addAnimalCastrated = (castrated: string): AnimalActionTypes => {
+  return {
+    type: ADD_ANIMAL_CASTRATED,
+    data: castrated,
   };
 };
 

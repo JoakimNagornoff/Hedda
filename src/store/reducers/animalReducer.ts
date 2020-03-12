@@ -6,6 +6,7 @@ import {
   ADD_ANIMAL_GENDER,
   ADD_ANIMAL_RACE,
   ADD_ANIMAL_AGE,
+  ADD_ANIMAL_CASTRATED,
 } from '../actions/types';
 
 const initialState: AnimalState = {
@@ -14,6 +15,7 @@ const initialState: AnimalState = {
   race: '',
   gender: '',
   age: null,
+  castrated: '',
 };
 const animalReducer = (
   state = initialState,
@@ -46,6 +48,11 @@ const animalReducer = (
       return {
         ...state,
         age: action.data,
+      };
+    case ADD_ANIMAL_CASTRATED:
+      return {
+        ...state,
+        castrated: action.data,
       };
   }
   return state;

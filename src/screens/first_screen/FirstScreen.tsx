@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import {StackNavigationProp} from '@react-navigation/stack';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '/store/index';
 import {addAnimal} from '/store/actions/action';

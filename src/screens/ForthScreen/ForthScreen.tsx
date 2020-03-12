@@ -13,6 +13,8 @@ class ForthScreen extends Component<Props, {}> {
           <Text style={style.formText}>namn : {this.props.animalName}</Text>
           <Text style={style.formText}>ras : {this.props.animalRace}</Text>
           <Text style={style.formText}>ålder : {this.props.animalAge} år</Text>
+          <Text style={style.formText}>kön: {this.props.animalGender}</Text>
+          <Text style={style.formText}>{this.props.animalCastrated}</Text>
         </View>
         <View style={style.halfTwo}>
           <Text style={style.title}>Uppgifter Ägare</Text>
@@ -43,6 +45,7 @@ function mapStateToProps(state: RootState) {
     animalRace: state.animalReducer.race,
     animalGender: state.animalReducer.gender,
     animalAge: state.animalReducer.age,
+    animalCastrated: state.animalReducer.castrated,
   };
 }
 const mapDispatchToProps = {};
