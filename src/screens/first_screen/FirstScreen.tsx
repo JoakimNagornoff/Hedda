@@ -19,10 +19,20 @@ class FirstScreen extends Component<Props, {}> {
             }}>
             <Text style={style.buttonText}>Hund</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={style.button}>
+          <TouchableOpacity
+            style={style.button}
+            onPress={() => {
+              this.props.addAnimal('Katt');
+              navigate('SecondScreen');
+            }}>
             <Text style={style.buttonText}>Katt</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={style.button}>
+          <TouchableOpacity
+            style={style.button}
+            onPress={() => {
+              this.props.addAnimal('Häst');
+              navigate('SecondScreen');
+            }}>
             <Text style={style.buttonText}>Häst</Text>
           </TouchableOpacity>
         </View>

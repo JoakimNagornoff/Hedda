@@ -11,18 +11,6 @@ import {
 } from 'store/actions/action';
 
 class ThirdScreen extends Component<Props, {}> {
-  validate = () => {
-    let emailError = '';
-
-    if (!this.props.personEmail.includes('@')) {
-      emailError = 'invalid email';
-    }
-    if (emailError) {
-      this.setState({emailError});
-      return false;
-    }
-    return true;
-  };
   render() {
     const {navigate} = this.props.navigation;
     return (
@@ -44,6 +32,7 @@ class ThirdScreen extends Component<Props, {}> {
           <TextInput
             style={style.input}
             placeholder="Email"
+            keyboardType="email-address"
             value={this.props.personEmail}
             onChangeText={this.props.addPersonEmail}></TextInput>
           <TextInput

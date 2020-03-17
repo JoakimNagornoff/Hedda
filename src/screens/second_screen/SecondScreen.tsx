@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, ScrollView} from 'react-native';
 import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import {connect, ConnectedProps} from 'react-redux';
+import SearchableDropdown from 'react-native-searchable-dropdown';
 import RadioForm, {
   RadioButton,
   RadioButtonInput,
@@ -15,6 +16,7 @@ import {
   addAnimalGender,
   addAnimalCastrated,
 } from 'store/actions/action';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 class SecondScreen extends Component<Props, {}> {
   render() {
@@ -41,18 +43,51 @@ class SecondScreen extends Component<Props, {}> {
             autoCapitalize="words"
             value={this.props.animalName}
             onChangeText={this.props.addAnimalName}></TextInput>
-          <TextInput
-            style={style.input}
-            placeholder="Ras"
-            autoCapitalize="words"
-            value={this.props.animalRace}
-            onChangeText={this.props.addAnimalRace}></TextInput>
+
+          <SearchableDropdown
+            onItemSelect={item => {
+              console.log(item);
+              this.props.addAnimalRace(item.name);
+              console.log(item.name);
+            }}
+            itemStyle={{
+              padding: 10,
+              marginTop: 2,
+              backgroundColor: '#ddd',
+              borderColor: '#bbb',
+              borderWidth: 1,
+              borderRadius: 5,
+            }}
+            items={items}
+            resetValue={false}
+            textInputProps={{
+              placeholder: 'Placeholder',
+              underlineColorAndroid: 'transparent',
+              style: {
+                padding: 12,
+                width: 380,
+                borderWidth: 1,
+                borderColor: '#ccc',
+                borderRadius: 5,
+                marginLeft: 5,
+                marginRight: 5,
+              },
+              onTextChange: this.props.addAnimalRace,
+            }}
+            listProps={{
+              nestedScrollEnabled: true,
+            }}
+          />
+
           <TextInput
             style={style.input}
             placeholder="ålder"
             keyboardType="numeric"
-            age={this.props.animalAge}
-            onChangeText={this.props.addAnimalAge}></TextInput>
+            value={
+              this.props.animalAge ? this.props.animalAge.toString() : undefined
+            }
+            onChangeText={value => this.props.addAnimalAge(parseInt(value))}
+          />
           <RadioForm
             radio_props={radio_props}
             initial={this.props.animalGender}
@@ -107,6 +142,46 @@ type Props = PropsFromRedux & {
   navigation: any;
   route: any;
 };
+
+const items = [
+  {
+    id: 1,
+    name: 'Blandras',
+  },
+  {
+    id: 2,
+    name: 'Blandras(Pitbull)',
+  },
+  {
+    id: 3,
+    name: 'Affenpinscher',
+  },
+  {
+    id: 4,
+    name: 'Afghanhund',
+  },
+  {
+    id: 5,
+    name: 'Akita',
+  },
+  {
+    id: 6,
+    name: 'Aireldaleterrier',
+  },
+  {
+    id: 7,
+    name: 'Aidi',
+  },
+  {
+    id: 8,
+    name: 'Alapaha Blue Blood Bulldog',
+  },
+  {
+    id: 9,
+    name: 'Alaskan Malamute',
+  },
+  {id: 10, name: 'Dalmatine'},
+];
 const style = StyleSheet.create({
   container: {
     flex: 1,
