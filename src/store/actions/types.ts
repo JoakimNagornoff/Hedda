@@ -2,7 +2,9 @@ export const ADD_ANIMAL = 'ADD_ANIMAL';
 export const ADD_ANIMAL_NAME = 'ADD_ANIMAL_NAME';
 export const ADD_ANIMAL_RACE = 'ADD_ANIMAL_RACE';
 export const ADD_ANIMAL_GENDER = 'ADD_ANIMAL_GENDER';
-export const ADD_ANIMAL_AGE = 'ADD_ANIMAL_AGE';
+export const ADD_ANIMAL_AGE_YEAR = 'ADD_ANIMAL_AGE_YEAR';
+export const ADD_ANIMA_AGE_MONTH = 'ADD_ANIMAL_AGE_MONTH';
+export const ADD_ANIMAL_AGE_DAY = 'ADD_ANIMAL_AGE_DAY';
 export const ADD_ANIMAL_CASTRATED = 'ADD_ANIMAL_CASTRATED';
 
 export const ADD_PERSON_NAME = 'ADD_PERSON_NAME';
@@ -15,7 +17,9 @@ export interface AnimalState {
   name: string;
   race: string;
   gender: string;
-  age: number | null;
+  year: number | null;
+  month: number | null;
+  day: number | null;
   castrated: string;
 }
 
@@ -35,8 +39,16 @@ interface AddAnimalGenderAction {
   type: typeof ADD_ANIMAL_GENDER;
   data: string;
 }
-interface AddAnimalAgeAction {
-  type: typeof ADD_ANIMAL_AGE;
+interface AddAnimalAgeYearAction {
+  type: typeof ADD_ANIMAL_AGE_YEAR;
+  data: number;
+}
+interface AddAnimalAgeMonthAction {
+  type: typeof ADD_ANIMA_AGE_MONTH;
+  data: number;
+}
+interface AddAnimalAgeDayAction {
+  type: typeof ADD_ANIMAL_AGE_DAY;
   data: number;
 }
 interface AddAnimalCastratedAction {
@@ -48,7 +60,9 @@ export type AnimalActionTypes =
   | AddAnimalAction
   | AddAnimalNameAction
   | AddAnimalGenderAction
-  | AddAnimalAgeAction
+  | AddAnimalAgeYearAction
+  | AddAnimalAgeMonthAction
+  | AddAnimalAgeDayAction
   | AddAnimalRaceAction
   | AddAnimalCastratedAction;
 

@@ -39,8 +39,15 @@ class ThirdScreen extends Component<Props, {}> {
             style={style.input}
             placeholder="Postkod"
             keyboardType="numeric"
-            postkod={this.props.personPostKod}
-            onChangeText={this.props.addPersonPostKod}></TextInput>
+            maxLength={5}
+            value={
+              this.props.personPostKod
+                ? this.props.personPostKod.toString()
+                : undefined
+            }
+            onChangeText={value =>
+              this.props.addPersonPostKod(parseInt(value))
+            }></TextInput>
 
           <TouchableOpacity
             style={style.button}

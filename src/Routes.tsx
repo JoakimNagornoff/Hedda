@@ -25,7 +25,7 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="HomeScreen">
+        <Stack.Navigator initialRouteName="ThirdScreen">
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="FirstScreen" component={FirstScreen} />
           <Stack.Screen name="SecondScreen" component={SecondScreen} />

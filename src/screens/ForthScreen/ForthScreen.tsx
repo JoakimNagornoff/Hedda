@@ -12,7 +12,10 @@ class ForthScreen extends Component<Props, {}> {
           <Text style={style.firstTitle}>{this.props.animalType}</Text>
           <Text style={style.formText}>namn : {this.props.animalName}</Text>
           <Text style={style.formText}>ras : {this.props.animalRace}</Text>
-          <Text style={style.formText}>ålder : {this.props.animalAge} år</Text>
+          <Text style={style.formText}>
+            ålder : {this.props.animalAgeYear}- {this.props.animalAgeMonth} -
+            {this.props.animalAgeDay}
+          </Text>
           <Text style={style.formText}>kön: {this.props.animalGender}</Text>
           <Text style={style.formText}>{this.props.animalCastrated}</Text>
         </View>
@@ -44,7 +47,9 @@ function mapStateToProps(state: RootState) {
     animalName: state.animalReducer.name,
     animalRace: state.animalReducer.race,
     animalGender: state.animalReducer.gender,
-    animalAge: state.animalReducer.age,
+    animalAgeYear: state.animalReducer.year,
+    animalAgeMonth: state.animalReducer.month,
+    animalAgeDay: state.animalReducer.day,
     animalCastrated: state.animalReducer.castrated,
   };
 }

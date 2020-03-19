@@ -12,11 +12,12 @@ import {RootState} from '/store/index';
 import {
   addAnimalName,
   addAnimalRace,
-  addAnimalAge,
+  addAnimalAgeYear,
+  addAnimalAgeMonth,
+  addAnimalAgeDay,
   addAnimalGender,
   addAnimalCastrated,
 } from 'store/actions/action';
-import {SafeAreaView} from 'react-native-safe-area-context';
 
 class SecondScreen extends Component<Props, {}> {
   render() {
@@ -78,16 +79,47 @@ class SecondScreen extends Component<Props, {}> {
               nestedScrollEnabled: true,
             }}
           />
+          <View style={style.age}>
+            <TextInput
+              style={style.inputAge}
+              placeholder="ÅÅÅÅ"
+              keyboardType="numeric"
+              maxLength={4}
+              value={
+                this.props.animalAgeYear
+                  ? this.props.animalAgeYear.toString()
+                  : undefined
+              }
+              onChangeText={value =>
+                this.props.addAnimalAgeYear(parseInt(value))
+              }></TextInput>
 
-          <TextInput
-            style={style.input}
-            placeholder="ålder"
-            keyboardType="numeric"
-            value={
-              this.props.animalAge ? this.props.animalAge.toString() : undefined
-            }
-            onChangeText={value => this.props.addAnimalAge(parseInt(value))}
-          />
+            <TextInput
+              style={style.inputAgeMM}
+              placeholder="MM"
+              keyboardType="numeric"
+              value={
+                this.props.animalAgeMonth
+                  ? this.props.animalAgeMonth.toString()
+                  : undefined
+              }
+              onChangeText={value =>
+                this.props.addAnimalAgeMonth(parseInt(value))
+              }></TextInput>
+            <TextInput
+              style={style.inputAgeDD}
+              placeholder="DD"
+              keyboardType="numeric"
+              maxLength={2}
+              value={
+                this.props.animalAgeDay
+                  ? this.props.animalAgeDay.toString()
+                  : undefined
+              }
+              onChangeText={value =>
+                this.props.addAnimalAgeDay(parseInt(value))
+              }></TextInput>
+          </View>
           <RadioForm
             radio_props={radio_props}
             initial={this.props.animalGender}
@@ -124,14 +156,18 @@ function mapStateToProps(state: RootState) {
     animalName: state.animalReducer.name,
     animalRace: state.animalReducer.race,
     animalGender: state.animalReducer.gender,
-    animalAge: state.animalReducer.age,
+    animalAgeYear: state.animalReducer.year,
+    animalAgeMonth: state.animalReducer.month,
+    animalAgeDay: state.animalReducer.day,
     animalCastrated: state.animalReducer.castrated,
   };
 }
 const mapDispatchToProps = {
   addAnimalName,
   addAnimalRace,
-  addAnimalAge,
+  addAnimalAgeYear,
+  addAnimalAgeMonth,
+  addAnimalAgeDay,
   addAnimalGender,
   addAnimalCastrated,
 };
@@ -143,6 +179,7 @@ type Props = PropsFromRedux & {
   route: any;
 };
 
+//list with dog races.
 const items = [
   {
     id: 1,
@@ -192,12 +229,41 @@ const style = StyleSheet.create({
   halfTwo: {
     flex: 2,
   },
+  age: {
+    height: 80,
+    flexDirection: 'row',
+    marginLeft: 60,
+  },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
     textAlign: 'center',
     marginTop: 60,
     marginBottom: 30,
+  },
+  inputAge: {
+    borderWidth: 1,
+    width: 60,
+    height: 50,
+    textAlign: 'center',
+    marginLeft: 20,
+    marginTop: 15,
+  },
+  inputAgeMM: {
+    borderWidth: 1,
+    width: 50,
+    height: 50,
+    textAlign: 'center',
+    marginTop: 15,
+    marginLeft: 20,
+  },
+  inputAgeDD: {
+    borderWidth: 1,
+    width: 50,
+    height: 50,
+    textAlign: 'center',
+    marginTop: 15,
+    marginLeft: 20,
   },
   input: {
     borderWidth: 1,

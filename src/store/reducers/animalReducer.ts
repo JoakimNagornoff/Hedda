@@ -5,8 +5,10 @@ import {
   ADD_ANIMAL_NAME,
   ADD_ANIMAL_GENDER,
   ADD_ANIMAL_RACE,
-  ADD_ANIMAL_AGE,
   ADD_ANIMAL_CASTRATED,
+  ADD_ANIMAL_AGE_YEAR,
+  ADD_ANIMA_AGE_MONTH,
+  ADD_ANIMAL_AGE_DAY,
 } from '../actions/types';
 
 const initialState: AnimalState = {
@@ -14,7 +16,9 @@ const initialState: AnimalState = {
   name: '',
   race: '',
   gender: '',
-  age: null,
+  year: null,
+  month: null,
+  day: null,
   castrated: '',
 };
 const animalReducer = (
@@ -44,11 +48,22 @@ const animalReducer = (
         ...state,
         gender: action.data,
       };
-    case ADD_ANIMAL_AGE:
+    case ADD_ANIMAL_AGE_YEAR:
       return {
         ...state,
-        age: action.data,
+        year: action.data,
       };
+    case ADD_ANIMA_AGE_MONTH:
+      return {
+        ...state,
+        month: action.data,
+      };
+    case ADD_ANIMAL_AGE_DAY:
+      return {
+        ...state,
+        day: action.data,
+      };
+
     case ADD_ANIMAL_CASTRATED:
       return {
         ...state,
