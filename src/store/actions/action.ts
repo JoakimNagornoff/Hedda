@@ -3,9 +3,7 @@ import {
   AnimalActionTypes,
   ADD_ANIMAL_NAME,
   ADD_ANIMAL_GENDER,
-  ADD_ANIMAL_AGE_YEAR,
-  ADD_ANIMA_AGE_MONTH,
-  ADD_ANIMAL_AGE_DAY,
+  ADD_ANIMAL_BIRTHDAY,
   ADD_ANIMAL_RACE,
   ADD_ANIMAL_CASTRATED,
   ADD_PERSON_NAME,
@@ -41,26 +39,14 @@ export const addAnimalGender = (gender: string): AnimalActionTypes => {
   };
 };
 
-export const addAnimalAgeYear = (year: number): AnimalActionTypes => {
+export const addAnimalBirthday = (date: Date): AnimalActionTypes => {
   return {
-    type: ADD_ANIMAL_AGE_YEAR,
-    data: year,
-  };
-};
-export const addAnimalAgeMonth = (month: number): AnimalActionTypes => {
-  return {
-    type: ADD_ANIMA_AGE_MONTH,
-    data: month,
-  };
-};
-export const addAnimalAgeDay = (day: number): AnimalActionTypes => {
-  return {
-    type: ADD_ANIMAL_AGE_DAY,
-    data: day,
+    type: ADD_ANIMAL_BIRTHDAY,
+    data: date,
   };
 };
 
-export const addAnimalCastrated = (castrated: string): AnimalActionTypes => {
+export const addAnimalCastrated = (castrated: boolean): AnimalActionTypes => {
   return {
     type: ADD_ANIMAL_CASTRATED,
     data: castrated,

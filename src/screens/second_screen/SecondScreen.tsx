@@ -140,7 +140,7 @@ class SecondScreen extends Component<Props, {}> {
           <TouchableOpacity
             style={style.button}
             onPress={() => {
-              navigate('ThirdScreen');
+              navigate('PersonScreen');
             }}>
             <Text style={style.buttonText}>Fortsätt</Text>
           </TouchableOpacity>
