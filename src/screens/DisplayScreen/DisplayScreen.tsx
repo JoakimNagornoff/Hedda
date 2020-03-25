@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  TouchableOpacity,
+  TapGestureHandler,
+} from 'react-native-gesture-handler';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '/store/index';
 
-class ForthScreen extends Component<Props, {}> {
+class DisplayScreen extends Component<Props, {}> {
   render() {
     return (
       <View style={style.container}>
@@ -13,11 +16,12 @@ class ForthScreen extends Component<Props, {}> {
           <Text style={style.formText}>namn : {this.props.animalName}</Text>
           <Text style={style.formText}>ras : {this.props.animalRace}</Text>
           <Text style={style.formText}>
-            ålder : {this.props.animalAgeYear}- {this.props.animalAgeMonth} -
-            {this.props.animalAgeDay}
+            Föddes : {this.props.animalBirthday}
           </Text>
           <Text style={style.formText}>kön: {this.props.animalGender}</Text>
-          <Text style={style.formText}>{this.props.animalCastrated}</Text>
+          <Text style={style.formText}>
+            kastrerad: {this.props.animalCastrated}
+          </Text>
         </View>
         <View style={style.halfTwo}>
           <Text style={style.title}>Uppgifter Ägare</Text>
@@ -47,9 +51,7 @@ function mapStateToProps(state: RootState) {
     animalName: state.animalReducer.name,
     animalRace: state.animalReducer.race,
     animalGender: state.animalReducer.gender,
-    animalAgeYear: state.animalReducer.year,
-    animalAgeMonth: state.animalReducer.month,
-    animalAgeDay: state.animalReducer.day,
+    animalBirthday: state.animalReducer.birthday,
     animalCastrated: state.animalReducer.castrated,
   };
 }
@@ -113,4 +115,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default connector(ForthScreen);
+export default connector(DisplayScreen);

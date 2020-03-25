@@ -15,7 +15,7 @@ class FirstScreen extends Component<Props, {}> {
             style={style.button}
             onPress={() => {
               this.props.addAnimal('Hund');
-              navigate('SecondScreen');
+              navigate('DogScreen');
             }}>
             <Text style={style.buttonText}>Hund</Text>
           </TouchableOpacity>

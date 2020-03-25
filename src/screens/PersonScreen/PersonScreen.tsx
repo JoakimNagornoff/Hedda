@@ -30,7 +30,7 @@ class PersonScreen extends Component<Props, {}> {
           this.props.addPersonName(values.name);
           this.props.addPersonLastName(values.lastName);
           this.props.addPersonPostKod(parseInt(values.postkod));
-          navigate('ForthScreen');
+          navigate('DisplayScreen');
         }}
         validationSchema={validationSchema}>
         {({

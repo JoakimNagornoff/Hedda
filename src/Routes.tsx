@@ -5,7 +5,7 @@ import HomeScreen from '/screens/home_screen/HomeScreen';
 import FirstScreen from '/screens/first_screen/FirstScreen';
 import SecondScreen from '/screens/second_screen/SecondScreen';
 import ThirdScreen from '/screens/ThirdScreen/ThirdScreen';
-import ForthScreen from '/screens/ForthScreen/ForthScreen';
+import DisplayScreen from './screens/DisplayScreen/DisplayScreen';
 import PersonScreen from '/screens/PersonScreen/PersonScreen';
 import DogScreen from 'screens/DogScreen/DogScreen';
 
@@ -27,12 +27,12 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="DogScreen">
+        <Stack.Navigator initialRouteName="HomeScreen">
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="FirstScreen" component={FirstScreen} />
           <Stack.Screen name="SecondScreen" component={SecondScreen} />
           <Stack.Screen name="ThirdScreen" component={ThirdScreen} />
-          <Stack.Screen name="ForthScreen" component={ForthScreen} />
+          <Stack.Screen name="DisplayScreen" component={DisplayScreen} />
           <Stack.Screen name="PersonScreen" component={PersonScreen} />
           <Stack.Screen name="DogScreen" component={DogScreen} />
         </Stack.Navigator>

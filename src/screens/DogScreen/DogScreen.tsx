@@ -5,6 +5,7 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import Select from 'react-native-select-plus';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import RadioForm from 'react-native-simple-radio-button';
 
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '/store/index';
@@ -22,6 +23,7 @@ class DogScreen extends Component<Props, {}> {
   };
 
   render() {
+    const {navigate} = this.props.navigation;
     const raceItems = [
       {key: 2, label: 'Blandras'},
       {key: 3, label: 'Blandras(Pitbull)'},
@@ -34,6 +36,14 @@ class DogScreen extends Component<Props, {}> {
       {key: 10, label: 'Alaskan Malamute'},
       {key: 11, label: 'Dalmatine'},
     ];
+    const radio_props = [
+      {label: 'hona', value: 'hona'},
+      {label: 'hane', value: 'hane'},
+    ];
+    const radioProps = [
+      {label: 'kastrerad', value: 'ja'},
+      {label: 'ejkastrerad', value: 'nej'},
+    ];
 
     return (
       <Formik
@@ -41,11 +51,17 @@ class DogScreen extends Component<Props, {}> {
           name: '',
           race: '',
           gender: '',
-          castrated: '',
+          castrated: false,
           birthday: '',
         }}
         onSubmit={values => {
-          console.log(values);
+          this.props.addAnimalName(values.name);
+          this.props.addAnimalRace(values.race);
+          this.props.addAnimalGender(values.gender);
+          this.props.addAnimalCastrated(values.castrated);
+          this.props.addAnimalBirthday(values.birthday);
+          navigate('PersonScreen');
+          //console.log(values);
         }}
         validationSchema={validationSchema}>
         {({
@@ -84,6 +100,7 @@ class DogScreen extends Component<Props, {}> {
                     values.birthday ? new Date(values.birthday) : new Date()
                   }
                   maximumDate={new Date()}
+                  minimumDate={new Date(1990, 1, 1)}
                   mode="date"
                   display="spinner"
                   onChange={(event, date) => {
@@ -111,8 +128,38 @@ class DogScreen extends Component<Props, {}> {
                     handleChange('race')(selectedRace.label);
                   }
                 }}
+                onBlur={handleBlur('race')}
               />
               <Text style={style.errorMsg}>{touched.race && errors.race}</Text>
+
+              <RadioForm
+                radio_props={radio_props}
+                initial={this.props.animalGender}
+                style={style.radio}
+                formHorizontal={false}
+                labelHorizontal={true}
+                animation={true}
+                labelStyle={{fontSize: 20}}
+                onPress={handleChange('gender')}
+                onBlur={handleBlur('gender')}
+              />
+              <Text style={style.errorMsg}>
+                {touched.gender && errors.gender}
+              </Text>
+              <RadioForm
+                radio_props={radioProps}
+                initial={this.props.animalCastrated}
+                style={style.radio}
+                formHorizontal={false}
+                labelHorizontal={true}
+                animation={true}
+                labelStyle={{fontSize: 20}}
+                onPress={handleChange('castrated')}
+                onBlur={handleBlur('castrated')}
+              />
+              <Text style={style.errorMsg}>
+                {touched.castrated && errors.castrated}
+              </Text>
 
               <Button
                 onPress={handleSubmit}
@@ -133,8 +180,14 @@ const validationSchema = Yup.object().shape({
   race: Yup.string()
     .label('race')
     .required(),
-  birthday: Yup.string()
+  birthday: Yup.date()
     .label('birthday')
+    .required(),
+  gender: Yup.string()
+    .label('gender')
+    .required(),
+  castrated: Yup.string()
+    .label('castrated')
     .required(),
 });
 
@@ -191,12 +244,6 @@ const style = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#000',
     marginStart: 15,
-    marginBottom: 20,
-  },
-  genderInput: {
-    borderWidth: 1,
-    borderColor: '#000',
-    marginStart: 15,
   },
   inputAge: {
     borderWidth: 1,
@@ -213,7 +260,10 @@ const style = StyleSheet.create({
     fontSize: 14,
   },
   radio: {
-    marginStart: 300,
+    borderWidth: 1,
+    padding: 5,
+    alignItems: 'flex-end',
+    flexDirection: 'column',
   },
 });
 
