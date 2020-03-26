@@ -1,14 +1,24 @@
 import React, {Component} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
-import {
-  TouchableOpacity,
-  TapGestureHandler,
-} from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '/store/index';
 
+import {submitAnimal} from 'store/actions/action';
+import ActivityIndicatorExample from '@components/ActivityIndicatorExample';
+
 class DisplayScreen extends Component<Props, {}> {
+  handleSubmitClick() {
+    this.props.submitAnimal(true);
+    setTimeout(() => {
+      this.props.navigation.navigate('ExampleScreen');
+    }, 6000);
+  }
   render() {
+    if (this.props.animalisSubmit) {
+      return <ActivityIndicatorExample></ActivityIndicatorExample>;
+    }
+
     return (
       <View style={style.container}>
         <View style={style.halfOne}>
@@ -34,7 +44,11 @@ class DisplayScreen extends Component<Props, {}> {
             Postkod : {this.props.personPostKod}
           </Text>
         </View>
-        <TouchableOpacity style={style.button} onPress={() => {}}>
+        <TouchableOpacity
+          style={style.button}
+          onPress={() => {
+            this.handleSubmitClick();
+          }}>
           <Text style={style.buttonText}>Fortsätt</Text>
         </TouchableOpacity>
       </View>
@@ -53,9 +67,12 @@ function mapStateToProps(state: RootState) {
     animalGender: state.animalReducer.gender,
     animalBirthday: state.animalReducer.birthday,
     animalCastrated: state.animalReducer.castrated,
+    animalisSubmit: state.animalReducer.isSubmit,
   };
 }
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  submitAnimal,
+};
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux & {

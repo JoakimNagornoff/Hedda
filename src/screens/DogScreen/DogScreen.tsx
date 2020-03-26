@@ -59,7 +59,7 @@ class DogScreen extends Component<Props, {}> {
           this.props.addAnimalRace(values.race);
           this.props.addAnimalGender(values.gender);
           this.props.addAnimalCastrated(values.castrated);
-          this.props.addAnimalBirthday(values.birthday);
+          this.props.addAnimalBirthday(new Date(values.birthday));
           navigate('PersonScreen');
           //console.log(values);
         }}
@@ -186,7 +186,7 @@ const validationSchema = Yup.object().shape({
   gender: Yup.string()
     .label('gender')
     .required(),
-  castrated: Yup.string()
+  castrated: Yup.boolean()
     .label('castrated')
     .required(),
 });

@@ -6,6 +6,7 @@ import {
   ADD_ANIMAL_BIRTHDAY,
   ADD_ANIMAL_RACE,
   ADD_ANIMAL_CASTRATED,
+  SUBMIT_ANIMAL,
   ADD_PERSON_NAME,
   ADD_PERSON_LASTNAME,
   ADD_PERSON_EMAIL,
@@ -50,6 +51,12 @@ export const addAnimalCastrated = (castrated: boolean): AnimalActionTypes => {
   return {
     type: ADD_ANIMAL_CASTRATED,
     data: castrated,
+  };
+};
+export const submitAnimal = (isSubmit: boolean): AnimalActionTypes => {
+  return {
+    type: SUBMIT_ANIMAL,
+    data: isSubmit,
   };
 };
 

@@ -10,6 +10,7 @@ export const ADD_PERSON_NAME = 'ADD_PERSON_NAME';
 export const ADD_PERSON_LASTNAME = 'ADD_PERSON_LASTNAME';
 export const ADD_PERSON_EMAIL = 'ADD_PERSON_EMAIL';
 export const ADD_PERSON_POSTKOD = 'ADD_PERSON_POSTKOD';
+export const SUBMIT_ANIMAL = 'SUBMIT_ANIMAL';
 
 export interface AnimalState {
   type: string;
@@ -18,6 +19,7 @@ export interface AnimalState {
   gender: string;
   birthday: Date | null;
   castrated: boolean;
+  isSubmit: boolean;
 }
 
 interface AddAnimalAction {
@@ -44,6 +46,10 @@ interface AddAnimalCastratedAction {
   type: typeof ADD_ANIMAL_CASTRATED;
   data: boolean;
 }
+interface SubmitAnimalAction {
+  type: typeof SUBMIT_ANIMAL;
+  data: boolean;
+}
 
 export type AnimalActionTypes =
   | AddAnimalAction
@@ -51,7 +57,8 @@ export type AnimalActionTypes =
   | AddAnimalGenderAction
   | AddAnimalBirthdayAction
   | AddAnimalRaceAction
-  | AddAnimalCastratedAction;
+  | AddAnimalCastratedAction
+  | SubmitAnimalAction;
 
 export interface PersonState {
   name: string;
