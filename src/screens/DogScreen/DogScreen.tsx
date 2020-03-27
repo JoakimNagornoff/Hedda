@@ -35,6 +35,9 @@ class DogScreen extends Component<Props, {}> {
       {key: 9, label: 'Alapaha Blue Blood Bulldog'},
       {key: 10, label: 'Alaskan Malamute'},
       {key: 11, label: 'Dalmatine'},
+      {key: 12, label: 'Barbet'},
+      {key: 13, label: 'Basset Artésien Normand'},
+      {key: 14, label: 'Beagle'},
     ];
     const radio_props = [
       {label: 'hona', value: 'hona'},
@@ -51,7 +54,7 @@ class DogScreen extends Component<Props, {}> {
           name: '',
           race: '',
           gender: '',
-          castrated: false,
+          castrated: '',
           birthday: '',
         }}
         onSubmit={values => {
@@ -59,7 +62,7 @@ class DogScreen extends Component<Props, {}> {
           this.props.addAnimalRace(values.race);
           this.props.addAnimalGender(values.gender);
           this.props.addAnimalCastrated(values.castrated);
-          this.props.addAnimalBirthday(new Date(values.birthday));
+          this.props.addAnimalBirthday(values.birthday);
           navigate('PersonScreen');
           //console.log(values);
         }}
@@ -186,7 +189,7 @@ const validationSchema = Yup.object().shape({
   gender: Yup.string()
     .label('gender')
     .required(),
-  castrated: Yup.boolean()
+  castrated: Yup.string()
     .label('castrated')
     .required(),
 });

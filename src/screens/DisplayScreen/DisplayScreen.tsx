@@ -11,7 +11,7 @@ class DisplayScreen extends Component<Props, {}> {
   handleSubmitClick() {
     this.props.submitAnimal(true);
     setTimeout(() => {
-      this.props.navigation.navigate('ExampleScreen');
+      this.props.navigation.navigate('ShowScreen');
     }, 6000);
   }
   render() {
