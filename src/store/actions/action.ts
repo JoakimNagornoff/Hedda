@@ -12,6 +12,16 @@ import {
   ADD_PERSON_EMAIL,
   ADD_PERSON_POSTKOD,
   PersonActionTypes,
+  PaymentActionTypes,
+  ADD_PAYMENT_BAS,
+  ADD_PAYMENT_PREMIUM,
+  ADD_PAYMENT_STANDARD,
+  ADD_PAYMENT_FIXED_DECUTIBLE,
+  ADD_PAYMENT_VARIABLE_DECUTIBLE,
+  ADD_PAYMENT_FIXED_DECUTIBLE_STANDARD,
+  ADD_PAYMENT_VARIABLE_DECUTIBLE_STANDARD,
+  ADD_PAYMENT_FIXED_DECUTIBLE_PREMIUM,
+  ADD_PAYMENT_VARIABLE_DECUTIBLE_PREMIUM,
 } from './types';
 
 export const addAnimal = (animal: string): AnimalActionTypes => {
@@ -82,5 +92,71 @@ export const addPersonPostKod = (postkod: number): PersonActionTypes => {
   return {
     type: ADD_PERSON_POSTKOD,
     data: postkod,
+  };
+};
+export const addPaymentBas = (bas: number): PaymentActionTypes => {
+  return {
+    type: ADD_PAYMENT_BAS,
+    data: bas,
+  };
+};
+export const addPaymentStandard = (standard: number): PaymentActionTypes => {
+  return {
+    type: ADD_PAYMENT_STANDARD,
+    data: standard,
+  };
+};
+export const addPaymentPremium = (premium: number): PaymentActionTypes => {
+  return {
+    type: ADD_PAYMENT_PREMIUM,
+    data: premium,
+  };
+};
+export const addPaymentFixedDecutible = (
+  fixedDecutible: number,
+): PaymentActionTypes => {
+  return {
+    type: ADD_PAYMENT_FIXED_DECUTIBLE,
+    data: fixedDecutible,
+  };
+};
+export const addPaymentVariableDecutible = (
+  variableDecutible: number,
+): PaymentActionTypes => {
+  return {
+    type: ADD_PAYMENT_VARIABLE_DECUTIBLE,
+    data: variableDecutible,
+  };
+};
+export const addPaymentFixedDecutibleStandard = (
+  fixedDecutibleStandard: number,
+): PaymentActionTypes => {
+  return {
+    type: ADD_PAYMENT_FIXED_DECUTIBLE_STANDARD,
+    data: fixedDecutibleStandard,
+  };
+};
+export const addPaymentVariableDecutibleStandard = (
+  variableDecutibleStandard: number,
+): PaymentActionTypes => {
+  return {
+    type: ADD_PAYMENT_VARIABLE_DECUTIBLE_STANDARD,
+    data: variableDecutibleStandard,
+  };
+};
+export const addPaymentFixedDecutiblePremium = (
+  fixedDecutiblePremium: number,
+): PaymentActionTypes => {
+  return {
+    type: ADD_PAYMENT_FIXED_DECUTIBLE_PREMIUM,
+    data: fixedDecutiblePremium,
+  };
+};
+export const addPaymentVariableDecutiblePremium = (
+  fvariableDecutiblePremium: number,
+): PaymentActionTypes => {
+  return {
+    type: ADD_PAYMENT_VARIABLE_DECUTIBLE_PREMIUM,
+    data: fvariableDecutiblePremium,
   };
 };

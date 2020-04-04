@@ -12,6 +12,20 @@ export const ADD_PERSON_EMAIL = 'ADD_PERSON_EMAIL';
 export const ADD_PERSON_POSTKOD = 'ADD_PERSON_POSTKOD';
 export const SUBMIT_ANIMAL = 'SUBMIT_ANIMAL';
 
+export const ADD_PAYMENT_BAS = 'ADD_PAYMENT_BAS';
+export const ADD_PAYMENT_STANDARD = 'ADD_PAYMENT_STANDARD';
+export const ADD_PAYMENT_PREMIUM = 'ADD_PAYMENT_PREMIUM';
+export const ADD_PAYMENT_FIXED_DECUTIBLE = 'ADD_PAYMENT_FIXED_DECUTIBLE';
+export const ADD_PAYMENT_VARIABLE_DECUTIBLE = 'ADD_PAYMENT_VARIABLE_DECUTIBLE';
+export const ADD_PAYMENT_VARIABLE_DECUTIBLE_STANDARD =
+  'ADD_PAYMENT_VARIABLE_DECUTIBLE_STANDARD';
+export const ADD_PAYMENT_FIXED_DECUTIBLE_STANDARD =
+  'ADD_PAYMENT_FIXED_DECUTIBLE_STANDARD';
+export const ADD_PAYMENT_FIXED_DECUTIBLE_PREMIUM =
+  'ADD_PAYMENT_FIXED_DECUTIBLE_PREMIUM';
+export const ADD_PAYMENT_VARIABLE_DECUTIBLE_PREMIUM =
+  'ADD_PAYMENT_VARIABLE_DECUTIBLE_PREMIUM';
+
 export interface AnimalState {
   type: string;
   name: string;
@@ -88,3 +102,62 @@ export type PersonActionTypes =
   | AddPersonLastNameAction
   | AddPersonEmailAction
   | AddPersonPostKodAction;
+
+export interface PaymentState {
+  bas: number | null;
+  standard: number | null;
+  premium: number | null;
+  fixedDeductible: number | null;
+  variableDeductible: number | null;
+  fixedDecutibleStandard: number | null;
+  variableDecutibleStandard: number | null;
+  fixedDecutiblePremium: number | null;
+  variableDecutiblePremium: number | null;
+}
+interface AddPaymentBasAction {
+  type: typeof ADD_PAYMENT_BAS;
+  data: number;
+}
+interface AddPaymentStandardAction {
+  type: typeof ADD_PAYMENT_STANDARD;
+  data: number;
+}
+interface AddPaymentPremiumAction {
+  type: typeof ADD_PAYMENT_PREMIUM;
+  data: number;
+}
+interface AddpaymentFixedDecutibleAction {
+  type: typeof ADD_PAYMENT_FIXED_DECUTIBLE;
+  data: number;
+}
+interface AddpaymentVariableDeductibleAction {
+  type: typeof ADD_PAYMENT_VARIABLE_DECUTIBLE;
+  data: number;
+}
+interface AddpaymentFixedDecutibleActionStandard {
+  type: typeof ADD_PAYMENT_FIXED_DECUTIBLE_STANDARD;
+  data: number;
+}
+interface AddpaymentVariableDeductibleActionStandard {
+  type: typeof ADD_PAYMENT_VARIABLE_DECUTIBLE_STANDARD;
+  data: number;
+}
+interface AddpaymentFixedDecutibleActionPremium {
+  type: typeof ADD_PAYMENT_FIXED_DECUTIBLE_PREMIUM;
+  data: number;
+}
+interface AddpaymentVariableDeductibleActionPremium {
+  type: typeof ADD_PAYMENT_VARIABLE_DECUTIBLE_PREMIUM;
+  data: number;
+}
+
+export type PaymentActionTypes =
+  | AddPaymentBasAction
+  | AddPaymentStandardAction
+  | AddPaymentPremiumAction
+  | AddpaymentFixedDecutibleAction
+  | AddpaymentVariableDeductibleAction
+  | AddpaymentFixedDecutibleActionStandard
+  | AddpaymentVariableDeductibleActionStandard
+  | AddpaymentFixedDecutibleActionPremium
+  | AddpaymentVariableDeductibleActionPremium;
