@@ -11,15 +11,8 @@ import Slider from '@react-native-community/slider';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '/store/index';
 import {
-  addPaymentBas,
-  addPaymentStandard,
-  addPaymentPremium,
-  addPaymentFixedDecutible,
-  addPaymentVariableDecutible,
-  addPaymentFixedDecutibleStandard,
-  addPaymentVariableDecutibleStandard,
-  addPaymentFixedDecutiblePremium,
-  addPaymentVariableDecutiblePremium,
+  changePaymentFixedDeductible,
+  changePaymentVariableDeductible,
 } from 'store/actions/action';
 
 const DATA = [
@@ -27,14 +20,10 @@ const DATA = [
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
     title: 'Bas',
   },
-];
-const DATATWO = [
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
     title: 'Standard',
   },
-];
-const DATATHREE = [
   {
     id: '58694a0f-3da1-471f-bd96-145571e29d72',
     title: 'Premium',
@@ -43,125 +32,41 @@ const DATATHREE = [
 
 function Item({
   title,
-  paymentFixed,
-  paymentVariable,
-  addPaymentFixedDecutible,
-  addPaymentVariableDecutible,
-  paymentBas,
+  baseCost,
+  changePaymentFixedDeductible,
+  changePaymentVariableDeductible,
+  fixedDeductible,
+  variableDeductible,
 }) {
   return (
     <View style={style.item}>
-      <Text style={style.secondTitle}>{title}</Text>
+      <Text style={style.secondTitle}>{title.toUpperCase()}</Text>
       <Text style={style.title}>
-        {paymentBas} Kr<Text style={style.secondTitle}> per månad</Text>
+        {baseCost +
+          (fixedDeductible - 1500) * 0.05 +
+          (variableDeductible - 25) * -6}{' '}
+        Kr
+        <Text style={style.secondTitle}> per månad</Text>
       </Text>
-      <Text style={style.secondTitle}>Fast självrisk {paymentFixed} kr</Text>
+      <Text style={style.secondTitle}>Fast självrisk {fixedDeductible} kr</Text>
       <Slider
         style={style.firstSlider}
         minimumValue={0}
-        value={paymentFixed}
+        value={fixedDeductible}
         maximumValue={3000}
         step={1500}
-        onValueChange={addPaymentFixedDecutible}
+        onValueChange={(value) => changePaymentFixedDeductible(title, value)}
       />
       <Text style={style.secondTitle}>
-        Rörlig självrisk {paymentVariable}% av skadekostanden
+        Rörlig självrisk {variableDeductible}% av skadekostanden
       </Text>
       <Slider
         style={style.secondSlider}
         minimumValue={15}
-        value={paymentVariable}
+        value={variableDeductible}
         maximumValue={25}
         step={10}
-        onValueChange={addPaymentVariableDecutible}
-      />
-      <TouchableOpacity style={style.details}>
-        <Text style={style.detailsText}>Se alla detaljer</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={style.chooseButtonOne}>
-        <Text style={style.buttonText}>Välj</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
-function ItemTwo({
-  title,
-  paymentVariableStandard,
-  paymentFixedStandard,
-  addPaymentFixedDecutible,
-  addPaymentVariableDecutible,
-  paymentStandard,
-}) {
-  return (
-    <View style={style.item}>
-      <Text style={style.secondTitle}>{title}</Text>
-      <Text style={style.title}>
-        {paymentStandard} Kr<Text style={style.secondTitle}> per månad</Text>
-      </Text>
-      <Text style={style.secondTitle}>
-        Fast självrisk {paymentFixedStandard} kr
-      </Text>
-      <Slider
-        style={style.firstSlider}
-        minimumValue={0}
-        value={paymentFixedStandard}
-        maximumValue={3000}
-        step={1500}
-        onValueChange={addPaymentFixedDecutible}
-      />
-      <Text style={style.secondTitle}>
-        Rörlig självrisk {paymentVariableStandard}% av skadekostanden
-      </Text>
-      <Slider
-        style={style.secondSlider}
-        minimumValue={15}
-        value={paymentVariableStandard}
-        maximumValue={25}
-        step={10}
-        onValueChange={addPaymentVariableDecutible}
-      />
-      <TouchableOpacity style={style.details}>
-        <Text style={style.detailsText}>Se alla detaljer</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={style.chooseButtonOne}>
-        <Text style={style.buttonText}>Välj</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
-function ItemThree({
-  title,
-  paymentVariablePremium,
-  paymentFixedPremium,
-  addPaymentFixedDecutiblePremium,
-  addPaymentVariableDecutiblePremium,
-  paymentPremium,
-}) {
-  return (
-    <View style={style.item}>
-      <Text style={style.secondTitle}>{title}</Text>
-      <Text style={style.title}>
-        {paymentPremium} Kr<Text style={style.secondTitle}> per månad</Text>
-      </Text>
-      <Text style={style.secondTitle}>Fast självrisk {paymentPremium} kr</Text>
-      <Slider
-        style={style.firstSlider}
-        minimumValue={0}
-        value={paymentFixedPremium}
-        maximumValue={3000}
-        step={1500}
-        onValueChange={addPaymentFixedDecutiblePremium}
-      />
-      <Text style={style.secondTitle}>
-        Rörlig självrisk {paymentVariablePremium}% av skadekostanden
-      </Text>
-      <Slider
-        style={style.secondSlider}
-        minimumValue={15}
-        value={paymentVariablePremium}
-        maximumValue={25}
-        step={10}
-        onValueChange={addPaymentVariableDecutiblePremium}
+        onValueChange={(value) => changePaymentVariableDeductible(title, value)}
       />
       <TouchableOpacity style={style.details}>
         <Text style={style.detailsText}>Se alla detaljer</Text>
@@ -178,56 +83,22 @@ class ShowScreen extends Component<Props, {}> {
     return (
       <SafeAreaView style={style.container}>
         <FlatList
-          data={DATA}
+          data={this.props.paymentOptions}
           renderItem={({item}) => (
             <Item
-              title={item.title}
-              paymentBas={this.props.paymentBas}
-              paymentFixed={this.props.paymentFixed}
-              paymentVariable={this.props.paymentVariable}
-              addPaymentFixedDecutible={this.props.addPaymentFixedDecutible}
-              addPaymentVariableDecutible={
-                this.props.addPaymentVariableDecutible
+              title={item.name}
+              baseCost={item.baseCost}
+              fixedDeductible={item.fixedDeductible}
+              variableDeductible={item.variableDeductible}
+              changePaymentFixedDeductible={
+                this.props.changePaymentFixedDeductible
+              }
+              changePaymentVariableDeductible={
+                this.props.changePaymentVariableDeductible
               }
             />
           )}
-          keyExtractor={item => item.id}
-        />
-        <FlatList
-          data={DATATWO}
-          renderItem={({item}) => (
-            <ItemTwo
-              title={item.title}
-              paymentStandard={this.props.paymentStandard}
-              paymentFixedStandard={this.props.paymentFixedStandard}
-              paymentVariableStandard={this.props.paymentVariableStandard}
-              addPaymentFixedDecutible={
-                this.props.addPaymentFixedDecutibleStandard
-              }
-              addPaymentVariableDecutible={
-                this.props.addPaymentVariableDecutibleStandard
-              }
-            />
-          )}
-          keyExtractor={item => item.id}
-        />
-        <FlatList
-          data={DATATHREE}
-          renderItem={({item}) => (
-            <ItemThree
-              title={item.title}
-              paymentPremium={this.props.paymentPremium}
-              paymentFixedPremium={this.props.paymentFixedPremium}
-              paymentVariablePremium={this.props.paymentVariablePremium}
-              addPaymentFixedDecutiblePremium={
-                this.props.addPaymentFixedDecutiblePremium
-              }
-              addPaymentVariableDecutiblePremium={
-                this.props.addPaymentFixedDecutiblePremium
-              }
-            />
-          )}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.name}
         />
       </SafeAreaView>
     );
@@ -236,27 +107,12 @@ class ShowScreen extends Component<Props, {}> {
 
 function mapStateToProps(state: RootState) {
   return {
-    paymentBas: state.paymentReducer.bas,
-    paymentStandard: state.paymentReducer.standard,
-    paymentPremium: state.paymentReducer.premium,
-    paymentFixed: state.paymentReducer.fixedDeductible,
-    paymentVariable: state.paymentReducer.variableDeductible,
-    paymentFixedStandard: state.paymentReducer.fixedDecutibleStandard,
-    paymentVariableStandard: state.paymentReducer.variableDecutibleStandard,
-    paymentFixedPremium: state.paymentReducer.fixedDecutiblePremium,
-    paymentVariablePremium: state.paymentReducer.variableDecutiblePremium,
+    paymentOptions: state.paymentReducer.options,
   };
 }
 const mapDispatchToProps = {
-  addPaymentBas,
-  addPaymentStandard,
-  addPaymentPremium,
-  addPaymentFixedDecutible,
-  addPaymentVariableDecutible,
-  addPaymentFixedDecutibleStandard,
-  addPaymentVariableDecutibleStandard,
-  addPaymentFixedDecutiblePremium,
-  addPaymentVariableDecutiblePremium,
+  changePaymentFixedDeductible,
+  changePaymentVariableDeductible,
 };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
