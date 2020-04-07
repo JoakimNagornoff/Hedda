@@ -11,14 +11,12 @@ import {connect, ConnectedProps} from 'react-redux';
 import {calculateMonthlyCost} from 'utils';
 import {} from 'store/actions/action';
 import {CreditCardInput} from 'react-native-input-credit-card';
-import FlipCard from 'react-native-flip-card';
 
+UIManager.setLayoutAnimationEnabledExperimental;
 UIManager.setLayoutAnimationEnabledExperimental(true);
-UIManager.setLayoutAnimationEnabledExperimental(true);
-
-_onChange => form => console.log(form);
 
 class PaymentScreen extends Component<Props, {}> {
+  _onChange = form => console.log(form);
   render() {
     return (
       <View style={style.container}>
@@ -26,7 +24,14 @@ class PaymentScreen extends Component<Props, {}> {
           <Text>{}</Text>
         </View>
         <View style={style.middle} />
-        <CreditCardInput onChange={this._onChange} requiresName={true} />
+        <CreditCardInput
+          onChange={this._onChange}
+          requiresName={true}
+          requiresCVC={true}
+          validColor="black"
+          invalidColor="red"
+          autoFocus
+        />
 
         <View style={style.halfTwo} />
         <TouchableOpacity style={style.button}>
