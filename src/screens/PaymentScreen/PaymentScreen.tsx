@@ -1,39 +1,56 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
+import {
+  View,
+  Text,
+  StyleSheet,
+  UIManager,
+  TouchableOpacity,
+} from 'react-native';
+import {RootState} from 'store';
+import {connect, ConnectedProps} from 'react-redux';
+import {calculateMonthlyCost} from 'utils';
+import {} from 'store/actions/action';
+import {CreditCardInput} from 'react-native-input-credit-card';
+import FlipCard from 'react-native-flip-card';
 
-class PaymentScreen extends Component {
+UIManager.setLayoutAnimationEnabledExperimental(true);
+UIManager.setLayoutAnimationEnabledExperimental(true);
+
+_onChange => form => console.log(form);
+
+class PaymentScreen extends Component<Props, {}> {
   render() {
     return (
       <View style={style.container}>
-        <View style={style.halfOne}></View>
-        <View style={style.middle}>
-          <Text> CreditCard Number</Text>
-          <TextInput
-            style={style.Input}
-            placeholder="XXXX-XXXX-XXXX"
-            keyboardType="numeric"
-            maxLength={12}></TextInput>
-          <Text style={style.expText}> Month/Year</Text>
-          <TextInput
-            style={style.InputExp}
-            placeholder="XX/XX"
-            keyboardType="numeric"
-            maxLength={4}></TextInput>
-          <Text style={style.expText}>CVS</Text>
-          <TextInput
-            style={style.InputExp}
-            placeholder="XXX"
-            keyboardType="numeric"
-            maxLength={3}></TextInput>
-          <Text>Full Card Name</Text>
-          <TextInput style={style.Input}> </TextInput>
+        <View style={style.halfOne}>
+          <Text>{}</Text>
         </View>
-        <View style={style.halfTwo}></View>
+        <View style={style.middle} />
+        <CreditCardInput onChange={this._onChange} requiresName={true} />
+
+        <View style={style.halfTwo} />
+        <TouchableOpacity style={style.button}>
+          <Text style={style.buttonText}>Betala</Text>
+        </TouchableOpacity>
       </View>
     );
   }
 }
+function mapStateToProps(state: RootState) {
+  return {
+    paymentOptions: state.paymentReducer.options,
+  };
+}
+const mapDispatchToProps = {};
+
+const connector = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type Props = PropsFromRedux & {
+  navigation: any;
+};
 
 const style = StyleSheet.create({
   container: {
@@ -41,11 +58,9 @@ const style = StyleSheet.create({
   },
   halfOne: {
     flex: 2,
-    backgroundColor: 'red',
   },
   halfTwo: {
     flex: 2,
-    backgroundColor: 'blue',
   },
   middle: {
     flex: 4,
@@ -70,6 +85,23 @@ const style = StyleSheet.create({
   expText: {
     marginLeft: 300,
   },
+  button: {
+    marginTop: 20,
+    alignItems: 'center',
+    backgroundColor: '#008000',
+    width: 382,
+    height: 40,
+    marginBottom: 20,
+    borderWidth: 2,
+    borderColor: '#000',
+    marginLeft: 5,
+  },
+  buttonText: {
+    fontSize: 22,
+    color: '#FFF',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
 });
 
-export default PaymentScreen;
+export default connector(PaymentScreen);

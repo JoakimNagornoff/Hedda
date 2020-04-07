@@ -20,14 +20,14 @@ const store = createStore(rootReducer);
 
 store.subscribe(() => {
   console.log('store state:');
-  console.log(store.getState());
+  console.log(JSON.stringify(store.getState()));
 });
 
 export const Routes: React.FC<RoutesProps> = ({}) => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="ShowScreen">
+        <Stack.Navigator initialRouteName="PaymentScreen">
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="FirstScreen" component={FirstScreen} />
           <Stack.Screen name="DisplayScreen" component={DisplayScreen} />

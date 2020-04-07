@@ -26,7 +26,15 @@ const initialState: PaymentState = {
       variableDeductible: 25,
     },
   ],
+  chooseOption: '',
 };
+
+const chooseOptionName = initialState.chooseOption;
+
+const chooseOption = initialState.options.find(
+  option => option.name === chooseOptionName,
+);
+
 const paymentReducer = (
   state = initialState,
   action: PaymentActionTypes,
@@ -35,7 +43,7 @@ const paymentReducer = (
     case CHANGE_PAYMENT_FIXED_DECUTIBLE:
       return {
         ...state,
-        options: state.options.map((o) => {
+        options: state.options.map(o => {
           if (o.name === action.data.name) {
             return {
               ...o,
@@ -49,7 +57,7 @@ const paymentReducer = (
     case CHANGE_PAYMENT_VARIABLE_DECUTIBLE:
       return {
         ...state,
-        options: state.options.map((o) => {
+        options: state.options.map(o => {
           if (o.name === action.data.name) {
             return {
               ...o,

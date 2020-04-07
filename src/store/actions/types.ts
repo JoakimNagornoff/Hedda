@@ -100,6 +100,7 @@ export interface PaymentState {
     fixedDeductible: number;
     variableDeductible: number;
   }[];
+  chooseOption: string;
 }
 
 interface ChangePaymentFixedDeductibleAction {

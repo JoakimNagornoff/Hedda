@@ -14,21 +14,7 @@ import {
   changePaymentFixedDeductible,
   changePaymentVariableDeductible,
 } from 'store/actions/action';
-
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'Bas',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Standard',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Premium',
-  },
-];
+import {calculateMonthlyCost} from 'utils';
 
 function Item({
   title,
@@ -37,15 +23,13 @@ function Item({
   changePaymentVariableDeductible,
   fixedDeductible,
   variableDeductible,
+  onButtonClick,
 }) {
   return (
     <View style={style.item}>
       <Text style={style.secondTitle}>{title.toUpperCase()}</Text>
       <Text style={style.title}>
-        {baseCost +
-          (fixedDeductible - 1500) * 0.05 +
-          (variableDeductible - 25) * -6}{' '}
-        Kr
+        {calculateMonthlyCost(baseCost, fixedDeductible, variableDeductible)} Kr
         <Text style={style.secondTitle}> per månad</Text>
       </Text>
       <Text style={style.secondTitle}>Fast självrisk {fixedDeductible} kr</Text>
@@ -55,7 +39,7 @@ function Item({
         value={fixedDeductible}
         maximumValue={3000}
         step={1500}
-        onValueChange={(value) => changePaymentFixedDeductible(title, value)}
+        onValueChange={value => changePaymentFixedDeductible(title, value)}
       />
       <Text style={style.secondTitle}>
         Rörlig självrisk {variableDeductible}% av skadekostanden
@@ -66,12 +50,14 @@ function Item({
         value={variableDeductible}
         maximumValue={25}
         step={10}
-        onValueChange={(value) => changePaymentVariableDeductible(title, value)}
+        onValueChange={value => changePaymentVariableDeductible(title, value)}
       />
       <TouchableOpacity style={style.details}>
         <Text style={style.detailsText}>Se alla detaljer</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={style.chooseButtonOne}>
+      <TouchableOpacity
+        style={style.chooseButtonOne}
+        onPress={() => onButtonClick()}>
         <Text style={style.buttonText}>Välj</Text>
       </TouchableOpacity>
     </View>
@@ -96,9 +82,12 @@ class ShowScreen extends Component<Props, {}> {
               changePaymentVariableDeductible={
                 this.props.changePaymentVariableDeductible
               }
+              onButtonClick={() =>
+                this.props.navigation.navigate('PaymentScreen')
+              }
             />
           )}
-          keyExtractor={(item) => item.name}
+          keyExtractor={item => item.name}
         />
       </SafeAreaView>
     );
@@ -114,7 +103,10 @@ const mapDispatchToProps = {
   changePaymentFixedDeductible,
   changePaymentVariableDeductible,
 };
-const connector = connect(mapStateToProps, mapDispatchToProps);
+const connector = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux & {
   navigation: any;
