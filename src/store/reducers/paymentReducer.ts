@@ -3,6 +3,7 @@ import {
   PaymentActionTypes,
   CHANGE_PAYMENT_FIXED_DECUTIBLE,
   CHANGE_PAYMENT_VARIABLE_DECUTIBLE,
+  CHOOSE_PAYMENT_OPTION,
 } from '../actions/types';
 
 const initialState: PaymentState = {
@@ -13,12 +14,14 @@ const initialState: PaymentState = {
       fixedDeductible: 1500,
       variableDeductible: 25,
     },
+
     {
       name: 'standard',
       baseCost: 500,
       fixedDeductible: 1500,
       variableDeductible: 25,
     },
+
     {
       name: 'premium',
       baseCost: 700,
@@ -28,12 +31,6 @@ const initialState: PaymentState = {
   ],
   chooseOption: '',
 };
-
-const chooseOptionName = initialState.chooseOption;
-
-const chooseOption = initialState.options.find(
-  option => option.name === chooseOptionName,
-);
 
 const paymentReducer = (
   state = initialState,
@@ -66,6 +63,11 @@ const paymentReducer = (
           }
           return o;
         }),
+      };
+    case CHOOSE_PAYMENT_OPTION:
+      return {
+        ...state,
+        chooseOption: action.data.chooseOption,
       };
   }
   return state;

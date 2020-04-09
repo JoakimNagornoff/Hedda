@@ -13,6 +13,7 @@ import {RootState} from '/store/index';
 import {
   changePaymentFixedDeductible,
   changePaymentVariableDeductible,
+  choosePaymentOption,
 } from 'store/actions/action';
 import {calculateMonthlyCost} from 'utils';
 
@@ -82,9 +83,10 @@ class ShowScreen extends Component<Props, {}> {
               changePaymentVariableDeductible={
                 this.props.changePaymentVariableDeductible
               }
-              onButtonClick={() =>
-                this.props.navigation.navigate('PaymentScreen')
-              }
+              onButtonClick={() => {
+                this.props.choosePaymentOption(item.name);
+                this.props.navigation.navigate('PaymentScreen');
+              }}
             />
           )}
           keyExtractor={item => item.name}
@@ -102,6 +104,7 @@ function mapStateToProps(state: RootState) {
 const mapDispatchToProps = {
   changePaymentFixedDeductible,
   changePaymentVariableDeductible,
+  choosePaymentOption,
 };
 const connector = connect(
   mapStateToProps,

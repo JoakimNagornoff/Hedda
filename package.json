@@ -27,7 +27,6 @@
     "react-native-elements": "^1.2.7",
     "react-native-flip-card": "^3.5.5",
     "react-native-gesture-handler": "^1.6.0",
-    "react-native-input-credit-card": "^0.5.5",
     "react-native-picker-select": "^6.6.0",
     "react-native-reanimated": "^1.7.0",
     "react-native-safe-area-context": "^0.7.3",

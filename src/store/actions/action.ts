@@ -15,6 +15,9 @@ import {
   PaymentActionTypes,
   CHANGE_PAYMENT_FIXED_DECUTIBLE,
   CHANGE_PAYMENT_VARIABLE_DECUTIBLE,
+  CHOOSE_PAYMENT_OPTION,
+  CreditCardActionTypes,
+  CHOOSE_PAYMENT_DATE,
 } from './types';
 
 export const addAnimal = (animal: string): AnimalActionTypes => {
@@ -111,5 +114,23 @@ export const changePaymentVariableDeductible = (
       name,
       value,
     },
+  };
+};
+export const choosePaymentOption = (
+  chooseOption: string,
+): PaymentActionTypes => {
+  return {
+    type: CHOOSE_PAYMENT_OPTION,
+    data: {
+      chooseOption,
+    },
+  };
+};
+export const chooseCreditCardDate = (
+  dateOfSub: Date,
+): CreditCardActionTypes => {
+  return {
+    type: CHOOSE_PAYMENT_DATE,
+    data: dateOfSub,
   };
 };

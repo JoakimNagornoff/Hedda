@@ -16,6 +16,9 @@ export const CHANGE_PAYMENT_FIXED_DECUTIBLE = 'CHANGE_PAYMENT_FIXED_DECUTIBLE';
 export const CHANGE_PAYMENT_VARIABLE_DECUTIBLE =
   'CHANGE_PAYMENT_VARIABLE_DECUTIBLE';
 
+export const CHOOSE_PAYMENT_OPTION = 'CHOOSE_PAYMENT_OPTION';
+export const CHOOSE_PAYMENT_DATE = 'CHOOSE_PAYMENT_DATE';
+
 export interface AnimalState {
   type: string;
   name: string;
@@ -118,7 +121,24 @@ interface ChangePaymentVariableDeductibleAction {
     value: number;
   };
 }
+interface ChoosePaymentOptionAction {
+  type: typeof CHOOSE_PAYMENT_OPTION;
+  data: {
+    chooseOption: string;
+  };
+}
 
 export type PaymentActionTypes =
   | ChangePaymentFixedDeductibleAction
-  | ChangePaymentVariableDeductibleAction;
+  | ChangePaymentVariableDeductibleAction
+  | ChoosePaymentOptionAction;
+
+export interface CreditCardState {
+  dateOfSub: Date | null;
+}
+interface ChooseCreditCardAction {
+  type: typeof CHOOSE_PAYMENT_DATE;
+  data: Date;
+}
+
+export type CreditCardActionTypes = ChooseCreditCardAction;

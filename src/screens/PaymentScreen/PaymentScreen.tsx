@@ -4,46 +4,66 @@ import {
   Text,
   StyleSheet,
   UIManager,
+  FlatList,
   TouchableOpacity,
 } from 'react-native';
 import {RootState} from 'store';
 import {connect, ConnectedProps} from 'react-redux';
 import {calculateMonthlyCost} from 'utils';
-import {} from 'store/actions/action';
-import {CreditCardInput} from 'react-native-input-credit-card';
+import {CreditCardInput} from 'react-native-credit-card-input';
 
 UIManager.setLayoutAnimationEnabledExperimental;
 UIManager.setLayoutAnimationEnabledExperimental(true);
 
 class PaymentScreen extends Component<Props, {}> {
   _onChange = form => console.log(form);
-  render() {
-    return (
-      <View style={style.container}>
-        <View style={style.halfOne}>
-          <Text>{}</Text>
-        </View>
-        <View style={style.middle} />
-        <CreditCardInput
-          onChange={this._onChange}
-          requiresName={true}
-          requiresCVC={true}
-          validColor="black"
-          invalidColor="red"
-          autoFocus
-        />
 
-        <View style={style.halfTwo} />
-        <TouchableOpacity style={style.button}>
-          <Text style={style.buttonText}>Betala</Text>
-        </TouchableOpacity>
-      </View>
-    );
+  render() {
+    console.log(this.props.choosen);
+    if (this.props.choosen) {
+      return (
+        <View style={style.container}>
+          <View style={style.halfOne}>
+            <Text style={style.secondTitle}>
+              Du har valt {this.props.choosen.name.toUpperCase()}
+            </Text>
+            <Text style={style.title}>
+              {calculateMonthlyCost(
+                this.props.choosen.baseCost,
+                this.props.choosen.fixedDeductible,
+                this.props.choosen.variableDeductible,
+              )}
+              Kr
+              <Text style={style.secondTitle}> per månad</Text>
+            </Text>
+          </View>
+          <View style={style.middle} />
+          <CreditCardInput
+            onChange={this._onChange}
+            requiresName={true}
+            requiresCVC={true}
+            validColor="black"
+            invalidColor="red"
+          />
+
+          <View style={style.halfTwo} />
+
+          <TouchableOpacity style={style.button}>
+            <Text style={style.buttonText}>Betala</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    } else {
+      return <View>{}</View>;
+    }
   }
 }
+
 function mapStateToProps(state: RootState) {
   return {
-    paymentOptions: state.paymentReducer.options,
+    choosen: state.paymentReducer.options.find(
+      option => option.name === state.paymentReducer.chooseOption,
+    ),
   };
 }
 const mapDispatchToProps = {};
@@ -106,6 +126,28 @@ const style = StyleSheet.create({
     color: '#FFF',
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  title: {
+    fontSize: 40,
+    textAlign: 'center',
+    height: 60,
+  },
+  secondTitle: {
+    marginTop: 20,
+    fontSize: 28,
+    textAlign: 'center',
+  },
+  dateButton: {
+    flexDirection: 'row',
+    marginTop: 20,
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    width: 80,
+    height: 80,
+    marginBottom: 5,
+    borderWidth: 2,
+    borderColor: '#000',
+    marginLeft: 5,
   },
 });
 
