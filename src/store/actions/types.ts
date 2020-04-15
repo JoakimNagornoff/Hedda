@@ -17,7 +17,13 @@ export const CHANGE_PAYMENT_VARIABLE_DECUTIBLE =
   'CHANGE_PAYMENT_VARIABLE_DECUTIBLE';
 
 export const CHOOSE_PAYMENT_OPTION = 'CHOOSE_PAYMENT_OPTION';
-export const CHOOSE_PAYMENT_DATE = 'CHOOSE_PAYMENT_DATE';
+export const CHOOSE_SUB_DATE = 'CHOOSE_SUB_DATE';
+export const CHOOSE_SUB_INTERVAL = 'CHOOSE_SUB_INTERVAL';
+
+export const CHOOSE_INSURANCE_BOOL = 'CHOOSE_INSURANCE_BOOL';
+export const CHOOSE_INSURANCE_COMPANY = 'CHOOSE_INSURANCE_COMPANY';
+export const CHOOSE_INSURANCE_COMPANY_TERMINATION =
+  'CHOOSE_INSURANCE_COMPANY_TERMINATION';
 
 export interface AnimalState {
   type: string;
@@ -133,12 +139,43 @@ export type PaymentActionTypes =
   | ChangePaymentVariableDeductibleAction
   | ChoosePaymentOptionAction;
 
-export interface CreditCardState {
+export interface SubscriptionState {
   dateOfSub: Date | null;
+  chooseSubInterval: string;
 }
-interface ChooseCreditCardAction {
-  type: typeof CHOOSE_PAYMENT_DATE;
+interface ChooseSubscriptionDateAction {
+  type: typeof CHOOSE_SUB_DATE;
   data: Date;
 }
+interface ChooseSubscriptionIntervalAction {
+  type: typeof CHOOSE_SUB_INTERVAL;
+  data: string;
+}
 
-export type CreditCardActionTypes = ChooseCreditCardAction;
+export type SubscriptionActionTypes =
+  | ChooseSubscriptionDateAction
+  | ChooseSubscriptionIntervalAction;
+
+export interface InsuranceState {
+  IfInsurance: boolean;
+  InsuranceCompany: string;
+  TerminationCompany: boolean;
+}
+
+interface ChooseInsuranceAction {
+  type: typeof CHOOSE_INSURANCE_BOOL;
+  data: boolean;
+}
+interface ChooseInsuranceCompanyAction {
+  type: typeof CHOOSE_INSURANCE_COMPANY;
+  data: string;
+}
+interface ChooseInsuranceCompanyTerminationAction {
+  type: typeof CHOOSE_INSURANCE_COMPANY_TERMINATION;
+  data: boolean;
+}
+
+export type ChooseInsuranceActionTypes =
+  | ChooseInsuranceAction
+  | ChooseInsuranceCompanyAction
+  | ChooseInsuranceCompanyTerminationAction;

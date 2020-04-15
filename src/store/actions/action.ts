@@ -16,8 +16,13 @@ import {
   CHANGE_PAYMENT_FIXED_DECUTIBLE,
   CHANGE_PAYMENT_VARIABLE_DECUTIBLE,
   CHOOSE_PAYMENT_OPTION,
-  CreditCardActionTypes,
-  CHOOSE_PAYMENT_DATE,
+  SubscriptionActionTypes,
+  CHOOSE_SUB_DATE,
+  CHOOSE_SUB_INTERVAL,
+  ChooseInsuranceActionTypes,
+  CHOOSE_INSURANCE_BOOL,
+  CHOOSE_INSURANCE_COMPANY,
+  CHOOSE_INSURANCE_COMPANY_TERMINATION,
 } from './types';
 
 export const addAnimal = (animal: string): AnimalActionTypes => {
@@ -126,11 +131,44 @@ export const choosePaymentOption = (
     },
   };
 };
-export const chooseCreditCardDate = (
-  dateOfSub: Date,
-): CreditCardActionTypes => {
+export const chooseSubDate = (dateOfSub: Date): SubscriptionActionTypes => {
   return {
-    type: CHOOSE_PAYMENT_DATE,
+    type: CHOOSE_SUB_DATE,
     data: dateOfSub,
+  };
+};
+export const chooseSubscriptonInterval = (
+  chooseSubInterval: string,
+): SubscriptionActionTypes => {
+  return {
+    type: CHOOSE_SUB_INTERVAL,
+    data: chooseSubInterval,
+  };
+};
+
+export const chooseIfInsurance = (
+  IfInsurance: boolean,
+): ChooseInsuranceActionTypes => {
+  return {
+    type: CHOOSE_INSURANCE_BOOL,
+    data: IfInsurance,
+  };
+};
+
+export const chooseInsuranceCompany = (
+  InsuranceCompany: string,
+): ChooseInsuranceActionTypes => {
+  return {
+    type: CHOOSE_INSURANCE_COMPANY,
+    data: InsuranceCompany,
+  };
+};
+
+export const chooseInsuranceCompanyTermination = (
+  TerminationCompany: boolean,
+): ChooseInsuranceActionTypes => {
+  return {
+    type: CHOOSE_INSURANCE_COMPANY_TERMINATION,
+    data: TerminationCompany,
   };
 };

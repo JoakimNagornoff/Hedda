@@ -2,13 +2,15 @@ import {combineReducers} from 'redux';
 import animalReducer from '../store/reducers/animalReducer';
 import personReducer from '../store/reducers/personReducer';
 import paymentReducer from './reducers/paymentReducer';
-import creditcardReducer from './reducers/creditcardReducer';
+import subscriptionReducer from './reducers/subscriptionReducer';
+import insuranceReducer from './reducers/insuranceReducer';
 
 const rootReducer = combineReducers({
   animalReducer,
   personReducer,
   paymentReducer,
-  creditcardReducer,
+  subscriptionReducer,
+  insuranceReducer,
 });
 
 export default rootReducer;

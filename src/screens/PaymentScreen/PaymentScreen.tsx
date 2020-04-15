@@ -4,13 +4,17 @@ import {
   Text,
   StyleSheet,
   UIManager,
-  FlatList,
   TouchableOpacity,
 } from 'react-native';
 import {RootState} from 'store';
 import {connect, ConnectedProps} from 'react-redux';
-import {calculateMonthlyCost} from 'utils';
+import {
+  calculateMonthlyCost,
+  calculateWeeklyCost,
+  calculateYearlyCost,
+} from 'utils';
 import {CreditCardInput} from 'react-native-credit-card-input';
+import {chooseSubscriptonInterval} from 'store/actions/action';
 
 UIManager.setLayoutAnimationEnabledExperimental;
 UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -37,7 +41,55 @@ class PaymentScreen extends Component<Props, {}> {
               <Text style={style.secondTitle}> per månad</Text>
             </Text>
           </View>
-          <View style={style.middle} />
+          <Text style={style.secondTitle}>
+            Hur vill du lägga upp betalningen?
+          </Text>
+          <View style={style.middle}>
+            <TouchableOpacity
+              style={style.chooseButton}
+              onPress={() => {
+                this.props.chooseSubscriptonInterval('Week');
+                console.log();
+              }}>
+              <Text>
+                {calculateWeeklyCost(
+                  this.props.choosen.baseCost,
+                  this.props.choosen.fixedDeductible,
+                  this.props.choosen.variableDeductible,
+                )}
+                Kr
+              </Text>
+              <Text>per Vecka</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={style.chooseButton}
+              onPress={() => {
+                this.props.chooseSubscriptonInterval('Monthly');
+              }}>
+              <Text>
+                {calculateMonthlyCost(
+                  this.props.choosen.baseCost,
+                  this.props.choosen.fixedDeductible,
+                  this.props.choosen.variableDeductible,
+                )}
+              </Text>
+              <Text>per Månad</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={style.chooseButton}
+              onPress={() => {
+                this.props.chooseSubscriptonInterval('Year');
+              }}>
+              <Text>
+                {calculateYearlyCost(
+                  this.props.choosen.baseCost,
+                  this.props.choosen.fixedDeductible,
+                  this.props.choosen.variableDeductible,
+                )}
+              </Text>
+              <Text>per År</Text>
+            </TouchableOpacity>
+          </View>
           <CreditCardInput
             onChange={this._onChange}
             requiresName={true}
@@ -66,7 +118,9 @@ function mapStateToProps(state: RootState) {
     ),
   };
 }
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  chooseSubscriptonInterval,
+};
 
 const connector = connect(
   mapStateToProps,
@@ -88,8 +142,10 @@ const style = StyleSheet.create({
     flex: 2,
   },
   middle: {
-    flex: 4,
+    flex: 2,
+    flexDirection: 'row',
   },
+
   Input: {
     borderWidth: 1,
     width: 400,
@@ -128,13 +184,13 @@ const style = StyleSheet.create({
     textAlign: 'center',
   },
   title: {
-    fontSize: 40,
+    fontSize: 30,
     textAlign: 'center',
     height: 60,
   },
   secondTitle: {
     marginTop: 20,
-    fontSize: 28,
+    fontSize: 22,
     textAlign: 'center',
   },
   dateButton: {
@@ -148,6 +204,15 @@ const style = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#000',
     marginLeft: 5,
+  },
+  chooseButton: {
+    marginTop: 20,
+    alignItems: 'center',
+    width: 80,
+    height: 60,
+    borderWidth: 2,
+    borderColor: '#000',
+    marginLeft: 40,
   },
 });
 
