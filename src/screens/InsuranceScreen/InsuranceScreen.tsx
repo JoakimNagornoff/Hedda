@@ -4,10 +4,15 @@ import {View, StyleSheet, Text} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '/store/index';
-import {chooseIfInsurance, chooseInsuranceCompany} from 'store/actions/action';
+import {
+  chooseIfInsurance,
+  chooseInsuranceCompany,
+  chooseInsuranceCompanyTermination,
+} from 'store/actions/action';
 
 class InsuranceScreen extends Component<Props, {}> {
   render() {
+    const {navigate} = this.props.navigation;
     return (
       <View style={style.container}>
         <View style={style.halfOne}>
@@ -54,6 +59,34 @@ class InsuranceScreen extends Component<Props, {}> {
           </View>
         )}
 
+        {!!this.props.InsuranceCompany && (
+          <View style={style.halfTwo}>
+            <Text style={style.secondtitle}>
+              Vill du att vi ska säga upp {this.props.InsuranceCompany} åt dig?
+            </Text>
+            <TouchableOpacity style={style.chooseButtonTwo}>
+              <Text
+                style={style.buttonText}
+                onPress={() => {
+                  this.props.chooseInsuranceCompanyTermination(true);
+                  navigate('PaymentScreen');
+                }}>
+                JA
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={style.chooseButtonTwo}>
+              <Text
+                style={style.buttonText}
+                onPress={() => {
+                  this.props.chooseInsuranceCompanyTermination(false);
+                  navigate('PaymentScreen');
+                }}>
+                NEJ
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
         <View style={style.halfTwo} />
       </View>
     );
@@ -69,6 +102,7 @@ function mapStateToProps(state: RootState) {
 const mapDispatchToProps = {
   chooseIfInsurance,
   chooseInsuranceCompany,
+  chooseInsuranceCompanyTermination,
 };
 const connector = connect(
   mapStateToProps,
@@ -96,6 +130,7 @@ const style = StyleSheet.create({
     flex: 2,
   },
   title: {
+    marginLeft: 10,
     marginTop: 40,
     fontSize: 28,
     alignItems: 'center',
@@ -124,6 +159,22 @@ const style = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#000',
     margin: 15,
+  },
+  secondtitle: {
+    fontSize: 20,
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginLeft: 10,
+  },
+
+  chooseButtonTwo: {
+    alignSelf: 'center',
+    alignItems: 'center',
+    width: 60,
+    height: 30,
+    borderWidth: 2,
+    borderColor: '#000',
+    margin: 10,
   },
 });
 

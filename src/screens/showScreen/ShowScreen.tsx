@@ -85,7 +85,7 @@ class ShowScreen extends Component<Props, {}> {
               }
               onButtonClick={() => {
                 this.props.choosePaymentOption(item.name);
-                this.props.navigation.navigate('PaymentScreen');
+                this.props.navigation.navigate('InsuranceScreen');
               }}
             />
           )}
