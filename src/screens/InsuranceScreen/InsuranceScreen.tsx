@@ -53,7 +53,11 @@ class InsuranceScreen extends Component<Props, {}> {
               }}>
               <Text style={style.buttonText}>JA</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={style.chooseButton}>
+            <TouchableOpacity
+              style={style.chooseButton}
+              onPress={() => {
+                navigate('PaymentScreen');
+              }}>
               <Text style={style.buttonText}>NEJ</Text>
             </TouchableOpacity>
           </View>

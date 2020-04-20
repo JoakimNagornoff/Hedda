@@ -5,6 +5,7 @@ import {
   StyleSheet,
   UIManager,
   TouchableOpacity,
+  Button,
 } from 'react-native';
 import {RootState} from 'store';
 import {connect, ConnectedProps} from 'react-redux';
@@ -13,16 +14,20 @@ import {
   calculateWeeklyCost,
   calculateYearlyCost,
 } from 'utils';
-import {CreditCardInput} from 'react-native-credit-card-input';
-import {chooseSubscriptonInterval} from 'store/actions/action';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import {chooseSubscriptonInterval, chooseSubDate} from 'store/actions/action';
 
 UIManager.setLayoutAnimationEnabledExperimental;
 UIManager.setLayoutAnimationEnabledExperimental(true);
 
 class PaymentScreen extends Component<Props, {}> {
+  state = {
+    datepickerOpen: false,
+  };
   _onChange = form => console.log(form);
 
   render() {
+    const {navigate} = this.props.navigation;
     console.log(this.props.choosen);
     if (this.props.choosen) {
       return (
@@ -40,65 +45,71 @@ class PaymentScreen extends Component<Props, {}> {
               Kr
               <Text style={style.secondTitle}> per månad</Text>
             </Text>
+            <Text style={style.secondTitle}>
+              Hur vill du lägga upp betalningen?
+            </Text>
+            <View style={style.middle}>
+              <TouchableOpacity
+                style={style.chooseButton}
+                onPress={() => {
+                  this.props.chooseSubscriptonInterval('Week');
+                  console.log();
+                }}>
+                <Text>
+                  {calculateWeeklyCost(
+                    this.props.choosen.baseCost,
+                    this.props.choosen.fixedDeductible,
+                    this.props.choosen.variableDeductible,
+                  )}
+                  Kr
+                </Text>
+                <Text>per Vecka</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={style.chooseButton}
+                onPress={() => {
+                  this.props.chooseSubscriptonInterval('Monthly');
+                }}>
+                <Text>
+                  {calculateMonthlyCost(
+                    this.props.choosen.baseCost,
+                    this.props.choosen.fixedDeductible,
+                    this.props.choosen.variableDeductible,
+                  )}
+                </Text>
+                <Text>per Månad</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={style.chooseButton}
+                onPress={() => {
+                  this.props.chooseSubscriptonInterval('Year');
+                }}>
+                <Text>
+                  {calculateYearlyCost(
+                    this.props.choosen.baseCost,
+                    this.props.choosen.fixedDeductible,
+                    this.props.choosen.variableDeductible,
+                  )}
+                </Text>
+                <Text>per År</Text>
+              </TouchableOpacity>
+            </View>
+            <Text style={style.secondTitle}>Hur vill du betala?</Text>
           </View>
-          <Text style={style.secondTitle}>
-            Hur vill du lägga upp betalningen?
-          </Text>
-          <View style={style.middle}>
-            <TouchableOpacity
-              style={style.chooseButton}
-              onPress={() => {
-                this.props.chooseSubscriptonInterval('Week');
-                console.log();
-              }}>
-              <Text>
-                {calculateWeeklyCost(
-                  this.props.choosen.baseCost,
-                  this.props.choosen.fixedDeductible,
-                  this.props.choosen.variableDeductible,
-                )}
-                Kr
-              </Text>
-              <Text>per Vecka</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={style.chooseButton}
-              onPress={() => {
-                this.props.chooseSubscriptonInterval('Monthly');
-              }}>
-              <Text>
-                {calculateMonthlyCost(
-                  this.props.choosen.baseCost,
-                  this.props.choosen.fixedDeductible,
-                  this.props.choosen.variableDeductible,
-                )}
-              </Text>
-              <Text>per Månad</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={style.chooseButton}
-              onPress={() => {
-                this.props.chooseSubscriptonInterval('Year');
-              }}>
-              <Text>
-                {calculateYearlyCost(
-                  this.props.choosen.baseCost,
-                  this.props.choosen.fixedDeductible,
-                  this.props.choosen.variableDeductible,
-                )}
-              </Text>
-              <Text>per År</Text>
-            </TouchableOpacity>
-          </View>
-          <CreditCardInput
-            onChange={this._onChange}
-            requiresName={true}
-            requiresCVC={true}
-            validColor="black"
-            invalidColor="red"
-          />
 
-          <View style={style.halfTwo} />
+          <View style={style.halfTwo}>
+            <TouchableOpacity style={style.paymentButton}>
+              <Text style={style.paymentButtonText}>Bank id</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={style.paymentButton}
+              onPress={() => {
+                navigate('CardScreen');
+              }}>
+              <Text style={style.paymentButtonText}>Kort</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={style.paymentOptions} />
 
           <TouchableOpacity style={style.button}>
             <Text style={style.buttonText}>Betala</Text>
@@ -116,10 +127,12 @@ function mapStateToProps(state: RootState) {
     choosen: state.paymentReducer.options.find(
       option => option.name === state.paymentReducer.chooseOption,
     ),
+    dateOfSub: state.subscriptionReducer.dateOfSub,
   };
 }
 const mapDispatchToProps = {
   chooseSubscriptonInterval,
+  chooseSubDate,
 };
 
 const connector = connect(
@@ -136,14 +149,17 @@ const style = StyleSheet.create({
     flex: 1,
   },
   halfOne: {
-    flex: 2,
+    flex: 1.5,
   },
   halfTwo: {
-    flex: 2,
+    flex: 0.5,
   },
   middle: {
     flex: 2,
     flexDirection: 'row',
+  },
+  paymentOptions: {
+    flex: 1,
   },
 
   Input: {
@@ -189,7 +205,7 @@ const style = StyleSheet.create({
     height: 60,
   },
   secondTitle: {
-    marginTop: 20,
+    marginTop: 10,
     fontSize: 22,
     textAlign: 'center',
   },
@@ -206,13 +222,28 @@ const style = StyleSheet.create({
     marginLeft: 5,
   },
   chooseButton: {
-    marginTop: 20,
+    marginTop: 10,
     alignItems: 'center',
     width: 80,
     height: 60,
     borderWidth: 2,
     borderColor: '#000',
     marginLeft: 40,
+  },
+  paymentButton: {
+    width: 200,
+    height: 40,
+    borderWidth: 2,
+    borderRadius: 50,
+    borderColor: '#000',
+    marginLeft: 100,
+    marginTop: 10,
+    marginBottom: 15,
+  },
+  paymentButtonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 

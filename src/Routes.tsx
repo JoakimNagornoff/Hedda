@@ -9,6 +9,7 @@ import DogScreen from 'screens/DogScreen/DogScreen';
 import ShowScreen from 'screens/showScreen/ShowScreen';
 import PaymentScreen from 'screens/PaymentScreen/PaymentScreen';
 import InsuranceScreen from 'screens/InsuranceScreen/InsuranceScreen';
+import CardScreen from 'screens/CardScreen/CardScreen';
 
 import rootReducer from './store/index';
 import {Provider} from 'react-redux';
@@ -37,6 +38,7 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
           <Stack.Screen name="ShowScreen" component={ShowScreen} />
           <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
           <Stack.Screen name="InsuranceScreen" component={InsuranceScreen} />
+          <Stack.Screen name="CardScreen" component={CardScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
