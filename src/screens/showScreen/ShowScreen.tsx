@@ -30,7 +30,7 @@ function Item({
     <View style={style.item}>
       <Text style={style.secondTitle}>{title.toUpperCase()}</Text>
       <Text style={style.title}>
-        {calculateMonthlyCost(baseCost, fixedDeductible, variableDeductible)} Kr
+        {calculateMonthlyCost(baseCost, fixedDeductible, variableDeductible)} kr
         <Text style={style.secondTitle}> per månad</Text>
       </Text>
       <Text style={style.secondTitle}>Fast självrisk {fixedDeductible} kr</Text>

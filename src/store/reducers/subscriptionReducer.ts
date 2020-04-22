@@ -6,8 +6,8 @@ import {
 } from '../actions/types';
 
 const initialState: SubscriptionState = {
-  dateOfSub: null,
-  chooseSubInterval: '',
+  dateOfSub: '',
+  chooseSubInterval: 'månad',
 };
 
 const creditcardReducer = (

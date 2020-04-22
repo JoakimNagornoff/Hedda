@@ -140,12 +140,12 @@ export type PaymentActionTypes =
   | ChoosePaymentOptionAction;
 
 export interface SubscriptionState {
-  dateOfSub: Date | null;
+  dateOfSub: string;
   chooseSubInterval: string;
 }
 interface ChooseSubscriptionDateAction {
   type: typeof CHOOSE_SUB_DATE;
-  data: Date;
+  data: string;
 }
 interface ChooseSubscriptionIntervalAction {
   type: typeof CHOOSE_SUB_INTERVAL;

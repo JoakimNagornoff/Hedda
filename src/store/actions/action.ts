@@ -131,7 +131,7 @@ export const choosePaymentOption = (
     },
   };
 };
-export const chooseSubDate = (dateOfSub: Date): SubscriptionActionTypes => {
+export const chooseSubDate = (dateOfSub: string): SubscriptionActionTypes => {
   return {
     type: CHOOSE_SUB_DATE,
     data: dateOfSub,
