@@ -5,6 +5,7 @@ import {
   StyleSheet,
   UIManager,
   TouchableOpacity,
+  Button,
 } from 'react-native';
 import {RootState} from 'store';
 import {connect, ConnectedProps} from 'react-redux';
@@ -14,23 +15,43 @@ import {
   calculateYearlyCost,
 } from 'utils';
 import {chooseSubscriptonInterval, chooseSubDate} from 'store/actions/action';
+import RNDateTimePicker from '@react-native-community/datetimepicker';
 
 UIManager.setLayoutAnimationEnabledExperimental;
 UIManager.setLayoutAnimationEnabledExperimental(true);
 
-const today = new Date().toLocaleDateString();
-const tomorrow = new Date(
-  new Date().getTime() + 24 * 60 * 60 * 1000,
+const TwentyDays = new Date(
+  new Date().getTime() + 24 * 60 * 60 * 1000 * 20,
 ).toLocaleDateString();
-const yesterday = new Date(
-  new Date().getTime() - 24 * 60 * 60 * 1000,
+const Thirdydays = new Date(
+  new Date().getTime() + 24 * 60 * 60 * 1000 * 30,
 ).toLocaleDateString();
+
+function formatDate(date) {
+  var d = new Date(date),
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [year, month, day].join('-');
+}
 
 class PaymentScreen extends Component<Props, {}> {
   state = {
     datepickerOpen: false,
   };
   _onChange = form => console.log(form);
+
+  setDate = (event, date) => {
+    this.setState({datepickerOpen: false});
+    if (date) {
+      // timeSetAction
+      this.props.chooseSubDate(formatDate(date));
+    }
+  };
 
   render() {
     const {navigate} = this.props.navigation;
@@ -143,24 +164,24 @@ class PaymentScreen extends Component<Props, {}> {
             <TouchableOpacity
               style={style.dateButton}
               onPress={() => {
-                this.props.chooseSubDate(yesterday);
-              }}>
-              <Text style={style.dateButtonText}>{yesterday}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={style.dateButton}
-              onPress={() => {
-                this.props.chooseSubDate(today);
-              }}>
-              <Text style={style.dateButtonText}>{today}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={style.dateButton}
-              onPress={() => {
-                this.props.chooseSubDate(tomorrow);
-              }}>
-              <Text style={style.dateButtonText}>{tomorrow}</Text>
-            </TouchableOpacity>
+                this.setState({datepickerOpen: true});
+              }}
+            />
+            {this.state.datepickerOpen && (
+              <RNDateTimePicker
+                testID="dateTimePicker"
+                timeZoneOffsetInMinutes={0}
+                value={
+                  this.props.dateOfSub
+                    ? new Date(this.props.dateOfSub)
+                    : new Date()
+                }
+                maximumDate={new Date(TwentyDays)}
+                minimumDate={new Date()}
+                mode="date"
+                onChange={this.setDate}
+              />
+            )}
           </View>
           {!!this.props.dateOfSub && (
             <Text style={style.secondTitle}>
@@ -272,11 +293,11 @@ const style = StyleSheet.create({
     marginTop: 10,
     alignItems: 'center',
     backgroundColor: '#fff',
-    width: 100,
-    height: 60,
+    width: 300,
+    height: 40,
     borderWidth: 2,
     borderColor: '#000',
-    marginLeft: 20,
+    marginLeft: 40,
   },
   dateButtonText: {
     fontSize: 18,

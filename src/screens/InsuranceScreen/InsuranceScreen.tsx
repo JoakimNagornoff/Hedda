@@ -19,49 +19,40 @@ class InsuranceScreen extends Component<Props, {}> {
           <Text style={style.title}>
             Har du ett försäkringsbolag i nuläget?
           </Text>
-        </View>
-        {this.props.IfInsurance ? (
-          <View style={style.middleView}>
-            <TouchableOpacity
-              style={style.companyButton}
+          <TouchableOpacity style={style.skipButton}>
+            <Text
+              style={style.buttonText}
               onPress={() => {
-                this.props.chooseInsuranceCompany('Folksam');
-              }}>
-              <Text style={style.buttonText}>Folksam</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={style.companyButton}
-              onPress={() => {
-                this.props.chooseInsuranceCompany('IF');
-              }}>
-              <Text style={style.buttonText}>IF</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={style.companyButton}
-              onPress={() => {
-                this.props.chooseInsuranceCompany('Svedea');
-              }}>
-              <Text style={style.buttonText}>Svedea</Text>
-            </TouchableOpacity>
-          </View>
-        ) : (
-          <View style={style.halfOne}>
-            <TouchableOpacity
-              style={style.chooseButton}
-              onPress={() => {
-                this.props.chooseIfInsurance(true);
-              }}>
-              <Text style={style.buttonText}>JA</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={style.chooseButton}
-              onPress={() => {
+                this.props.chooseInsuranceCompanyTermination(false);
                 navigate('PaymentScreen');
               }}>
-              <Text style={style.buttonText}>NEJ</Text>
-            </TouchableOpacity>
-          </View>
-        )}
+              Skippa
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={style.middleView}>
+          <TouchableOpacity
+            style={style.companyButton}
+            onPress={() => {
+              this.props.chooseInsuranceCompany('Folksam');
+            }}>
+            <Text style={style.buttonText}>Folksam</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={style.companyButton}
+            onPress={() => {
+              this.props.chooseInsuranceCompany('IF');
+            }}>
+            <Text style={style.buttonText}>IF</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={style.companyButton}
+            onPress={() => {
+              this.props.chooseInsuranceCompany('Svedea');
+            }}>
+            <Text style={style.buttonText}>Svedea</Text>
+          </TouchableOpacity>
+        </View>
 
         {!!this.props.InsuranceCompany && (
           <View style={style.halfTwo}>
@@ -90,7 +81,6 @@ class InsuranceScreen extends Component<Props, {}> {
             </TouchableOpacity>
           </View>
         )}
-
         <View style={style.halfTwo} />
       </View>
     );
@@ -128,7 +118,6 @@ const style = StyleSheet.create({
   },
   halfOne: {
     flex: 2,
-    flexDirection: 'row',
   },
   halfTwo: {
     flex: 2,
@@ -179,6 +168,13 @@ const style = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#000',
     margin: 10,
+  },
+  skipButton: {
+    alignSelf: 'center',
+    width: 100,
+    height: 40,
+    borderWidth: 2,
+    borderColor: '#000',
   },
 });
 
