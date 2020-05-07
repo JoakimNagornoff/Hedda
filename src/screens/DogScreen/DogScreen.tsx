@@ -16,6 +16,7 @@ import {
   addAnimalGender,
   addAnimalCastrated,
 } from 'store/actions/action';
+import RNDateTimePicker from '@react-native-community/datetimepicker';
 
 class DogScreen extends Component<Props, {}> {
   state = {
@@ -87,7 +88,8 @@ class DogScreen extends Component<Props, {}> {
                 keyboardType="email-address"
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
-                value={values.name}></TextInput>
+                value={values.name}
+              />
               <Text style={style.errorMsg}>{touched.name && errors.name}</Text>
               <Button
                 title={values.birthday || 'Välj födelsedatum'}
@@ -96,7 +98,7 @@ class DogScreen extends Component<Props, {}> {
                 }}
               />
               {this.state.datepickerOpen && (
-                <DateTimePicker
+                <RNDateTimePicker
                   testID="dateTimePicker"
                   timeZoneOffsetInMinutes={0}
                   value={
@@ -167,7 +169,8 @@ class DogScreen extends Component<Props, {}> {
               <Button
                 onPress={handleSubmit}
                 title="Submit"
-                disabled={!isValid}></Button>
+                disabled={!isValid}
+              />
             </View>
           </View>
         )}
@@ -212,7 +215,10 @@ const mapDispatchToProps = {
   addAnimalCastrated,
 };
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+const connector = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux & {
   navigation: any;
