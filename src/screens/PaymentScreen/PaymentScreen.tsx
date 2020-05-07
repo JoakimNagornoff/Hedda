@@ -5,11 +5,8 @@ import {
   StyleSheet,
   UIManager,
   TouchableOpacity,
-<<<<<<< HEAD
   Platform,
-=======
   Button,
->>>>>>> ded0ad9b30c96e6eadafacd12159bf8176703712
 } from 'react-native';
 import {RootState} from 'store';
 import {connect, ConnectedProps} from 'react-redux';
