@@ -19,14 +19,14 @@ class InsuranceScreen extends Component<Props, {}> {
           <Text style={style.title}>
             Har du ett försäkringsbolag i nuläget?
           </Text>
-          <TouchableOpacity style={style.skipButton}>
-            <Text
-              style={style.buttonText}
-              onPress={() => {
+          <TouchableOpacity style={style.skipButton}  
+          onPress={() => {
                 this.props.chooseInsuranceCompanyTermination(false);
                 navigate('PaymentScreen');
               }}>
-              Skippa
+            <Text
+              style={style.buttonText}>
+             Skippa
             </Text>
           </TouchableOpacity>
         </View>
