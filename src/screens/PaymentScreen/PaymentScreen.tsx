@@ -6,7 +6,6 @@ import {
   UIManager,
   TouchableOpacity,
   Platform,
-  Button,
 } from 'react-native';
 import {RootState} from 'store';
 import {connect, ConnectedProps} from 'react-redux';
