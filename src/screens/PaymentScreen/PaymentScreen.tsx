@@ -5,6 +5,7 @@ import {
   StyleSheet,
   UIManager,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import {RootState} from 'store';
 import {connect, ConnectedProps} from 'react-redux';
@@ -15,8 +16,11 @@ import {
 } from 'utils';
 import {chooseSubscriptonInterval, chooseSubDate} from 'store/actions/action';
 
-UIManager.setLayoutAnimationEnabledExperimental;
-UIManager.setLayoutAnimationEnabledExperimental(true);
+if (Platform.OS === 'android') {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 const today = new Date().toLocaleDateString();
 const tomorrow = new Date(
