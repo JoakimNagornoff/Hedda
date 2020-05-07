@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "624117378550",
+    "firebase_url": "https://hedda-edd5f.firebaseio.com",
+    "project_id": "hedda-edd5f",
+    "storage_bucket": "hedda-edd5f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624117378550:android:526b7e2d7c41a1a3bb6bd7",
+        "android_client_info": {
+          "package_name": "com.hedda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "624117378550-4rdgf8bqoemqh8t37nldkcbrhrp7jc8a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBg9fNw1CTPXOzhRmQJ4ZijxnyEvjbphKM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "624117378550-4rdgf8bqoemqh8t37nldkcbrhrp7jc8a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

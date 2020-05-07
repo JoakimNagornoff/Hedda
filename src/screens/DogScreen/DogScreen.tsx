@@ -4,7 +4,6 @@ import {TextInput} from 'react-native-gesture-handler';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import Select from 'react-native-select-plus';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import RadioForm from 'react-native-simple-radio-button';
 
 import {connect, ConnectedProps} from 'react-redux';
