@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useReducer} from 'react';
 import {
   View,
   Text,
@@ -6,23 +6,47 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import auth from '@react-native-firebase/auth';
+import auth, {firebase} from '@react-native-firebase/auth';
 
-class RegistrationScreen extends Component {
+class RegistrationScreen extends Component<Props> {
   state = {
+    name: '',
     email: '',
     password: '',
     errorMessage: null,
   };
-
-  handleLogin = () => {
-    const {email, password} = this.state;
-
+  handleSignUp = () => {
     auth()
-      .signInWithEmailAndPassword(email, password)
-      .catch(error => this.setState({errorMessage: error.message}));
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then(res => {
+        res.user.updateProfile({
+          displayName: this.state.name,
+        });
+        this.setState({
+          isLoading: false,
+          displayName: '',
+          email: '',
+          password: '',
+        });
+
+        this.props.navigation.navigate('Home');
+      })
+      .catch(error => {
+        if (error.code === 'auth/email-already-in-use') {
+          console.log('That email address is already in use!');
+        }
+
+        if (error.code === 'auth/invalid-email') {
+          console.log('That email address is invalid!');
+        }
+
+        console.error(error);
+      });
   };
+
   render() {
+    const {navigate} = this.props.navigation;
+
     return (
       <View style={style.container}>
         <Text style={style.greeting}>Välkommen till Lassie</Text>
@@ -34,6 +58,15 @@ class RegistrationScreen extends Component {
         </View>
 
         <View style={style.form}>
+          <View>
+            <Text style={style.inputTitle}>Full Name</Text>
+            <TextInput
+              style={style.input}
+              autoCapitalize="none"
+              onChangeText={name => this.setState({name})}
+              value={this.state.name}
+            />
+          </View>
           <View>
             <Text style={style.inputTitle}>Email Address</Text>
             <TextInput
@@ -54,20 +87,24 @@ class RegistrationScreen extends Component {
             />
           </View>
         </View>
-        <TouchableOpacity style={style.button} onPress={this.handleLogin}>
+        <TouchableOpacity style={style.button} onPress={this.handleSignUp}>
           <Text style={{color: '#FFF', fontWeight: '500'}}>Sign in</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={{alignSelf: 'center', marginTop: 32}}>
           <Text style={{color: '#414959', fontSize: 15}}>
             Ny till Lassie?{' '}
-            <Text style={{fontWeight: '500', color: '#E9446A'}}>Sign Up</Text>
+            <Text style={{fontWeight: '500', color: '#E9446A'}}>Login</Text>
           </Text>
         </TouchableOpacity>
       </View>
     );
   }
 }
+type Props = {
+  navigation: any;
+  route: any;
+};
 
 const style = StyleSheet.create({
   container: {

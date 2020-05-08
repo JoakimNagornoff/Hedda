@@ -20,6 +20,9 @@ class LogginInScreen extends Component<Props> {
 
     auth()
       .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        this.props.navigation.navigate('Home');
+      })
       .catch(error => this.setState({errorMessage: error.message}));
   };
   render() {
