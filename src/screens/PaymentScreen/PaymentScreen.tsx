@@ -150,7 +150,10 @@ class PaymentScreen extends Component<Props, {}> {
 
           <View style={style.halfTwo}>
             <TouchableOpacity style={style.paymentButton}>
-              <Text style={style.paymentButtonText}>Bank id</Text>
+              <Text style={style.paymentButtonText}>Bank</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={style.paymentButton}>
+              <Text style={style.paymentButtonText}>Swish</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={style.paymentButton}
@@ -324,7 +327,7 @@ const style = StyleSheet.create({
     borderColor: '#000',
     marginLeft: 100,
     marginTop: 10,
-    marginBottom: 35,
+    marginBottom: 10,
   },
   paymentButtonText: {
     fontSize: 18,

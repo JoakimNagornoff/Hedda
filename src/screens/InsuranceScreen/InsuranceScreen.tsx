@@ -19,15 +19,13 @@ class InsuranceScreen extends Component<Props, {}> {
           <Text style={style.title}>
             Har du ett försäkringsbolag i nuläget?
           </Text>
-          <TouchableOpacity style={style.skipButton}  
-          onPress={() => {
-                this.props.chooseInsuranceCompanyTermination(false);
-                navigate('PaymentScreen');
-              }}>
-            <Text
-              style={style.buttonText}>
-             Skippa
-            </Text>
+          <TouchableOpacity
+            style={style.skipButton}
+            onPress={() => {
+              this.props.chooseInsuranceCompanyTermination(false);
+              navigate('PaymentScreen');
+            }}>
+            <Text style={style.buttonText}>Skippa</Text>
           </TouchableOpacity>
         </View>
         <View style={style.middleView}>
@@ -59,25 +57,21 @@ class InsuranceScreen extends Component<Props, {}> {
             <Text style={style.secondtitle}>
               Vill du att vi ska säga upp {this.props.InsuranceCompany} åt dig?
             </Text>
-            <TouchableOpacity style={style.chooseButtonTwo}>
-              <Text
-                style={style.buttonText}
-                onPress={() => {
-                  this.props.chooseInsuranceCompanyTermination(true);
-                  navigate('PaymentScreen');
-                }}>
-                JA
-              </Text>
+            <TouchableOpacity
+              style={style.chooseButtonTwo}
+              onPress={() => {
+                this.props.chooseInsuranceCompanyTermination(true);
+                navigate('PaymentScreen');
+              }}>
+              <Text style={style.buttonText}>JA</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={style.chooseButtonTwo}>
-              <Text
-                style={style.buttonText}
-                onPress={() => {
-                  this.props.chooseInsuranceCompanyTermination(false);
-                  navigate('PaymentScreen');
-                }}>
-                NEJ
-              </Text>
+            <TouchableOpacity
+              style={style.chooseButtonTwo}
+              onPress={() => {
+                this.props.chooseInsuranceCompanyTermination(false);
+                navigate('PaymentScreen');
+              }}>
+              <Text style={style.buttonText}>NEJ</Text>
             </TouchableOpacity>
           </View>
         )}

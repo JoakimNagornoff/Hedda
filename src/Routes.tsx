@@ -32,7 +32,7 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="ShowScreen">
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="FirstScreen" component={FirstScreen} />
           <Stack.Screen name="DisplayScreen" component={DisplayScreen} />
