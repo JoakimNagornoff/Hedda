@@ -7,15 +7,18 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import auth, {firebase} from '@react-native-firebase/auth';
+import ActivityIndicatorExample from '@components/ActivityIndicatorExample';
 
 class RegistrationScreen extends Component<Props> {
   state = {
     name: '',
     email: '',
     password: '',
+    isLoading: false,
     errorMessage: null,
   };
   handleSignUp = () => {
+    this.setState({isLoading: true});
     auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(res => {
@@ -23,13 +26,14 @@ class RegistrationScreen extends Component<Props> {
           displayName: this.state.name,
         });
         this.setState({
-          isLoading: false,
           displayName: '',
           email: '',
           password: '',
         });
-
-        this.props.navigation.navigate('Home');
+        setTimeout(() => {
+          this.props.navigation.navigate('Home');
+          this.setState({isLoading: true});
+        }, 2000);
       })
       .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
@@ -45,6 +49,9 @@ class RegistrationScreen extends Component<Props> {
   };
 
   render() {
+    if (this.state.isLoading) {
+      return <ActivityIndicatorExample />;
+    }
     const {navigate} = this.props.navigation;
 
     return (
