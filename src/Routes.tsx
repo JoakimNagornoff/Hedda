@@ -18,13 +18,14 @@ import RegistrationScreen from 'screens/RegistrationScreen/RegistrationScreen';
 
 import rootReducer from './store/index';
 import {Provider} from 'react-redux';
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
+import promise from 'redux-promise-middleware';
 
 interface RoutesProps {}
 
 const Stack = createStackNavigator();
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(promise));
 
 store.subscribe(() => {
   console.log('store state:');
@@ -35,7 +36,7 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="LogIn">
+        <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="FirstScreen" component={FirstScreen} />
           <Stack.Screen name="DisplayScreen" component={DisplayScreen} />

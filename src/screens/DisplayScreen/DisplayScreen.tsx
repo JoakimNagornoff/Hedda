@@ -3,20 +3,34 @@ import {Text, View, StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '/store/index';
+import {submitToFirebase} from 'store/actions/action';
 
-import {submitAnimal} from 'store/actions/action';
 import ActivityIndicatorExample from '@components/ActivityIndicatorExample';
 
 class DisplayScreen extends Component<Props, {}> {
   handleSubmitClick() {
-    this.props.submitAnimal(true);
-    setTimeout(() => {
-      this.props.navigation.navigate('ShowScreen');
-    }, 6000);
+    //this.props.navigation.navigate('ShowScreen');
+    this.props.submitToFirebase(this.props.store);
   }
   render() {
-    if (this.props.animalisSubmit) {
-      return <ActivityIndicatorExample></ActivityIndicatorExample>;
+    const {navigate} = this.props.navigation;
+    if (this.props.fireBasePending) {
+      return <ActivityIndicatorExample />;
+    }
+
+    if (this.props.fireBaseSuccess) {
+      return (
+        <View>
+          <Text>Success</Text>
+          <TouchableOpacity onPress={() => navigate('Home')}>
+            <Text>Home</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+
+    if (this.props.fireBaseError) {
+      return <Text>{this.props.fireBaseError}</Text>;
     }
 
     return (
@@ -67,13 +81,19 @@ function mapStateToProps(state: RootState) {
     animalGender: state.animalReducer.gender,
     animalBirthday: state.animalReducer.birthday,
     animalCastrated: state.animalReducer.castrated,
-    animalisSubmit: state.animalReducer.isSubmit,
+    fireBasePending: state.subscriptionReducer.fireBasePending,
+    fireBaseSuccess: state.subscriptionReducer.fireBaseSuccess,
+    fireBaseError: state.subscriptionReducer.fireBaseError,
+    store: state,
   };
 }
 const mapDispatchToProps = {
-  submitAnimal,
+  submitToFirebase,
 };
-const connector = connect(mapStateToProps, mapDispatchToProps);
+const connector = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux & {
   navigation: any;

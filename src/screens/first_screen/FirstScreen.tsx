@@ -2,14 +2,15 @@ import React, {Component} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '/store/index';
-import {addAnimal} from '/store/actions/action';
+import {addAnimal, submitToFirebase} from '/store/actions/action';
+import firebase from 'firebase';
 
 class FirstScreen extends Component<Props, {}> {
   render() {
     const {navigate} = this.props.navigation;
     return (
       <View style={style.container}>
-        <View style={style.halfTwo}></View>
+        <View style={style.halfTwo} />
         <View style={style.halfOne}>
           <TouchableOpacity
             style={style.button}
@@ -35,8 +36,15 @@ class FirstScreen extends Component<Props, {}> {
             }}>
             <Text style={style.buttonText}>Häst</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={style.button}
+            onPress={() => {
+              this.props.submitToFirebase(this.props.store);
+            }}>
+            <Text style={style.buttonText}>Firebase</Text>
+          </TouchableOpacity>
         </View>
-        <View style={style.halfTwo}></View>
+        <View style={style.halfTwo} />
       </View>
     );
   }
@@ -44,13 +52,18 @@ class FirstScreen extends Component<Props, {}> {
 function mapStateToProps(state: RootState) {
   return {
     animalType: state.animalReducer.type,
+    store: state,
   };
 }
 const mapDispatchToProps = {
   addAnimal,
+  submitToFirebase,
 };
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+const connector = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux & {
   navigation: any;

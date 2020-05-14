@@ -10,7 +10,6 @@ export const ADD_PERSON_NAME = 'ADD_PERSON_NAME';
 export const ADD_PERSON_LASTNAME = 'ADD_PERSON_LASTNAME';
 export const ADD_PERSON_EMAIL = 'ADD_PERSON_EMAIL';
 export const ADD_PERSON_POSTKOD = 'ADD_PERSON_POSTKOD';
-export const SUBMIT_ANIMAL = 'SUBMIT_ANIMAL';
 
 export const CHANGE_PAYMENT_FIXED_DECUTIBLE = 'CHANGE_PAYMENT_FIXED_DECUTIBLE';
 export const CHANGE_PAYMENT_VARIABLE_DECUTIBLE =
@@ -25,6 +24,11 @@ export const CHOOSE_INSURANCE_COMPANY = 'CHOOSE_INSURANCE_COMPANY';
 export const CHOOSE_INSURANCE_COMPANY_TERMINATION =
   'CHOOSE_INSURANCE_COMPANY_TERMINATION';
 
+export const FIREBASE_SUBMIT = 'FIREBASE_SUBMIT';
+export const FIREBASE_SUBMIT_PENDING = 'FIREBASE_SUBMIT_PENDING';
+export const FIREBASE_SUBMIT_FULFILLED = 'FIREBASE_SUBMIT_FULFILLED';
+export const FIREBASE_SUBMIT_REJECTED = 'FIREBASE_SUBMIT_REJECTED';
+
 export interface AnimalState {
   type: string;
   name: string;
@@ -32,7 +36,6 @@ export interface AnimalState {
   gender: string;
   birthday: Date | null;
   castrated: boolean;
-  isSubmit: boolean;
 }
 
 interface AddAnimalAction {
@@ -59,10 +62,6 @@ interface AddAnimalCastratedAction {
   type: typeof ADD_ANIMAL_CASTRATED;
   data: boolean;
 }
-interface SubmitAnimalAction {
-  type: typeof SUBMIT_ANIMAL;
-  data: boolean;
-}
 
 export type AnimalActionTypes =
   | AddAnimalAction
@@ -70,8 +69,7 @@ export type AnimalActionTypes =
   | AddAnimalGenderAction
   | AddAnimalBirthdayAction
   | AddAnimalRaceAction
-  | AddAnimalCastratedAction
-  | SubmitAnimalAction;
+  | AddAnimalCastratedAction;
 
 export interface PersonState {
   name: string;
@@ -142,6 +140,9 @@ export type PaymentActionTypes =
 export interface SubscriptionState {
   dateOfSub: string;
   chooseSubInterval: string;
+  fireBasePending: boolean;
+  fireBaseSuccess: boolean;
+  fireBaseError: string;
 }
 interface ChooseSubscriptionDateAction {
   type: typeof CHOOSE_SUB_DATE;
@@ -151,10 +152,30 @@ interface ChooseSubscriptionIntervalAction {
   type: typeof CHOOSE_SUB_INTERVAL;
   data: string;
 }
+interface FirebaseSubmitAction {
+  type: typeof FIREBASE_SUBMIT;
+  payload: any;
+}
+interface FirebaseSubmitPendingAction {
+  type: typeof FIREBASE_SUBMIT_PENDING;
+  payload: any;
+}
+interface FirebaseSubmitRejectedAction {
+  type: typeof FIREBASE_SUBMIT_REJECTED;
+  payload: any;
+}
+interface FirebaseSubmitFulfilledAction {
+  type: typeof FIREBASE_SUBMIT_FULFILLED;
+  payload: any;
+}
 
 export type SubscriptionActionTypes =
   | ChooseSubscriptionDateAction
-  | ChooseSubscriptionIntervalAction;
+  | ChooseSubscriptionIntervalAction
+  | FirebaseSubmitAction
+  | FirebaseSubmitPendingAction
+  | FirebaseSubmitRejectedAction
+  | FirebaseSubmitFulfilledAction;
 
 export interface InsuranceState {
   IfInsurance: boolean;

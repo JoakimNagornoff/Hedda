@@ -7,7 +7,6 @@ import {
   ADD_ANIMAL_RACE,
   ADD_ANIMAL_CASTRATED,
   ADD_ANIMAL_BIRTHDAY,
-  SUBMIT_ANIMAL,
 } from '../actions/types';
 
 const initialState: AnimalState = {
@@ -17,7 +16,6 @@ const initialState: AnimalState = {
   gender: '',
   birthday: null,
   castrated: false,
-  isSubmit: false,
 };
 const animalReducer = (
   state = initialState,
@@ -56,11 +54,6 @@ const animalReducer = (
       return {
         ...state,
         castrated: action.data,
-      };
-    case SUBMIT_ANIMAL:
-      return {
-        ...state,
-        isSubmit: action.data,
       };
   }
   return state;

@@ -6,7 +6,6 @@ import {
   ADD_ANIMAL_BIRTHDAY,
   ADD_ANIMAL_RACE,
   ADD_ANIMAL_CASTRATED,
-  SUBMIT_ANIMAL,
   ADD_PERSON_NAME,
   ADD_PERSON_LASTNAME,
   ADD_PERSON_EMAIL,
@@ -23,7 +22,12 @@ import {
   CHOOSE_INSURANCE_BOOL,
   CHOOSE_INSURANCE_COMPANY,
   CHOOSE_INSURANCE_COMPANY_TERMINATION,
+  FIREBASE_SUBMIT,
 } from './types';
+import {RootState} from '../';
+
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 export const addAnimal = (animal: string): AnimalActionTypes => {
   return {
@@ -62,12 +66,6 @@ export const addAnimalCastrated = (castrated: boolean): AnimalActionTypes => {
   return {
     type: ADD_ANIMAL_CASTRATED,
     data: castrated,
-  };
-};
-export const submitAnimal = (isSubmit: boolean): AnimalActionTypes => {
-  return {
-    type: SUBMIT_ANIMAL,
-    data: isSubmit,
   };
 };
 
@@ -143,6 +141,21 @@ export const chooseSubscriptonInterval = (
   return {
     type: CHOOSE_SUB_INTERVAL,
     data: chooseSubInterval,
+  };
+};
+
+export const submitToFirebase = (store: RootState): SubscriptionActionTypes => {
+  const {animalReducer: animal} = store;
+
+  return {
+    type: FIREBASE_SUBMIT,
+    payload: firestore()
+      .collection('Insurance')
+      .add({
+        animal,
+        uid: auth().currentUser?.uid,
+    
+      }),
   };
 };
 
