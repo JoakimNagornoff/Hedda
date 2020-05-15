@@ -8,8 +8,7 @@ import * as Yup from 'yup';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '/store/index';
 import {
-  addPersonName,
-  addPersonLastName,
+  addPersonFullName,
   addPersonEmail,
   addPersonPostKod,
 } from 'store/actions/action';
@@ -21,14 +20,12 @@ class PersonScreen extends Component<Props, {}> {
       <Formik
         initialValues={{
           email: '',
-          name: '',
-          lastName: '',
+          fullName: '',
           postkod: '',
         }}
         onSubmit={values => {
           this.props.addPersonEmail(values.email);
-          this.props.addPersonName(values.name);
-          this.props.addPersonLastName(values.lastName);
+          this.props.addPersonFullName(values.fullName);
           this.props.addPersonPostKod(parseInt(values.postkod));
           navigate('DisplayScreen');
         }}
@@ -51,7 +48,8 @@ class PersonScreen extends Component<Props, {}> {
                 keyboardType="email-address"
                 onChangeText={handleChange('email')}
                 onBlur={handleBlur('email')}
-                value={values.email}></TextInput>
+                value={values.email}
+              />
               <Text style={style.errorMsg}>
                 {touched.email && errors.email}
               </Text>
@@ -61,17 +59,12 @@ class PersonScreen extends Component<Props, {}> {
                 placeholder="name"
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
-                value={values.name}></TextInput>
-              <Text style={style.errorMsg}>{touched.name && errors.name}</Text>
-              <TextInput
-                style={style.Input}
-                placeholder="lastName"
-                onChangeText={handleChange('lastName')}
-                onBlur={handleBlur('lastName')}
-                value={values.lastName}></TextInput>
+                value={values.fullName}
+              />
               <Text style={style.errorMsg}>
-                {touched.lastName && errors.lastName}
+                {touched.fullName && errors.fullName}
               </Text>
+
               <TextInput
                 style={style.Input}
                 placeholder="postkod"
@@ -79,14 +72,16 @@ class PersonScreen extends Component<Props, {}> {
                 keyboardType="numeric"
                 onChangeText={handleChange('postkod')}
                 onBlur={handleBlur('postkod')}
-                value={values.postkod.toString()}></TextInput>
+                value={values.postkod.toString()}
+              />
               <Text style={style.errorMsg}>
                 {touched.postkod && errors.postkod}
               </Text>
               <Button
                 onPress={handleSubmit}
                 title="Submit"
-                disabled={!isValid}></Button>
+                disabled={!isValid}
+              />
             </View>
           </View>
         )}
@@ -118,19 +113,20 @@ const validationSchema = Yup.object().shape({
 
 function mapStateToProps(state: RootState) {
   return {
-    personName: state.personReducer.name,
-    personLastName: state.personReducer.lastName,
+    personName: state.personReducer.fullName,
     personEmail: state.personReducer.email,
     personPostKod: state.personReducer.postkod,
   };
 }
 const mapDispatchToProps = {
-  addPersonName,
-  addPersonLastName,
+  addPersonFullName,
   addPersonEmail,
   addPersonPostKod,
 };
-const connector = connect(mapStateToProps, mapDispatchToProps);
+const connector = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux & {
   navigation: any;

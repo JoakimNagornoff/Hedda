@@ -50,9 +50,7 @@ class DisplayScreen extends Component<Props, {}> {
         <View style={style.halfTwo}>
           <Text style={style.title}>Uppgifter Ägare</Text>
           <Text style={style.formText}>namn : {this.props.personName}</Text>
-          <Text style={style.formText}>
-            efternamn : {this.props.personLastName}
-          </Text>
+
           <Text style={style.formText}>Email : {this.props.personEmail}</Text>
           <Text style={style.formText}>
             Postkod : {this.props.personPostKod}
@@ -71,8 +69,7 @@ class DisplayScreen extends Component<Props, {}> {
 }
 function mapStateToProps(state: RootState) {
   return {
-    personName: state.personReducer.name,
-    personLastName: state.personReducer.lastName,
+    personName: state.personReducer.fullName,
     personEmail: state.personReducer.email,
     personPostKod: state.personReducer.postkod,
     animalType: state.animalReducer.type,

@@ -8,48 +8,39 @@ import {
 } from 'react-native';
 import auth, {firebase} from '@react-native-firebase/auth';
 import ActivityIndicatorExample from '@components/ActivityIndicatorExample';
+import {connect, ConnectedProps} from 'react-redux';
+import {RootState} from '/store/index';
+import {AuthRegisterPerson} from 'store/actions/action';
 
-class RegistrationScreen extends Component<Props> {
+class RegistrationScreen extends Component<Props, {}> {
   state = {
     name: '',
     email: '',
     password: '',
+    zipcode: '',
     isLoading: false,
     errorMessage: null,
   };
   handleSignUp = () => {
-    this.setState({isLoading: true});
-    auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(res => {
-        res.user.updateProfile({
-          displayName: this.state.name,
-        });
+    this.props.AuthRegisterPerson(
+      this.state.name,
+      this.state.email,
+      this.state.password,
+      this.state.zipcode,
+      () => {
         this.setState({
-          displayName: '',
+          name: '',
           email: '',
           password: '',
+          zipcode: '',
         });
-        setTimeout(() => {
-          this.props.navigation.navigate('Home');
-          this.setState({isLoading: true});
-        }, 2000);
-      })
-      .catch(error => {
-        if (error.code === 'auth/email-already-in-use') {
-          console.log('That email address is already in use!');
-        }
-
-        if (error.code === 'auth/invalid-email') {
-          console.log('That email address is invalid!');
-        }
-
-        console.error(error);
-      });
+        this.props.navigation.navigate('Home');
+      },
+    );
   };
 
   render() {
-    if (this.state.isLoading) {
+    if (this.props.isLoading) {
       return <ActivityIndicatorExample />;
     }
     const {navigate} = this.props.navigation;
@@ -75,7 +66,18 @@ class RegistrationScreen extends Component<Props> {
             />
           </View>
           <View>
-            <Text style={style.inputTitle}>Email Address</Text>
+            <Text style={style.inputTitle}>Post Kod</Text>
+            <TextInput
+              style={style.input}
+              autoCapitalize="none"
+              maxLength={5}
+              keyboardType="numeric"
+              onChangeText={zipcode => this.setState({zipcode})}
+              value={this.state.zipcode}
+            />
+          </View>
+          <View>
+            <Text style={style.inputTitle}>Email</Text>
             <TextInput
               style={style.input}
               autoCapitalize="none"
@@ -108,9 +110,25 @@ class RegistrationScreen extends Component<Props> {
     );
   }
 }
-type Props = {
+
+function mapStateToProps(state: RootState) {
+  return {
+    isLoading: state.personReducer.fireBasePending,
+    error: state.personReducer.fireBaseError,
+    isSuccess: state.personReducer.fireBaseSuccess,
+  };
+}
+const mapDispatchToProps = {
+  AuthRegisterPerson,
+};
+
+const connector = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type Props = PropsFromRedux & {
   navigation: any;
-  route: any;
 };
 
 const style = StyleSheet.create({
@@ -160,6 +178,11 @@ const style = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  errorMsg: {
+    color: 'red',
+    marginStart: 15,
+    fontSize: 14,
+  },
 });
 
-export default RegistrationScreen;
+export default connector(RegistrationScreen);

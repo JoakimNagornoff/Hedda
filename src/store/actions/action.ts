@@ -6,8 +6,7 @@ import {
   ADD_ANIMAL_BIRTHDAY,
   ADD_ANIMAL_RACE,
   ADD_ANIMAL_CASTRATED,
-  ADD_PERSON_NAME,
-  ADD_PERSON_LASTNAME,
+  ADD_PERSON_FULL_NAME,
   ADD_PERSON_EMAIL,
   ADD_PERSON_POSTKOD,
   PersonActionTypes,
@@ -23,11 +22,15 @@ import {
   CHOOSE_INSURANCE_COMPANY,
   CHOOSE_INSURANCE_COMPANY_TERMINATION,
   FIREBASE_SUBMIT,
+  AUTH_PERSON_LOGIN,
+  AUTH_PERSON_LOGOUT,
+  AUTH_PERSON_REGISTER
+ 
 } from './types';
 import {RootState} from '../';
 
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
+import auth, { firebase } from '@react-native-firebase/auth';
 
 export const addAnimal = (animal: string): AnimalActionTypes => {
   return {
@@ -69,18 +72,13 @@ export const addAnimalCastrated = (castrated: boolean): AnimalActionTypes => {
   };
 };
 
-export const addPersonName = (name: string): PersonActionTypes => {
+export const addPersonFullName = (name: string): PersonActionTypes => {
   return {
-    type: ADD_PERSON_NAME,
+    type: ADD_PERSON_FULL_NAME,
     data: name,
   };
 };
-export const addPersonLastName = (lastName: string): PersonActionTypes => {
-  return {
-    type: ADD_PERSON_LASTNAME,
-    data: lastName,
-  };
-};
+
 export const addPersonEmail = (email: string): PersonActionTypes => {
   return {
     type: ADD_PERSON_EMAIL,
@@ -93,6 +91,53 @@ export const addPersonPostKod = (postkod: number): PersonActionTypes => {
     data: postkod,
   };
 };
+export const AuthLoginPerson = (email: string, password: string, callback?: () => any ) : PersonActionTypes => {
+  return {
+    type: AUTH_PERSON_LOGIN,
+    payload: async () => {
+      const res = await auth().signInWithEmailAndPassword(email, password);
+      const userDoc = await (await firestore().collection('Users').doc(res.user.uid).get()).data();
+      if(callback) callback();
+      return {
+        uid: res.user.uid,
+        email,
+        name: res.user.displayName,
+        postkod: userDoc ? userDoc.postkod : ''
+      };
+    } 
+  }
+}
+
+export const AuthLogoutPerson = (callback?: () => any) : PersonActionTypes => {
+  return {
+    type: AUTH_PERSON_LOGOUT,
+    payload: auth()
+    .signOut()
+    .then(() => {
+      if (callback) callback();
+    })
+  }
+}
+
+export const AuthRegisterPerson = (name, email, password, postkod, callback?:() => any) : PersonActionTypes => {
+  return {
+    type: AUTH_PERSON_REGISTER,
+    payload: async () => {
+      const res = await auth()
+        .createUserWithEmailAndPassword(email, password)
+      
+      await res.user.updateProfile({ displayName: name });
+      await firestore().collection('Users').doc(res.user.uid).set({postkod});
+      if(callback) callback();
+      return {
+        uid: res.user.uid,
+        email,
+        name,
+        postkod
+      };
+    }  
+  }
+}
 
 export const changePaymentFixedDeductible = (
   name: string,

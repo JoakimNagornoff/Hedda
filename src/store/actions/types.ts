@@ -6,8 +6,7 @@ export const ADD_ANIMAL_BIRTHDAY = 'ADD_ANIMAL_BIRTHDAY';
 
 export const ADD_ANIMAL_CASTRATED = 'ADD_ANIMAL_CASTRATED';
 
-export const ADD_PERSON_NAME = 'ADD_PERSON_NAME';
-export const ADD_PERSON_LASTNAME = 'ADD_PERSON_LASTNAME';
+export const ADD_PERSON_FULL_NAME = 'ADD_PERSON_FULL_NAME';
 export const ADD_PERSON_EMAIL = 'ADD_PERSON_EMAIL';
 export const ADD_PERSON_POSTKOD = 'ADD_PERSON_POSTKOD';
 
@@ -28,6 +27,21 @@ export const FIREBASE_SUBMIT = 'FIREBASE_SUBMIT';
 export const FIREBASE_SUBMIT_PENDING = 'FIREBASE_SUBMIT_PENDING';
 export const FIREBASE_SUBMIT_FULFILLED = 'FIREBASE_SUBMIT_FULFILLED';
 export const FIREBASE_SUBMIT_REJECTED = 'FIREBASE_SUBMIT_REJECTED';
+
+export const AUTH_PERSON_LOGIN = 'AUTH_PERSON_LOGIN';
+export const AUTH_PERSON_LOGIN_PENDING = 'AUTH_PERSON_LOGIN_PENDING';
+export const AUTH_PERSON_LOGIN_FULFILLED = 'AUTH_PERSON_LOGIN_FULFILLED';
+export const AUTH_PERSON_LOGIN_REJECTED = 'AUTH_PERSON_LOGIN_REJECTED';
+
+export const AUTH_PERSON_LOGOUT = 'AUTH_PERSON_LOGOUT';
+export const AUTH_PERSON_LOGOUT_PENDING = 'AUTH_PERSON_LOGOUT_PENDING';
+export const AUTH_PERSON_LOGOUT_FULFILLED = 'AUTH_PERSON_LOGOUT_FULFILLED';
+export const AUTH_PERSON_LOGOUT_REJECTED = 'AUTH_PERSON_LOGOUT_REJECTED';
+
+export const AUTH_PERSON_REGISTER = 'AUTH_PERSON_REGISTER';
+export const AUTH_PERSON_REGISTER_PENDING = 'AUTH_PERSON_REGISTER_PENDING';
+export const AUTH_PERSON_REGISTER_FULFILLED = 'AUTH_PERSON_REGISTER_FULFILLED';
+export const AUTH_PERSON_REGISTER_REJECTED = 'AUTH_PERSON_REGISTER_REJECTED';
 
 export interface AnimalState {
   type: string;
@@ -72,19 +86,19 @@ export type AnimalActionTypes =
   | AddAnimalCastratedAction;
 
 export interface PersonState {
-  name: string;
-  lastName: string;
+  fullName: string;
   email: string;
-  postkod: number | null;
+  postkod: string;
+  uid: string;
+  fireBasePending: boolean;
+  fireBaseSuccess: boolean;
+  fireBaseError: string;
 }
-interface AddPersonNameAction {
-  type: typeof ADD_PERSON_NAME;
+interface AddPersonFullNameAction {
+  type: typeof ADD_PERSON_FULL_NAME;
   data: string;
 }
-interface AddPersonLastNameAction {
-  type: typeof ADD_PERSON_LASTNAME;
-  data: string;
-}
+
 interface AddPersonEmailAction {
   type: typeof ADD_PERSON_EMAIL;
   data: string;
@@ -94,11 +108,73 @@ interface AddPersonPostKodAction {
   data: number;
 }
 
+interface AuthLoginAction {
+  type: typeof AUTH_PERSON_LOGIN;
+  payload: any;
+}
+interface AuthLoginPendingAction {
+  type: typeof AUTH_PERSON_LOGIN_PENDING;
+  payload: any;
+}
+interface AuthLoginRejectedAction {
+  type: typeof AUTH_PERSON_LOGIN_REJECTED;
+  payload: any;
+}
+interface AuthLoginFulfilledAction {
+  type: typeof AUTH_PERSON_LOGIN_FULFILLED;
+  payload: any;
+}
+
+interface AuthRegisterAction {
+  type: typeof AUTH_PERSON_REGISTER;
+  payload: any;
+}
+interface AuthRegisterPendingAction {
+  type: typeof AUTH_PERSON_REGISTER_PENDING;
+  payload: any;
+}
+interface AuthRegisterRejectedAction {
+  type: typeof AUTH_PERSON_REGISTER_REJECTED;
+  payload: any;
+}
+interface AuthRegisterFulfilledAction {
+  type: typeof AUTH_PERSON_REGISTER_FULFILLED;
+  payload: any;
+}
+
+interface AuthLogoutAction {
+  type: typeof AUTH_PERSON_LOGOUT;
+  payload: any;
+}
+interface AuthLogoutPendingAction {
+  type: typeof AUTH_PERSON_LOGOUT_PENDING;
+  payload: any;
+}
+interface AuthLogoutRejectedAction {
+  type: typeof AUTH_PERSON_LOGOUT_REJECTED;
+  payload: any;
+}
+interface AuthLogoutFulfilledAction {
+  type: typeof AUTH_PERSON_LOGOUT_FULFILLED;
+  payload: any;
+}
+
 export type PersonActionTypes =
-  | AddPersonNameAction
-  | AddPersonLastNameAction
+  | AddPersonFullNameAction
   | AddPersonEmailAction
-  | AddPersonPostKodAction;
+  | AddPersonPostKodAction
+  | AuthLoginAction
+  | AuthLogoutAction
+  | AuthRegisterAction
+  | AuthLogoutPendingAction
+  | AuthLogoutRejectedAction
+  | AuthLogoutFulfilledAction
+  | AuthLoginPendingAction
+  | AuthLoginRejectedAction
+  | AuthLoginFulfilledAction
+  | AuthRegisterPendingAction
+  | AuthRegisterRejectedAction
+  | AuthRegisterFulfilledAction;
 
 export interface PaymentState {
   options: {

@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {Text, View, FlatList, StyleSheet} from 'react-native';
 import firebase from '@react-native-firebase/app';
-import firestore from '@react-native-firebase/database';
-import DogScreen from 'screens/DogScreen';
 
 interface State {
   insurances: any[];

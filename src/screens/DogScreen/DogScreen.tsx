@@ -5,6 +5,7 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import Select from 'react-native-select-plus';
 import RadioForm from 'react-native-simple-radio-button';
+import DogFileList from 'components/DogFileList';
 
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '/store/index';
@@ -24,6 +25,7 @@ class DogScreen extends Component<Props, {}> {
 
   render() {
     const {navigate} = this.props.navigation;
+
     const raceItems = [
       {key: 2, label: 'Blandras'},
       {key: 3, label: 'Blandras(Pitbull)'},
@@ -39,6 +41,7 @@ class DogScreen extends Component<Props, {}> {
       {key: 13, label: 'Basset Artésien Normand'},
       {key: 14, label: 'Beagle'},
     ];
+
     const radio_props = [
       {label: 'hona', value: 'hona'},
       {label: 'hane', value: 'hane'},
@@ -63,7 +66,7 @@ class DogScreen extends Component<Props, {}> {
           this.props.addAnimalGender(values.gender);
           this.props.addAnimalCastrated(values.castrated);
           this.props.addAnimalBirthday(values.birthday);
-          navigate('PersonScreen');
+          navigate('DisplayScreen');
           //console.log(values);
         }}
         validationSchema={validationSchema}>
@@ -84,7 +87,6 @@ class DogScreen extends Component<Props, {}> {
               <TextInput
                 style={style.Input}
                 placeholder="Namn"
-                keyboardType="email-address"
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
                 value={values.name}
