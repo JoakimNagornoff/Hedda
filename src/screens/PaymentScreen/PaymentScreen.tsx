@@ -5,7 +5,7 @@ import {
   StyleSheet,
   UIManager,
   TouchableOpacity,
-  Button,
+  Platform,
 } from 'react-native';
 import {RootState} from 'store';
 import {connect, ConnectedProps} from 'react-redux';
@@ -16,9 +16,15 @@ import {
 } from 'utils';
 import {chooseSubscriptonInterval, chooseSubDate} from 'store/actions/action';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
+import {submitToFirebase, chooseSubscriptionCost} from 'store/actions/action';
 
-UIManager.setLayoutAnimationEnabledExperimental;
-UIManager.setLayoutAnimationEnabledExperimental(true);
+import ActivityIndicatorExample from '@components/ActivityIndicatorExample';
+
+if (Platform.OS === 'android') {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 const TwentyDays = new Date(
   new Date().getTime() + 24 * 60 * 60 * 1000 * 20,
@@ -43,160 +49,185 @@ class PaymentScreen extends Component<Props, {}> {
   state = {
     datepickerOpen: false,
   };
-  _onChange = form => console.log(form);
 
+  _onChange = form => console.log(form);
   setDate = (event, date) => {
     this.setState({datepickerOpen: false});
     if (date) {
-      // timeSetAction
       this.props.chooseSubDate(formatDate(date));
     }
   };
 
+  handleSubmitClick() {
+    this.props.submitToFirebase(this.props.store);
+  }
+
+  calculatedCost() {
+    if (this.props.choosen) {
+      let costweek: number = 0;
+      let costMonth: number = 0;
+      let costYear: number = 0;
+      if (this.props.subscriptonInterval === 'vecka') {
+        costweek = calculateWeeklyCost(
+          this.props.choosen.baseCost,
+          this.props.choosen.fixedDeductible,
+          this.props.choosen.variableDeductible,
+        );
+        return costweek;
+      } else if (this.props.subscriptonInterval === 'månad') {
+        costMonth = calculateMonthlyCost(
+          this.props.choosen.baseCost,
+          this.props.choosen.fixedDeductible,
+          this.props.choosen.variableDeductible,
+        );
+        return costMonth;
+      } else if (this.props.subscriptonInterval === 'år') {
+        costYear = calculateYearlyCost(
+          this.props.choosen.baseCost,
+          this.props.choosen.fixedDeductible,
+          this.props.choosen.variableDeductible,
+        );
+        return costYear;
+      }
+    }
+  }
+
+  /*calculatedMonthCost() {
+    if (this.props.choosen) {
+      let costMonth: number = 0;
+      if (this.props.subscriptonInterval === 'månad') {
+        costMonth = calculateMonthlyCost(
+          this.props.choosen.baseCost,
+          this.props.choosen.fixedDeductible,
+          this.props.choosen.variableDeductible,
+        );
+        return costMonth;
+
+        //return costMonth;
+      }
+    }
+  }*/
+  //bygga function för att sätta pris, skicka in en variabel för vecko, månad, årlig
   render() {
     const {navigate} = this.props.navigation;
-    console.log(this.props.choosen);
-    if (this.props.choosen) {
-      let cost: number = 0;
-      let interval: string = '';
-
-      if (this.props.subscriptonInterval === 'vecko') {
-        cost = calculateWeeklyCost(
-          this.props.choosen.baseCost,
-          this.props.choosen.fixedDeductible,
-          this.props.choosen.variableDeductible,
-        );
-        interval = 'vecka';
-      } else if (this.props.subscriptonInterval === 'månad') {
-        cost = calculateMonthlyCost(
-          this.props.choosen.baseCost,
-          this.props.choosen.fixedDeductible,
-          this.props.choosen.variableDeductible,
-        );
-        interval = 'månad';
-      } else if (this.props.subscriptonInterval === 'år') {
-        cost = calculateYearlyCost(
-          this.props.choosen.baseCost,
-          this.props.choosen.fixedDeductible,
-          this.props.choosen.variableDeductible,
-        );
-        interval = 'år';
-      }
-
+    if (this.props.firebasePending) {
+      return <ActivityIndicatorExample />;
+    }
+    if (this.props.firebaseSuccess) {
       return (
-        <View style={style.container}>
-          <View style={style.halfOne}>
-            <Text style={style.secondTitle}>
-              Du har valt {this.props.choosen.name.toUpperCase()}
-            </Text>
-            <Text style={style.title}>
-              {cost}
-              <Text style={style.secondTitle}> kr per {interval}</Text>
-            </Text>
-            <Text style={style.secondTitle}>
-              Hur vill du lägga upp betalningen?
-            </Text>
-            <View style={style.middle}>
-              <TouchableOpacity
-                style={style.chooseButton}
-                onPress={() => {
-                  this.props.chooseSubscriptonInterval('vecko');
-                }}>
-                <Text>
-                  {calculateWeeklyCost(
-                    this.props.choosen.baseCost,
-                    this.props.choosen.fixedDeductible,
-                    this.props.choosen.variableDeductible,
-                  )}
-                  Kr
-                </Text>
-                <Text>per Vecka</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={style.chooseButton}
-                onPress={() => {
-                  this.props.chooseSubscriptonInterval('månad');
-                }}>
-                <Text>
-                  {calculateMonthlyCost(
-                    this.props.choosen.baseCost,
-                    this.props.choosen.fixedDeductible,
-                    this.props.choosen.variableDeductible,
-                  )}
-                </Text>
-                <Text>per Månad</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={style.chooseButton}
-                onPress={() => {
-                  this.props.chooseSubscriptonInterval('år');
-                }}>
-                <Text>
-                  {calculateYearlyCost(
-                    this.props.choosen.baseCost,
-                    this.props.choosen.fixedDeductible,
-                    this.props.choosen.variableDeductible,
-                  )}
-                </Text>
-                <Text>per År</Text>
-              </TouchableOpacity>
-            </View>
-
-            <Text style={style.secondTitle}>Hur vill du betala?</Text>
-          </View>
-
-          <View style={style.halfTwo}>
-            <TouchableOpacity style={style.paymentButton}>
-              <Text style={style.paymentButtonText}>Bank id</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={style.paymentButton}
-              onPress={() => {
-                navigate('CardScreen');
-              }}>
-              <Text style={style.paymentButtonText}>Kort</Text>
-            </TouchableOpacity>
-            <Text style={style.secondTitle}>
-              När vill du subscriptionen ska börja gälla?
-            </Text>
-          </View>
-          <View style={style.paymentOptions}>
-            <TouchableOpacity
-              style={style.dateButton}
-              onPress={() => {
-                this.setState({datepickerOpen: true});
-              }}
-            />
-            {this.state.datepickerOpen && (
-              <RNDateTimePicker
-                testID="dateTimePicker"
-                timeZoneOffsetInMinutes={0}
-                value={
-                  this.props.dateOfSub
-                    ? new Date(this.props.dateOfSub)
-                    : new Date()
-                }
-                maximumDate={new Date(TwentyDays)}
-                minimumDate={new Date()}
-                mode="date"
-                onChange={this.setDate}
-              />
-            )}
-          </View>
-          {!!this.props.dateOfSub && (
-            <Text style={style.secondTitle}>
-              Du har valt {this.props.dateOfSub}
-            </Text>
-          )}
-
-          <TouchableOpacity style={style.button}>
-            <Text style={style.buttonText}>Betala</Text>
+        <View>
+          <Text>Success</Text>
+          <TouchableOpacity onPress={() => navigate('Home')}>
+            <Text>Home</Text>
           </TouchableOpacity>
         </View>
       );
-    } else {
-      return <View>{}</View>;
     }
+
+    if (this.props.firebaseError) {
+      return <Text>{this.props.firebaseError}</Text>;
+    }
+
+    return (
+      <View style={style.container}>
+        <View style={style.halfOne}>
+          <Text style={style.secondTitle}>
+            Du har valt {this.calculatedCost()}
+            {}
+          </Text>
+          <Text style={style.title}>
+            {/* {this.calculateCost(this.props.subscriptonInterval)}*/}
+            <Text style={style.secondTitle}>
+              {' '}
+              kr per {this.props.subscriptonInterval}
+            </Text>
+          </Text>
+          <Text style={style.secondTitle}>
+            Hur vill du lägga upp betalningen?
+          </Text>
+          <View style={style.middle}>
+            <TouchableOpacity
+              style={style.chooseButton}
+              onPress={() => {
+                this.props.chooseSubscriptonInterval('vecka');
+              }}>
+              <Text>{}</Text>
+              <Text>per Vecka</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={style.chooseButton}
+              onPress={() => {
+                this.props.chooseSubscriptonInterval('månad');
+              }}>
+              <Text>{}</Text>
+              <Text>per Månad</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={style.chooseButton}
+              onPress={() => {
+                this.props.chooseSubscriptonInterval('år');
+              }}>
+              <Text>{}</Text>
+              <Text>per År</Text>
+            </TouchableOpacity>
+          </View>
+
+          <Text style={style.secondTitle}>Hur vill du betala?</Text>
+        </View>
+
+        <View style={style.halfTwo}>
+          <TouchableOpacity style={style.paymentButton}>
+            <Text style={style.paymentButtonText}>Bank id</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={style.paymentButton}
+            onPress={() => {
+              navigate('CardScreen');
+            }}>
+            <Text style={style.paymentButtonText}>Kort</Text>
+          </TouchableOpacity>
+          <Text style={style.secondTitle}>
+            När vill du subscriptionen ska börja gälla?
+          </Text>
+        </View>
+        <View style={style.paymentOptions}>
+          <TouchableOpacity
+            style={style.dateButton}
+            onPress={() => {
+              this.setState({datepickerOpen: true});
+            }}
+          />
+          {this.state.datepickerOpen && (
+            <RNDateTimePicker
+              testID="dateTimePicker"
+              timeZoneOffsetInMinutes={0}
+              value={
+                this.props.dateOfSub
+                  ? new Date(this.props.dateOfSub)
+                  : new Date()
+              }
+              maximumDate={new Date(TwentyDays)}
+              minimumDate={new Date()}
+              mode="date"
+              onChange={this.setDate}
+            />
+          )}
+        </View>
+        {!!this.props.dateOfSub && (
+          <Text style={style.secondTitle}>
+            Du har valt {this.props.dateOfSub}
+          </Text>
+        )}
+
+        <TouchableOpacity
+          style={style.button}
+          onPress={() => {
+            this.handleSubmitClick();
+          }}>
+          <Text style={style.buttonText}>Betala</Text>
+        </TouchableOpacity>
+      </View>
+    );
   }
 }
 
@@ -206,12 +237,19 @@ function mapStateToProps(state: RootState) {
       option => option.name === state.paymentReducer.chooseOption,
     ),
     dateOfSub: state.subscriptionReducer.dateOfSub,
+    subCost: state.subscriptionReducer.chooseCost,
     subscriptonInterval: state.subscriptionReducer.chooseSubInterval,
+    firebasePending: state.subscriptionReducer.fireBasePending,
+    firebaseSuccess: state.subscriptionReducer.fireBaseSuccess,
+    firebaseError: state.subscriptionReducer.fireBaseError,
+    store: state,
   };
 }
 const mapDispatchToProps = {
   chooseSubscriptonInterval,
   chooseSubDate,
+  submitToFirebase,
+  chooseSubscriptionCost,
 };
 
 const connector = connect(

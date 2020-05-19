@@ -14,6 +14,7 @@ import {
   changePaymentFixedDeductible,
   changePaymentVariableDeductible,
   choosePaymentOption,
+  chooseSubscriptionCost,
 } from 'store/actions/action';
 import {calculateMonthlyCost} from 'utils';
 
@@ -105,6 +106,7 @@ const mapDispatchToProps = {
   changePaymentFixedDeductible,
   changePaymentVariableDeductible,
   choosePaymentOption,
+  chooseSubscriptionCost,
 };
 const connector = connect(
   mapStateToProps,

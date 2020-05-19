@@ -9,29 +9,11 @@ import ActivityIndicatorExample from '@components/ActivityIndicatorExample';
 
 class DisplayScreen extends Component<Props, {}> {
   handleSubmitClick() {
-    //this.props.navigation.navigate('ShowScreen');
-    this.props.submitToFirebase(this.props.store);
+    this.props.navigation.navigate('ShowScreen');
   }
+
   render() {
     const {navigate} = this.props.navigation;
-    if (this.props.fireBasePending) {
-      return <ActivityIndicatorExample />;
-    }
-
-    if (this.props.fireBaseSuccess) {
-      return (
-        <View>
-          <Text>Success</Text>
-          <TouchableOpacity onPress={() => navigate('Home')}>
-            <Text>Home</Text>
-          </TouchableOpacity>
-        </View>
-      );
-    }
-
-    if (this.props.fireBaseError) {
-      return <Text>{this.props.fireBaseError}</Text>;
-    }
 
     return (
       <View style={style.container}>

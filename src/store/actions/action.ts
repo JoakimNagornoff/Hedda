@@ -17,6 +17,7 @@ import {
   SubscriptionActionTypes,
   CHOOSE_SUB_DATE,
   CHOOSE_SUB_INTERVAL,
+  CHOOSE_COST,
   ChooseInsuranceActionTypes,
   CHOOSE_INSURANCE_BOOL,
   CHOOSE_INSURANCE_COMPANY,
@@ -184,13 +185,21 @@ export const chooseSubscriptonInterval = (
   chooseSubInterval: string,
 ): SubscriptionActionTypes => {
   return {
-    type: CHOOSE_SUB_INTERVAL,
+    type: CHOOSE_SUB_INTERVAL, 
     data: chooseSubInterval,
   };
 };
+export const chooseSubscriptionCost = (
+  chooseSubCost: number,
+): SubscriptionActionTypes => {
+  return {
+    type: CHOOSE_COST,
+    data: chooseSubCost
+  }
+}
 
 export const submitToFirebase = (store: RootState): SubscriptionActionTypes => {
-  const {animalReducer: animal} = store;
+  const {animalReducer: animal, subscriptionReducer: sub} = store;
 
   return {
     type: FIREBASE_SUBMIT,
@@ -198,8 +207,8 @@ export const submitToFirebase = (store: RootState): SubscriptionActionTypes => {
       .collection('Insurance')
       .add({
         animal,
+        sub,
         uid: auth().currentUser?.uid,
-    
       }),
   };
 };

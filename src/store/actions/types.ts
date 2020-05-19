@@ -17,6 +17,7 @@ export const CHANGE_PAYMENT_VARIABLE_DECUTIBLE =
 export const CHOOSE_PAYMENT_OPTION = 'CHOOSE_PAYMENT_OPTION';
 export const CHOOSE_SUB_DATE = 'CHOOSE_SUB_DATE';
 export const CHOOSE_SUB_INTERVAL = 'CHOOSE_SUB_INTERVAL';
+export const CHOOSE_COST = 'CHOOSE_COST';
 
 export const CHOOSE_INSURANCE_BOOL = 'CHOOSE_INSURANCE_BOOL';
 export const CHOOSE_INSURANCE_COMPANY = 'CHOOSE_INSURANCE_COMPANY';
@@ -216,6 +217,7 @@ export type PaymentActionTypes =
 export interface SubscriptionState {
   dateOfSub: string;
   chooseSubInterval: string;
+  chooseCost: number;
   fireBasePending: boolean;
   fireBaseSuccess: boolean;
   fireBaseError: string;
@@ -227,6 +229,10 @@ interface ChooseSubscriptionDateAction {
 interface ChooseSubscriptionIntervalAction {
   type: typeof CHOOSE_SUB_INTERVAL;
   data: string;
+}
+interface ChooseSubscriptionCostAction {
+  type: typeof CHOOSE_COST;
+  data: number;
 }
 interface FirebaseSubmitAction {
   type: typeof FIREBASE_SUBMIT;
@@ -248,6 +254,7 @@ interface FirebaseSubmitFulfilledAction {
 export type SubscriptionActionTypes =
   | ChooseSubscriptionDateAction
   | ChooseSubscriptionIntervalAction
+  | ChooseSubscriptionCostAction
   | FirebaseSubmitAction
   | FirebaseSubmitPendingAction
   | FirebaseSubmitRejectedAction

@@ -3,6 +3,7 @@ import {
   SubscriptionState,
   CHOOSE_SUB_DATE,
   CHOOSE_SUB_INTERVAL,
+  CHOOSE_COST,
   FIREBASE_SUBMIT_PENDING,
   FIREBASE_SUBMIT_FULFILLED,
   FIREBASE_SUBMIT_REJECTED,
@@ -11,6 +12,7 @@ import {
 const initialState: SubscriptionState = {
   dateOfSub: '',
   chooseSubInterval: 'månad',
+  chooseCost: 0,
   fireBasePending: false,
   fireBaseSuccess: false,
   fireBaseError: '',
@@ -31,6 +33,11 @@ const creditcardReducer = (
       return {
         ...state,
         chooseSubInterval: action.data,
+      };
+    case CHOOSE_COST:
+      return {
+        ...state,
+        chooseCost: action.data,
       };
     case FIREBASE_SUBMIT_PENDING:
       return {
