@@ -34,7 +34,7 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="ShowScreen">
+        <Stack.Navigator initialRouteName="LogIn">
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="DisplayScreen" component={DisplayScreen} />
           <Stack.Screen name="PersonScreen" component={PersonScreen} />

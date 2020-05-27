@@ -85,7 +85,11 @@ class ShowScreen extends Component<Props, {}> {
                 this.props.changePaymentVariableDeductible
               }
               onButtonClick={() => {
-                this.props.choosePaymentOption(item.name);
+                this.props.choosePaymentOption(
+                  item.name,
+                  item.fixedDeductible,
+                  item.variableDeductible,
+                );
                 this.props.navigation.navigate('InsuranceScreen');
               }}
             />

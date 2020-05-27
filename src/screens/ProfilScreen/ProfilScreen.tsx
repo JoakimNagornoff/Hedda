@@ -5,15 +5,35 @@ import firebase from '@react-native-firebase/app';
 interface State {
   insurances: any[];
 }
-function Item({type, title, race, gender, castrated, birthday}) {
+function Item({
+  type,
+  title,
+  race,
+  gender,
+  castrated,
+  birthday,
+  cost,
+  sub,
+  interval,
+  subDate,
+  fixedDeducitble,
+  variableDeducitble,
+}) {
   return (
     <View style={style.ProfilItem}>
-      <Text>{type}</Text>
-      <Text>{title}</Text>
+      <Text> {type}</Text>
+      <Text>namn {title}</Text>
       <Text>{race}</Text>
       <Text>{gender}</Text>
       <Text>{castrated}</Text>
-      <Text>{birthday}</Text>
+      <Text>föddes {birthday}</Text>
+      <Text>
+        {cost} kr {interval}{' '}
+      </Text>
+      <Text>{sub} paketet</Text>
+      <Text>Subscription startar {subDate}</Text>
+      <Text>fast självrisk {fixedDeducitble}</Text>
+      <Text>rörlig självrisk {variableDeducitble} % </Text>
     </View>
   );
 }
@@ -60,6 +80,12 @@ class ProfilScreen extends Component<{}, State> {
               gender={item.animal.gender}
               castrated={item.animal.castrated}
               birthday={item.animal.birthday}
+              cost={item.cost}
+              sub={item.Sub}
+              interval={item.subInterval}
+              subDate={item.subDate}
+              fixedDeducitble={item.fixedDeductible}
+              variableDeducitble={item.variableDeductible}
             />
           )}
           keyExtractor={item => item.id}
@@ -78,7 +104,7 @@ const style = StyleSheet.create({
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
-    height: 200,
+    height: 250,
     width: 300,
   },
 });

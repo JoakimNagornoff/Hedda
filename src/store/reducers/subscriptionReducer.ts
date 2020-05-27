@@ -8,6 +8,7 @@ import {
   FIREBASE_SUBMIT_FULFILLED,
   FIREBASE_SUBMIT_REJECTED,
 } from '../actions/types';
+import {calculatedCost} from 'utils';
 
 const initialState: SubscriptionState = {
   dateOfSub: '',
@@ -32,7 +33,13 @@ const creditcardReducer = (
     case CHOOSE_SUB_INTERVAL:
       return {
         ...state,
-        chooseSubInterval: action.data,
+        chooseSubInterval: action.data.chooseSubInterval,
+        chooseCost: calculatedCost(
+          action.data.chooseCost.baseCost,
+          action.data.chooseCost.fixedDeductible,
+          action.data.chooseCost.variableDeductible,
+          action.data.chooseSubInterval,
+        ),
       };
     case CHOOSE_COST:
       return {

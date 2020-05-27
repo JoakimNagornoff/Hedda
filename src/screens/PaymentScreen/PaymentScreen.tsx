@@ -9,11 +9,6 @@ import {
 } from 'react-native';
 import {RootState} from 'store';
 import {connect, ConnectedProps} from 'react-redux';
-import {
-  calculateMonthlyCost,
-  calculateWeeklyCost,
-  calculateYearlyCost,
-} from 'utils';
 import {chooseSubscriptonInterval, chooseSubDate} from 'store/actions/action';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import {submitToFirebase, chooseSubscriptionCost} from 'store/actions/action';
@@ -46,6 +41,10 @@ function formatDate(date) {
 }
 
 class PaymentScreen extends Component<Props, {}> {
+  constructor(props) {
+    super(props);
+    this.props.chooseSubscriptonInterval('månad', this.props.choosen!);
+  }
   state = {
     datepickerOpen: false,
   };
@@ -60,36 +59,6 @@ class PaymentScreen extends Component<Props, {}> {
 
   handleSubmitClick() {
     this.props.submitToFirebase(this.props.store);
-  }
-
-  calculatedCost() {
-    if (this.props.choosen) {
-      let costweek: number = 0;
-      let costMonth: number = 0;
-      let costYear: number = 0;
-      if (this.props.subscriptonInterval === 'vecka') {
-        costweek = calculateWeeklyCost(
-          this.props.choosen.baseCost,
-          this.props.choosen.fixedDeductible,
-          this.props.choosen.variableDeductible,
-        );
-        return costweek;
-      } else if (this.props.subscriptonInterval === 'månad') {
-        costMonth = calculateMonthlyCost(
-          this.props.choosen.baseCost,
-          this.props.choosen.fixedDeductible,
-          this.props.choosen.variableDeductible,
-        );
-        return costMonth;
-      } else if (this.props.subscriptonInterval === 'år') {
-        costYear = calculateYearlyCost(
-          this.props.choosen.baseCost,
-          this.props.choosen.fixedDeductible,
-          this.props.choosen.variableDeductible,
-        );
-        return costYear;
-      }
-    }
   }
 
   /*calculatedMonthCost() {
@@ -132,7 +101,7 @@ class PaymentScreen extends Component<Props, {}> {
       <View style={style.container}>
         <View style={style.halfOne}>
           <Text style={style.secondTitle}>
-            Du har valt {this.calculatedCost()}
+            Du har valt {this.props.subCost}
             {}
           </Text>
           <Text style={style.title}>
@@ -149,7 +118,10 @@ class PaymentScreen extends Component<Props, {}> {
             <TouchableOpacity
               style={style.chooseButton}
               onPress={() => {
-                this.props.chooseSubscriptonInterval('vecka');
+                this.props.chooseSubscriptonInterval(
+                  'vecka',
+                  this.props.choosen!,
+                );
               }}>
               <Text>{}</Text>
               <Text>per Vecka</Text>
@@ -157,7 +129,10 @@ class PaymentScreen extends Component<Props, {}> {
             <TouchableOpacity
               style={style.chooseButton}
               onPress={() => {
-                this.props.chooseSubscriptonInterval('månad');
+                this.props.chooseSubscriptonInterval(
+                  'månad',
+                  this.props.choosen!,
+                );
               }}>
               <Text>{}</Text>
               <Text>per Månad</Text>
@@ -165,7 +140,7 @@ class PaymentScreen extends Component<Props, {}> {
             <TouchableOpacity
               style={style.chooseButton}
               onPress={() => {
-                this.props.chooseSubscriptonInterval('år');
+                this.props.chooseSubscriptonInterval('år', this.props.choosen!);
               }}>
               <Text>{}</Text>
               <Text>per År</Text>

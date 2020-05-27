@@ -1,3 +1,5 @@
+import {chooseSubscriptonInterval} from './action';
+
 export const ADD_ANIMAL = 'ADD_ANIMAL';
 export const ADD_ANIMAL_NAME = 'ADD_ANIMAL_NAME';
 export const ADD_ANIMAL_RACE = 'ADD_ANIMAL_RACE';
@@ -177,14 +179,18 @@ export type PersonActionTypes =
   | AuthRegisterRejectedAction
   | AuthRegisterFulfilledAction;
 
+export interface PaymentOption {
+  name: string; // bas / standard / premium
+  baseCost: number;
+  fixedDeductible: number;
+  variableDeductible: number;
+}
+
 export interface PaymentState {
-  options: {
-    name: string; // bas / standard / premium
-    baseCost: number;
-    fixedDeductible: number;
-    variableDeductible: number;
-  }[];
+  options: PaymentOption[];
   chooseOption: string;
+  choosenFixedDeducitble: PaymentOption['fixedDeductible'];
+  choosenvariableDeductible: PaymentOption['variableDeductible'];
 }
 
 interface ChangePaymentFixedDeductibleAction {
@@ -206,6 +212,8 @@ interface ChoosePaymentOptionAction {
   type: typeof CHOOSE_PAYMENT_OPTION;
   data: {
     chooseOption: string;
+    choosenFixedDeducitble: PaymentOption['fixedDeductible'];
+    choosenvariableDeductible: PaymentOption['variableDeductible'];
   };
 }
 
@@ -228,7 +236,10 @@ interface ChooseSubscriptionDateAction {
 }
 interface ChooseSubscriptionIntervalAction {
   type: typeof CHOOSE_SUB_INTERVAL;
-  data: string;
+  data: {
+    chooseSubInterval: string;
+    chooseCost: PaymentOption;
+  };
 }
 interface ChooseSubscriptionCostAction {
   type: typeof CHOOSE_COST;

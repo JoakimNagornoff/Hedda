@@ -1,13 +1,16 @@
 import React, {Component} from 'react';
-import {View, Text, Button,TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, Button,TouchableOpacity, StyleSheet, Modal} from 'react-native';
 import auth from '@react-native-firebase/auth';
-import firebase from '@react-native-firebase/app'
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '/store/index';
 import {addAnimal, submitToFirebase, AuthLogoutPerson} from '/store/actions/action';
+import ChatBot from 'react-native-chatbot';
+
+
 
 interface State {
   showAddAnimal : boolean,
+  startChat: boolean,
 }
 
 class Homescreen extends Component<Props, State, {}> {  
@@ -15,6 +18,7 @@ class Homescreen extends Component<Props, State, {}> {
     super(props);
     this.state = {
       showAddAnimal : false,
+      startChat: false,
     }
   }
 
@@ -28,18 +32,49 @@ class Homescreen extends Component<Props, State, {}> {
       showAddAnimal: false
     })
   }
+  startChat = () => {
+    this.setState({
+      startChat: true
+    })
+
+  }
 
   singOutUser() {
     this.props.AuthLogoutPerson(() => {
       this.props.navigation.navigate('LogIn');
     });
   }
+
+  
+  
   
   
   render() {  
     const {navigate} = this.props.navigation;
     const user = auth().currentUser;
     console.log(user);
+    this.state.showAddAnimal
+    const steps = [
+      {
+        id: '0',
+        message: 'Welcome to react chatbot!',
+        trigger: '1',
+      },
+      {
+        id: '1',
+        user: true,
+        inputAttributes: {
+          keyboardType: 'email-address'
+        }
+      },
+    {
+        id: '2',
+        message: 'Hej',
+       end: true,
+       
+      }
+    ];
+   
 
     if(this.state.showAddAnimal) {
       return (
@@ -68,7 +103,6 @@ class Homescreen extends Component<Props, State, {}> {
             }}>
             <Text style={style.buttonText}>Häst</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() =>this.home()}><Text>Home</Text></TouchableOpacity>
         </View>
       )
     }
@@ -83,6 +117,22 @@ class Homescreen extends Component<Props, State, {}> {
           onPress={() => this.showAddAnimal()}
           title="Lägg till ett djur"
         />
+        <TouchableOpacity
+          onPress={() => {
+            this.setState({startChat: true});
+          }}
+        ><Text>här</Text></TouchableOpacity>
+        <Modal animationType="slide"
+          transparent={true}
+          visible={this.state.startChat}
+        >
+         <View style={{flex: 1,}}>
+              <ChatBot steps={steps}
+                customStyle={{ borderColor: '#fff' }}
+                contentStyle={{ backgroundColor: '#fff' }} />
+            </View>
+            </Modal>
+     
         </View>
       
         <TouchableOpacity onPress={() => this.singOutUser()} ><Text>Sign Out!</Text></TouchableOpacity>
@@ -146,6 +196,14 @@ const style = StyleSheet.create({
     textAlign: 'center',
     padding: 20,
   },
+  customStyle: {
+    fontSize: 14,
+    marginBottom: 10,
+    paddingLeft: 12,
+    paddingRight: 12,
+    marginLeft: 6,
+
+  }
 });
 
 export default connector( Homescreen);

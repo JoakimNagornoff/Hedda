@@ -25,7 +25,8 @@ import {
   FIREBASE_SUBMIT,
   AUTH_PERSON_LOGIN,
   AUTH_PERSON_LOGOUT,
-  AUTH_PERSON_REGISTER
+  AUTH_PERSON_REGISTER,
+  PaymentOption
  
 } from './types';
 import {RootState} from '../';
@@ -167,11 +168,16 @@ export const changePaymentVariableDeductible = (
 };
 export const choosePaymentOption = (
   chooseOption: string,
+  choosenFixedDeducitble: PaymentOption["fixedDeductible"],
+  choosenvariableDeductible: PaymentOption['variableDeductible']
 ): PaymentActionTypes => {
   return {
     type: CHOOSE_PAYMENT_OPTION,
     data: {
       chooseOption,
+      choosenFixedDeducitble,
+      choosenvariableDeductible
+
     },
   };
 };
@@ -183,10 +189,14 @@ export const chooseSubDate = (dateOfSub: string): SubscriptionActionTypes => {
 };
 export const chooseSubscriptonInterval = (
   chooseSubInterval: string,
+  chooseCost: PaymentOption,
 ): SubscriptionActionTypes => {
   return {
     type: CHOOSE_SUB_INTERVAL, 
-    data: chooseSubInterval,
+    data: {
+      chooseSubInterval, // 'månad' / ... 
+      chooseCost
+    },
   };
 };
 export const chooseSubscriptionCost = (
@@ -199,7 +209,8 @@ export const chooseSubscriptionCost = (
 }
 
 export const submitToFirebase = (store: RootState): SubscriptionActionTypes => {
-  const {animalReducer: animal, subscriptionReducer: sub} = store;
+  const {animalReducer: animal, subscriptionReducer: sub, paymentReducer: payment} = store;
+  
 
   return {
     type: FIREBASE_SUBMIT,
@@ -207,7 +218,12 @@ export const submitToFirebase = (store: RootState): SubscriptionActionTypes => {
       .collection('Insurance')
       .add({
         animal,
-        sub,
+        cost: sub.chooseCost,
+        subInterval: sub.chooseSubInterval,
+        subDate: sub.dateOfSub,
+        Sub: payment.chooseOption,
+        fixedDeductible: payment.choosenFixedDeducitble,
+        variableDeductible: payment.choosenvariableDeductible,
         uid: auth().currentUser?.uid,
       }),
   };

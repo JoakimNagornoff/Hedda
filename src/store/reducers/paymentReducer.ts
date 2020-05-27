@@ -30,6 +30,8 @@ const initialState: PaymentState = {
     },
   ],
   chooseOption: '',
+  choosenFixedDeducitble: 0,
+  choosenvariableDeductible: 0,
 };
 
 const paymentReducer = (
@@ -68,6 +70,8 @@ const paymentReducer = (
       return {
         ...state,
         chooseOption: action.data.chooseOption,
+        choosenFixedDeducitble: action.data.choosenFixedDeducitble,
+        choosenvariableDeductible: action.data.choosenvariableDeductible,
       };
   }
   return state;
