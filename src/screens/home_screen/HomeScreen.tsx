@@ -53,7 +53,6 @@ class Homescreen extends Component<Props, State, {}> {
     const {navigate} = this.props.navigation;
     const user = auth().currentUser;
     console.log(user);
-    this.state.showAddAnimal
     const steps = [
       {
         id: '0',
@@ -84,6 +83,9 @@ class Homescreen extends Component<Props, State, {}> {
             onPress={() => {
               this.props.addAnimal('Hund');
               navigate('DogScreen');
+              this.setState({
+                showAddAnimal: false
+              })
             }}>
             <Text style={style.buttonText}>Hund</Text>
           </TouchableOpacity>
@@ -103,9 +105,9 @@ class Homescreen extends Component<Props, State, {}> {
             }}>
             <Text style={style.buttonText}>Häst</Text>
           </TouchableOpacity>
-        </View>
+          </View>
       )
-    }
+    } 
 
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -141,7 +143,8 @@ class Homescreen extends Component<Props, State, {}> {
     
     );
     
-  }
+  
+}
   
 }
 
@@ -176,6 +179,7 @@ const style = StyleSheet.create({
   },
   middle: {
     flex: 2,
+
 
   },
 

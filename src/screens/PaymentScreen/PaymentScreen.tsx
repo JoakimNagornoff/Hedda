@@ -6,6 +6,7 @@ import {
   UIManager,
   TouchableOpacity,
   Platform,
+  Modal,
 } from 'react-native';
 import {RootState} from 'store';
 import {connect, ConnectedProps} from 'react-redux';
@@ -61,22 +62,6 @@ class PaymentScreen extends Component<Props, {}> {
     this.props.submitToFirebase(this.props.store);
   }
 
-  /*calculatedMonthCost() {
-    if (this.props.choosen) {
-      let costMonth: number = 0;
-      if (this.props.subscriptonInterval === 'månad') {
-        costMonth = calculateMonthlyCost(
-          this.props.choosen.baseCost,
-          this.props.choosen.fixedDeductible,
-          this.props.choosen.variableDeductible,
-        );
-        return costMonth;
-
-        //return costMonth;
-      }
-    }
-  }*/
-  //bygga function för att sätta pris, skicka in en variabel för vecko, månad, årlig
   render() {
     const {navigate} = this.props.navigation;
     if (this.props.firebasePending) {
@@ -84,10 +69,16 @@ class PaymentScreen extends Component<Props, {}> {
     }
     if (this.props.firebaseSuccess) {
       return (
-        <View>
-          <Text>Success</Text>
-          <TouchableOpacity onPress={() => navigate('Home')}>
-            <Text>Home</Text>
+        <View style={{flex: 1}}>
+          <Text style={style.succesText}>Din betalning genomfördes!</Text>
+          <Text style={style.succesTextTwo}>
+            Välkommen {this.props.type} {this.props.name} Till Lassie
+            djurförsäkring!
+          </Text>
+          <TouchableOpacity
+            onPress={() => navigate('Home')}
+            style={style.HomeButton}>
+            <Text style={style.HomeText}>Home</Text>
           </TouchableOpacity>
         </View>
       );
@@ -218,6 +209,8 @@ function mapStateToProps(state: RootState) {
     firebaseSuccess: state.subscriptionReducer.fireBaseSuccess,
     firebaseError: state.subscriptionReducer.fireBaseError,
     store: state,
+    name: state.animalReducer.name,
+    type: state.animalReducer.type,
   };
 }
 const mapDispatchToProps = {
@@ -340,6 +333,29 @@ const style = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  succesText: {
+    marginTop: 100,
+    fontSize: 22,
+    textAlign: 'center',
+  },
+  succesTextTwo: {
+    fontSize: 22,
+    textAlign: 'center',
+  },
+  HomeButton: {
+    marginTop: 20,
+    marginHorizontal: 30,
+    backgroundColor: '#E9446A',
+    borderRadius: 4,
+    height: 52,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  HomeText: {
+    color: '#FFF',
+    fontWeight: '500',
+    fontSize: 18,
   },
 });
 

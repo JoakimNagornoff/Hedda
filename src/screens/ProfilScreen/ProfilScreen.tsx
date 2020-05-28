@@ -27,10 +27,11 @@ function Item({
       <Text>{gender}</Text>
       <Text>{castrated}</Text>
       <Text>föddes {birthday}</Text>
+      <Text>{sub} paketet</Text>
       <Text>
         {cost} kr {interval}{' '}
       </Text>
-      <Text>{sub} paketet</Text>
+
       <Text>Subscription startar {subDate}</Text>
       <Text>fast självrisk {fixedDeducitble}</Text>
       <Text>rörlig självrisk {variableDeducitble} % </Text>
