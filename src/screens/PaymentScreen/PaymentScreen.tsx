@@ -103,7 +103,6 @@ class PaymentScreen extends Component<Props, {}> {
             {}
           </Text>
           <Text style={style.title}>
-            {/* {this.calculateCost(this.props.subscriptonInterval)}*/}
             <Text style={style.secondTitle}>
               {' '}
               kr per {this.props.subscriptonInterval}
@@ -124,66 +123,7 @@ class PaymentScreen extends Component<Props, {}> {
               }}>
               <Text>{}</Text>
               <Text>per Vecka</Text>
-
-            <Text style={style.secondTitle}>
-              Hur vill du lägga upp betalningen?
-            </Text>
-            <View style={style.middle}>
-              <TouchableOpacity
-                style={style.chooseButton}
-                onPress={() => {
-                  this.props.chooseSubscriptonInterval('vecko');
-                }}>
-                <Text>
-                  {calculateWeeklyCost(
-                    this.props.choosen.baseCost,
-                    this.props.choosen.fixedDeductible,
-                    this.props.choosen.variableDeductible,
-                  )}
-                  Kr
-                </Text>
-                <Text>per Vecka</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={style.chooseButton}
-                onPress={() => {
-                  this.props.chooseSubscriptonInterval('månad');
-                }}>
-                <Text>
-                  {calculateMonthlyCost(
-                    this.props.choosen.baseCost,
-                    this.props.choosen.fixedDeductible,
-                    this.props.choosen.variableDeductible,
-                  )}
-                </Text>
-                <Text>per Månad</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={style.chooseButton}
-                onPress={() => {
-                  this.props.chooseSubscriptonInterval('år');
-                }}>
-                <Text>
-                  {calculateYearlyCost(
-                    this.props.choosen.baseCost,
-                    this.props.choosen.fixedDeductible,
-                    this.props.choosen.variableDeductible,
-                  )}
-                </Text>
-                <Text>per År</Text>
-              </TouchableOpacity>
-            </View>
-
-            <Text style={style.secondTitle}>Hur vill du betala?</Text>
-          </View>
-
-          <View style={style.halfTwo}>
-            <TouchableOpacity style={style.paymentButton}>
-              <Text style={style.paymentButtonText}>Bank</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={style.paymentButton}>
-              <Text style={style.paymentButtonText}>Swish</Text>
-            </TouchableOpacity>
             <TouchableOpacity
               style={style.chooseButton}
               onPress={() => {
@@ -203,11 +143,10 @@ class PaymentScreen extends Component<Props, {}> {
               <Text>{}</Text>
               <Text>per År</Text>
             </TouchableOpacity>
-          </View>
+            </View>
 
           <Text style={style.secondTitle}>Hur vill du betala?</Text>
-        </View>
-
+          </View>
         <View style={style.halfTwo}>
           <TouchableOpacity style={style.paymentButton}>
             <Text style={style.paymentButtonText}>Bank id</Text>
@@ -263,6 +202,7 @@ class PaymentScreen extends Component<Props, {}> {
     );
   }
 }
+
 
 function mapStateToProps(state: RootState) {
   return {
