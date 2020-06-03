@@ -7,6 +7,7 @@ import {
   FIREBASE_SUBMIT_PENDING,
   FIREBASE_SUBMIT_FULFILLED,
   FIREBASE_SUBMIT_REJECTED,
+  RESET_STORE,
 } from '../actions/types';
 import {calculatedCost} from 'utils';
 
@@ -63,6 +64,8 @@ const creditcardReducer = (
         fireBasePending: false,
         fireBaseSuccess: true,
       };
+    case RESET_STORE:
+      return initialState;
   }
 
   return state;

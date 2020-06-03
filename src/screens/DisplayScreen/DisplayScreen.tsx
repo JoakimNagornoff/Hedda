@@ -3,13 +3,18 @@ import {Text, View, StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '/store/index';
-import {submitToFirebase} from 'store/actions/action';
+import {submitToFirebase, addAnimalCastrated} from 'store/actions/action';
 
 import ActivityIndicatorExample from '@components/ActivityIndicatorExample';
 
 class DisplayScreen extends Component<Props, {}> {
   handleSubmitClick() {
-    this.props.navigation.navigate('ShowScreen');
+    if (this.props.animalGender === 'Valack') {
+      this.props.addAnimalCastrated('ja');
+      this.props.navigation.navigate('ShowScreen');
+    } else {
+      this.props.navigation.navigate('ShowScreen');
+    }
   }
 
   render() {
@@ -26,7 +31,11 @@ class DisplayScreen extends Component<Props, {}> {
           </Text>
           <Text style={style.formText}>kön: {this.props.animalGender}</Text>
           <Text style={style.formText}>
-            kastrerad: {this.props.animalCastrated}
+            {this.props.animalType !== 'Häst' && (
+              <Text>
+                kastrerad: {this.props.animalCastrated ? 'ja' : 'nej'}
+              </Text>
+            )}
           </Text>
         </View>
         <View style={style.halfTwo}>
@@ -68,6 +77,7 @@ function mapStateToProps(state: RootState) {
 }
 const mapDispatchToProps = {
   submitToFirebase,
+  addAnimalCastrated,
 };
 const connector = connect(
   mapStateToProps,

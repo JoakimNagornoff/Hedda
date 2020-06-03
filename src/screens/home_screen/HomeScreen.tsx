@@ -3,14 +3,12 @@ import {View, Text, Button,TouchableOpacity, StyleSheet, Modal} from 'react-nati
 import auth from '@react-native-firebase/auth';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '/store/index';
-import {addAnimal, submitToFirebase, AuthLogoutPerson} from '/store/actions/action';
-import ChatBot from 'react-native-chatbot';
+import {addAnimal, submitToFirebase, AuthLogoutPerson, } from '/store/actions/action';
 
 
 
 interface State {
   showAddAnimal : boolean,
-  startChat: boolean,
 }
 
 class Homescreen extends Component<Props, State, {}> {  
@@ -18,7 +16,6 @@ class Homescreen extends Component<Props, State, {}> {
     super(props);
     this.state = {
       showAddAnimal : false,
-      startChat: false,
     }
   }
 
@@ -32,12 +29,7 @@ class Homescreen extends Component<Props, State, {}> {
       showAddAnimal: false
     })
   }
-  startChat = () => {
-    this.setState({
-      startChat: true
-    })
 
-  }
 
   singOutUser() {
     this.props.AuthLogoutPerson(() => {
@@ -53,36 +45,17 @@ class Homescreen extends Component<Props, State, {}> {
     const {navigate} = this.props.navigation;
     const user = auth().currentUser;
     console.log(user);
-    const steps = [
-      {
-        id: '0',
-        message: 'Welcome to react chatbot!',
-        trigger: '1',
-      },
-      {
-        id: '1',
-        user: true,
-        inputAttributes: {
-          keyboardType: 'email-address'
-        }
-      },
-    {
-        id: '2',
-        message: 'Hej',
-       end: true,
-       
-      }
-    ];
    
 
     if(this.state.showAddAnimal) {
       return (
-        <View style={style.middle}>
+      
+        <View style={style.addAimalView}>
           <TouchableOpacity
             style={style.button}
             onPress={() => {
               this.props.addAnimal('Hund');
-              navigate('DogScreen');
+              navigate('AnimalScreen');
               this.setState({
                 showAddAnimal: false
               })
@@ -94,6 +67,11 @@ class Homescreen extends Component<Props, State, {}> {
             onPress={() => {
               this.props.addAnimal('Katt');
               
+              navigate('AnimalScreen');
+              this.setState({
+                showAddAnimal: false
+              })
+              
             }}>
             <Text style={style.buttonText}>Katt</Text>
           </TouchableOpacity>
@@ -101,39 +79,35 @@ class Homescreen extends Component<Props, State, {}> {
             style={style.button}
             onPress={() => {
               this.props.addAnimal('Häst');
+              navigate('AnimalScreen')
+              this.setState({
+                showAddAnimal: false
+              })
              
             }}>
             <Text style={style.buttonText}>Häst</Text>
           </TouchableOpacity>
           </View>
+         
       )
     } 
 
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
         <View style={style.topview}>
-        <Text>Welcome {user?.displayName}</Text>
+        <Text style={style.headerTitle}>Välkommen {user?.displayName} till Lassie djurförsäkring</Text>
+        <View style={{marginTop: 32}}><Text style={style.headerText}>Lassie erbjuder djurförsäkring för din katt,hund eller häst</Text></View>
+        
+        <View style={{marginTop: 32}}>
+        <Text style={style.headerText}>Klicka vidare på lägg till ett djur för ditt prisförslag</Text>
+        </View>
         </View>
         <View style={style.middle}>
         <Button
           onPress={() => this.showAddAnimal()}
           title="Lägg till ett djur"
         />
-        <TouchableOpacity
-          onPress={() => {
-            this.setState({startChat: true});
-          }}
-        ><Text>här</Text></TouchableOpacity>
-        <Modal animationType="slide"
-          transparent={true}
-          visible={this.state.startChat}
-        >
-         <View style={{flex: 1,}}>
-              <ChatBot steps={steps}
-                customStyle={{ borderColor: '#fff' }}
-                contentStyle={{ backgroundColor: '#fff' }} />
-            </View>
-            </Modal>
+       
      
         </View>
       
@@ -152,13 +126,15 @@ function mapStateToProps(state: RootState) {
   return {
     animalType: state.animalReducer.type,
     store: state,
-    isSuccess: state.personReducer.fireBaseSuccess
+    isSuccess: state.personReducer.fireBaseSuccess,
+
   };
 }
 const mapDispatchToProps = {
   addAnimal,
   submitToFirebase,
-  AuthLogoutPerson
+  AuthLogoutPerson,
+  
 };
 
 const connector = connect(
@@ -173,14 +149,16 @@ type Props = PropsFromRedux & {
 const style = StyleSheet.create({
   container: {
     flex: 1,
+
   },
   topview: {
     flex: 2,
   },
   middle: {
     flex: 2,
-
-
+  },
+  addAimalView : {
+    marginTop: 150,
   },
 
   button: {
@@ -207,6 +185,16 @@ const style = StyleSheet.create({
     paddingRight: 12,
     marginLeft: 6,
 
+  },
+  headerTitle: {
+    fontSize: 24,
+    textAlign: 'center',
+    marginTop: 20,
+  },
+  headerText: {
+    fontSize: 20,
+    textAlign: 'center',
+    marginTop: 10,
   }
 });
 

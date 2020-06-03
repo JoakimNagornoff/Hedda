@@ -26,8 +26,9 @@ import {
   AUTH_PERSON_LOGIN,
   AUTH_PERSON_LOGOUT,
   AUTH_PERSON_REGISTER,
-  PaymentOption
- 
+  PaymentOption,
+ ResetStoreAction,
+ RESET_STORE
 } from './types';
 import {RootState} from '../';
 
@@ -67,10 +68,10 @@ export const addAnimalBirthday = (date: Date): AnimalActionTypes => {
   };
 };
 
-export const addAnimalCastrated = (castrated: boolean): AnimalActionTypes => {
+export const addAnimalCastrated = (castrated: 'ja' | 'nej'): AnimalActionTypes => {
   return {
     type: ADD_ANIMAL_CASTRATED,
-    data: castrated,
+    data: castrated === 'ja',
   };
 };
 
@@ -166,6 +167,7 @@ export const changePaymentVariableDeductible = (
     },
   };
 };
+
 export const choosePaymentOption = (
   chooseOption: string,
   choosenFixedDeducitble: PaymentOption["fixedDeductible"],
@@ -255,3 +257,9 @@ export const chooseInsuranceCompanyTermination = (
     data: TerminationCompany,
   };
 };
+
+export const resetStore = (): ResetStoreAction => {
+  return {
+    type: RESET_STORE
+  }
+}

@@ -4,6 +4,7 @@ import {
   CHANGE_PAYMENT_FIXED_DECUTIBLE,
   CHANGE_PAYMENT_VARIABLE_DECUTIBLE,
   CHOOSE_PAYMENT_OPTION,
+  ADD_ANIMAL,
 } from '../actions/types';
 
 const initialState: PaymentState = {
@@ -32,6 +33,24 @@ const initialState: PaymentState = {
   chooseOption: '',
   choosenFixedDeducitble: 0,
   choosenvariableDeductible: 0,
+};
+
+const animalCosts = {
+  Hund: {
+    bas: 300,
+    standard: 500,
+    premium: 700,
+  },
+  Katt: {
+    bas: 200,
+    standard: 400,
+    premium: 600,
+  },
+  Häst: {
+    bas: 700,
+    standard: 1000,
+    premium: 1300,
+  },
 };
 
 const paymentReducer = (
@@ -73,7 +92,16 @@ const paymentReducer = (
         choosenFixedDeducitble: action.data.choosenFixedDeducitble,
         choosenvariableDeductible: action.data.choosenvariableDeductible,
       };
+    case ADD_ANIMAL:
+      return {
+        ...state,
+        options: state.options.map(o => ({
+          ...o,
+          baseCost: animalCosts[action.data][o.name],
+        })),
+      };
   }
+
   return state;
 };
 export default paymentReducer;

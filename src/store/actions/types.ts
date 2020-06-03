@@ -16,6 +16,8 @@ export const CHANGE_PAYMENT_FIXED_DECUTIBLE = 'CHANGE_PAYMENT_FIXED_DECUTIBLE';
 export const CHANGE_PAYMENT_VARIABLE_DECUTIBLE =
   'CHANGE_PAYMENT_VARIABLE_DECUTIBLE';
 
+export const CHANGE_BASE_COST = 'CHANGE_BASE_COST';
+
 export const CHOOSE_PAYMENT_OPTION = 'CHOOSE_PAYMENT_OPTION';
 export const CHOOSE_SUB_DATE = 'CHOOSE_SUB_DATE';
 export const CHOOSE_SUB_INTERVAL = 'CHOOSE_SUB_INTERVAL';
@@ -45,6 +47,8 @@ export const AUTH_PERSON_REGISTER = 'AUTH_PERSON_REGISTER';
 export const AUTH_PERSON_REGISTER_PENDING = 'AUTH_PERSON_REGISTER_PENDING';
 export const AUTH_PERSON_REGISTER_FULFILLED = 'AUTH_PERSON_REGISTER_FULFILLED';
 export const AUTH_PERSON_REGISTER_REJECTED = 'AUTH_PERSON_REGISTER_REJECTED';
+
+export const RESET_STORE = 'RESET_STORE';
 
 export interface AnimalState {
   type: string;
@@ -177,7 +181,8 @@ export type PersonActionTypes =
   | AuthLoginFulfilledAction
   | AuthRegisterPendingAction
   | AuthRegisterRejectedAction
-  | AuthRegisterFulfilledAction;
+  | AuthRegisterFulfilledAction
+  | ResetStoreAction;
 
 export interface PaymentOption {
   name: string; // bas / standard / premium
@@ -220,7 +225,8 @@ interface ChoosePaymentOptionAction {
 export type PaymentActionTypes =
   | ChangePaymentFixedDeductibleAction
   | ChangePaymentVariableDeductibleAction
-  | ChoosePaymentOptionAction;
+  | ChoosePaymentOptionAction
+  | AddAnimalAction;
 
 export interface SubscriptionState {
   dateOfSub: string;
@@ -269,7 +275,8 @@ export type SubscriptionActionTypes =
   | FirebaseSubmitAction
   | FirebaseSubmitPendingAction
   | FirebaseSubmitRejectedAction
-  | FirebaseSubmitFulfilledAction;
+  | FirebaseSubmitFulfilledAction
+  | ResetStoreAction;
 
 export interface InsuranceState {
   IfInsurance: boolean;
@@ -294,3 +301,7 @@ export type ChooseInsuranceActionTypes =
   | ChooseInsuranceAction
   | ChooseInsuranceCompanyAction
   | ChooseInsuranceCompanyTerminationAction;
+
+export interface ResetStoreAction {
+  type: typeof RESET_STORE;
+}

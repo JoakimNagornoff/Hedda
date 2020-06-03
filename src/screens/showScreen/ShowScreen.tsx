@@ -104,6 +104,7 @@ class ShowScreen extends Component<Props, {}> {
 function mapStateToProps(state: RootState) {
   return {
     paymentOptions: state.paymentReducer.options,
+    animalType: state.animalReducer.type,
   };
 }
 const mapDispatchToProps = {
@@ -125,6 +126,7 @@ type Props = PropsFromRedux & {
 const style = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 40,
   },
   scrollContainer: {
     flex: 1,

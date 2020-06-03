@@ -12,7 +12,11 @@ import {RootState} from 'store';
 import {connect, ConnectedProps} from 'react-redux';
 import {chooseSubscriptonInterval, chooseSubDate} from 'store/actions/action';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
-import {submitToFirebase, chooseSubscriptionCost} from 'store/actions/action';
+import {
+  submitToFirebase,
+  chooseSubscriptionCost,
+  resetStore,
+} from 'store/actions/action';
 
 import ActivityIndicatorExample from '@components/ActivityIndicatorExample';
 
@@ -76,7 +80,10 @@ class PaymentScreen extends Component<Props, {}> {
             djurförsäkring!
           </Text>
           <TouchableOpacity
-            onPress={() => navigate('Home')}
+            onPress={() => {
+              this.props.resetStore();
+              navigate('Home');
+            }}
             style={style.HomeButton}>
             <Text style={style.HomeText}>Home</Text>
           </TouchableOpacity>
@@ -218,6 +225,7 @@ const mapDispatchToProps = {
   chooseSubDate,
   submitToFirebase,
   chooseSubscriptionCost,
+  resetStore,
 };
 
 const connector = connect(

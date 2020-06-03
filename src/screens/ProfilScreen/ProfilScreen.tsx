@@ -21,11 +21,14 @@ function Item({
 }) {
   return (
     <View style={style.ProfilItem}>
-      <Text> {type}</Text>
+      <Text>{type}</Text>
       <Text>namn {title}</Text>
       <Text>{race}</Text>
       <Text>{gender}</Text>
-      <Text>{castrated}</Text>
+      {type !== 'Häst' && (
+        <Text>{castrated ? 'Kastrerad' : 'Inte Kastrerad'}</Text>
+      )}
+
       <Text>föddes {birthday}</Text>
       <Text>{sub} paketet</Text>
       <Text>

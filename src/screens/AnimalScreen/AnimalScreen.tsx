@@ -5,7 +5,6 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import Select from 'react-native-select-plus';
 import RadioForm from 'react-native-simple-radio-button';
-import DogFileList from 'components/DogFileList';
 
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '/store/index';
@@ -18,14 +17,14 @@ import {
 } from 'store/actions/action';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 
-class DogScreen extends Component<Props, {}> {
+class AnimalScreen extends Component<Props, {}> {
   state = {
     datepickerOpen: false,
   };
 
   render() {
     const {navigate} = this.props.navigation;
-
+    //hund ras list
     const raceItems = [
       {key: 2, label: 'Blandras'},
       {key: 3, label: 'Blandras(Pitbull)'},
@@ -42,10 +41,40 @@ class DogScreen extends Component<Props, {}> {
       {key: 14, label: 'Beagle'},
     ];
 
+    //katt ras list
+    const catRace = [
+      {key: 2, label: 'Blandras'},
+      {key: 3, label: 'Abessiner'},
+      {key: 4, label: 'Angora'},
+      {key: 5, label: 'Balines'},
+      {key: 6, label: 'Bengal'},
+      {key: 7, label: 'Bombay'},
+      {key: 8, label: 'Burma'},
+      {key: 9, label: 'Perser'},
+      {key: 10, label: 'Snowshoe'},
+      {key: 11, label: 'Angora'},
+      {key: 12, label: 'Toyger'},
+      {key: 13, label: 'Wergedoll'},
+    ];
+
+    //häst ras list
+    const horseRace = [
+      {key: 1, label: 'Achaltekeer'},
+      {key: 2, label: 'Am.Curly'},
+      {key: 3, label: 'Andallusier'},
+    ];
+    //radio knappar hona/hane
     const radio_props = [
       {label: 'hona', value: 'hona'},
       {label: 'hane', value: 'hane'},
     ];
+    //radio knappar för häst
+    const radio_props_horse = [
+      {label: 'Sto', value: 'Sto'},
+      {label: 'Hingst', value: 'Hingst'},
+      {label: 'Valack', value: 'Valack'},
+    ];
+    //radio knappar för hund och katt
     const radioProps = [
       {label: 'kastrerad', value: 'ja'},
       {label: 'ejkastrerad', value: 'nej'},
@@ -120,53 +149,134 @@ class DogScreen extends Component<Props, {}> {
               <Text style={style.errorMsg}>
                 {touched.birthday && errors.birthday}
               </Text>
-
-              <Select
-                style={style.raceInput}
-                data={raceItems}
-                width={360}
-                height={60}
-                placeholder="Select race"
-                search={true}
-                onSelect={e => {
-                  const selectedRace = raceItems.find(race => race.key === e);
-                  if (selectedRace) {
-                    handleChange('race')(selectedRace.label);
-                  }
-                }}
-                onBlur={handleBlur('race')}
-              />
+              {this.props.animalType === 'Hund' && (
+                <Select
+                  style={style.raceInput}
+                  data={raceItems}
+                  width={360}
+                  height={60}
+                  placeholder="Select race"
+                  search={true}
+                  onSelect={e => {
+                    const selectedRace = raceItems.find(race => race.key === e);
+                    if (selectedRace) {
+                      handleChange('race')(selectedRace.label);
+                    }
+                  }}
+                  onBlur={handleBlur('race')}
+                />
+              )}
+              {this.props.animalType === 'Katt' && (
+                <Select
+                  style={style.raceInput}
+                  data={catRace}
+                  width={360}
+                  height={60}
+                  placeholder="Select race"
+                  search={true}
+                  onSelect={e => {
+                    const selectedCatRace = catRace.find(
+                      race => race.key === e,
+                    );
+                    if (selectedCatRace) {
+                      handleChange('race')(selectedCatRace.label);
+                    }
+                  }}
+                  onBlur={handleBlur('race')}
+                />
+              )}
+              {this.props.animalType === 'Häst' && (
+                <Select
+                  style={style.raceInput}
+                  data={horseRace}
+                  width={360}
+                  height={60}
+                  placeholder="Select race"
+                  search={true}
+                  onSelect={e => {
+                    const selectedHorseRace = horseRace.find(
+                      race => race.key === e,
+                    );
+                    if (selectedHorseRace) {
+                      handleChange('race')(selectedHorseRace.label);
+                    }
+                  }}
+                  onBlur={handleBlur('race')}
+                />
+              )}
               <Text style={style.errorMsg}>{touched.race && errors.race}</Text>
+              {this.props.animalType === 'Hund' && (
+                <RadioForm
+                  radio_props={radio_props}
+                  initial={this.props.animalGender}
+                  style={style.radio}
+                  formHorizontal={false}
+                  labelHorizontal={true}
+                  animation={true}
+                  labelStyle={{fontSize: 20}}
+                  onPress={handleChange('gender')}
+                  onBlur={handleBlur('gender')}
+                />
+              )}
+              {this.props.animalType === 'Katt' && (
+                <RadioForm
+                  radio_props={radio_props}
+                  initial={this.props.animalGender}
+                  style={style.radio}
+                  formHorizontal={false}
+                  labelHorizontal={true}
+                  animation={true}
+                  labelStyle={{fontSize: 20}}
+                  onPress={handleChange('gender')}
+                  onBlur={handleBlur('gender')}
+                />
+              )}
+              {this.props.animalType === 'Häst' && (
+                <RadioForm
+                  radio_props={radio_props_horse}
+                  initial={this.props.animalGender}
+                  style={style.radio}
+                  formHorizontal={false}
+                  labelHorizontal={true}
+                  animation={true}
+                  labelStyle={{fontSize: 20}}
+                  onPress={handleChange('gender')}
+                  onBlur={handleBlur('gender')}
+                />
+              )}
 
-              <RadioForm
-                radio_props={radio_props}
-                initial={this.props.animalGender}
-                style={style.radio}
-                formHorizontal={false}
-                labelHorizontal={true}
-                animation={true}
-                labelStyle={{fontSize: 20}}
-                onPress={handleChange('gender')}
-                onBlur={handleBlur('gender')}
-              />
               <Text style={style.errorMsg}>
                 {touched.gender && errors.gender}
               </Text>
-              <RadioForm
-                radio_props={radioProps}
-                initial={this.props.animalCastrated}
-                style={style.radio}
-                formHorizontal={false}
-                labelHorizontal={true}
-                animation={true}
-                labelStyle={{fontSize: 20}}
-                onPress={handleChange('castrated')}
-                onBlur={handleBlur('castrated')}
-              />
+              {this.props.animalType === 'Hund' && (
+                <RadioForm
+                  radio_props={radioProps}
+                  initial={this.props.animalCastrated}
+                  style={style.radio}
+                  formHorizontal={false}
+                  labelHorizontal={true}
+                  animation={true}
+                  labelStyle={{fontSize: 20}}
+                  onPress={handleChange('castrated')}
+                  onBlur={handleBlur('castrated')}
+                />
+              )}
+              {this.props.animalType === 'Katt' && (
+                <RadioForm
+                  radio_props={radioProps}
+                  initial={this.props.animalCastrated}
+                  style={style.radio}
+                  formHorizontal={false}
+                  labelHorizontal={true}
+                  animation={true}
+                  labelStyle={{fontSize: 20}}
+                  onPress={handleChange('castrated')}
+                  onBlur={handleBlur('castrated')}
+                />
+              )}
               <Text style={style.errorMsg}>
                 {touched.castrated && errors.castrated}
               </Text>
-
               <Button
                 onPress={handleSubmit}
                 title="Submit"
@@ -289,4 +399,4 @@ function formatDate(date) {
   return [year, month, day].join('-');
 }
 
-export default connector(DogScreen);
+export default connector(AnimalScreen);

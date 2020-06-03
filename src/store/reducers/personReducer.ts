@@ -16,6 +16,7 @@ import {
   AUTH_PERSON_LOGOUT,
   AUTH_PERSON_LOGOUT_FULFILLED,
   AUTH_PERSON_LOGOUT_REJECTED,
+  RESET_STORE,
 } from '../actions/types';
 
 const initialState: PersonState = {
@@ -96,6 +97,13 @@ const personReducer = (
         email: action.payload.email,
         postkod: action.payload.postkod,
         uid: action.payload.uid,
+      };
+    case RESET_STORE:
+      return {
+        ...state,
+        fireBaseError: '',
+        fireBasePending: false,
+        fireBaseSuccess: false,
       };
   }
   return state;

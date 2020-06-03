@@ -5,7 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import Home from './screens/home_screen/HomeTab';
 import DisplayScreen from './screens/DisplayScreen/DisplayScreen';
 import PersonScreen from '/screens/PersonScreen/PersonScreen';
-import DogScreen from 'screens/DogScreen/DogScreen';
+import AnimalScreen from 'screens/AnimalScreen/AnimalScreen';
 import ShowScreen from 'screens/showScreen/ShowScreen';
 import PaymentScreen from 'screens/PaymentScreen/PaymentScreen';
 import InsuranceScreen from 'screens/InsuranceScreen/InsuranceScreen';
@@ -35,17 +35,53 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="LogIn">
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="DisplayScreen" component={DisplayScreen} />
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="DisplayScreen"
+            component={DisplayScreen}
+            options={{headerTransparent: true, headerTitle: ''}}
+          />
           <Stack.Screen name="PersonScreen" component={PersonScreen} />
-          <Stack.Screen name="DogScreen" component={DogScreen} />
-          <Stack.Screen name="ShowScreen" component={ShowScreen} />
-          <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
-          <Stack.Screen name="InsuranceScreen" component={InsuranceScreen} />
-          <Stack.Screen name="CardScreen" component={CardScreen} />
+          <Stack.Screen
+            name="AnimalScreen"
+            component={AnimalScreen}
+            options={{headerTransparent: true, headerTitle: ''}}
+          />
+          <Stack.Screen
+            name="ShowScreen"
+            component={ShowScreen}
+            options={{headerTransparent: true, headerTitle: ''}}
+          />
+          <Stack.Screen
+            name="PaymentScreen"
+            component={PaymentScreen}
+            options={{headerTransparent: true, headerTitle: ''}}
+          />
+          <Stack.Screen
+            name="InsuranceScreen"
+            component={InsuranceScreen}
+            options={{headerTransparent: true, headerTitle: ''}}
+          />
+          <Stack.Screen
+            name="CardScreen"
+            component={CardScreen}
+            options={{headerTransparent: true, headerTitle: ''}}
+          />
           <Stack.Screen name="ProfilScreen" component={ProfilScreen} />
-          <Stack.Screen name="LogIn" component={LogginInScreen} />
-          <Stack.Screen name="Registrer" component={RegistrationScreen} />
+          <Stack.Screen
+            name="LogIn"
+            component={LogginInScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Registrer"
+            component={RegistrationScreen}
+            options={{headerShown: false}}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
