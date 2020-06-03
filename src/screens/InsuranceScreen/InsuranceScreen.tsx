@@ -105,6 +105,7 @@ type Props = PropsFromRedux & {
 const style = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 10,
   },
   middleView: {
     flex: 4,

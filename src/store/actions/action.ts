@@ -6,9 +6,7 @@ import {
   ADD_ANIMAL_BIRTHDAY,
   ADD_ANIMAL_RACE,
   ADD_ANIMAL_CASTRATED,
-  SUBMIT_ANIMAL,
-  ADD_PERSON_NAME,
-  ADD_PERSON_LASTNAME,
+  ADD_PERSON_FULL_NAME,
   ADD_PERSON_EMAIL,
   ADD_PERSON_POSTKOD,
   PersonActionTypes,
@@ -19,11 +17,23 @@ import {
   SubscriptionActionTypes,
   CHOOSE_SUB_DATE,
   CHOOSE_SUB_INTERVAL,
+  CHOOSE_COST,
   ChooseInsuranceActionTypes,
   CHOOSE_INSURANCE_BOOL,
   CHOOSE_INSURANCE_COMPANY,
   CHOOSE_INSURANCE_COMPANY_TERMINATION,
+  FIREBASE_SUBMIT,
+  AUTH_PERSON_LOGIN,
+  AUTH_PERSON_LOGOUT,
+  AUTH_PERSON_REGISTER,
+  PaymentOption,
+ ResetStoreAction,
+ RESET_STORE
 } from './types';
+import {RootState} from '../';
+
+import firestore from '@react-native-firebase/firestore';
+import auth, { firebase } from '@react-native-firebase/auth';
 
 export const addAnimal = (animal: string): AnimalActionTypes => {
   return {
@@ -58,31 +68,20 @@ export const addAnimalBirthday = (date: Date): AnimalActionTypes => {
   };
 };
 
-export const addAnimalCastrated = (castrated: boolean): AnimalActionTypes => {
+export const addAnimalCastrated = (castrated: 'ja' | 'nej'): AnimalActionTypes => {
   return {
     type: ADD_ANIMAL_CASTRATED,
-    data: castrated,
-  };
-};
-export const submitAnimal = (isSubmit: boolean): AnimalActionTypes => {
-  return {
-    type: SUBMIT_ANIMAL,
-    data: isSubmit,
+    data: castrated === 'ja',
   };
 };
 
-export const addPersonName = (name: string): PersonActionTypes => {
+export const addPersonFullName = (name: string): PersonActionTypes => {
   return {
-    type: ADD_PERSON_NAME,
+    type: ADD_PERSON_FULL_NAME,
     data: name,
   };
 };
-export const addPersonLastName = (lastName: string): PersonActionTypes => {
-  return {
-    type: ADD_PERSON_LASTNAME,
-    data: lastName,
-  };
-};
+
 export const addPersonEmail = (email: string): PersonActionTypes => {
   return {
     type: ADD_PERSON_EMAIL,
@@ -95,6 +94,53 @@ export const addPersonPostKod = (postkod: number): PersonActionTypes => {
     data: postkod,
   };
 };
+export const AuthLoginPerson = (email: string, password: string, callback?: () => any ) : PersonActionTypes => {
+  return {
+    type: AUTH_PERSON_LOGIN,
+    payload: async () => {
+      const res = await auth().signInWithEmailAndPassword(email, password);
+      const userDoc = await (await firestore().collection('Users').doc(res.user.uid).get()).data();
+      if(callback) callback();
+      return {
+        uid: res.user.uid,
+        email,
+        name: res.user.displayName,
+        postkod: userDoc ? userDoc.postkod : ''
+      };
+    } 
+  }
+}
+
+export const AuthLogoutPerson = (callback?: () => any) : PersonActionTypes => {
+  return {
+    type: AUTH_PERSON_LOGOUT,
+    payload: auth()
+    .signOut()
+    .then(() => {
+      if (callback) callback();
+    })
+  }
+}
+
+export const AuthRegisterPerson = (name, email, password, postkod, callback?:() => any) : PersonActionTypes => {
+  return {
+    type: AUTH_PERSON_REGISTER,
+    payload: async () => {
+      const res = await auth()
+        .createUserWithEmailAndPassword(email, password)
+      
+      await res.user.updateProfile({ displayName: name });
+      await firestore().collection('Users').doc(res.user.uid).set({postkod});
+      if(callback) callback();
+      return {
+        uid: res.user.uid,
+        email,
+        name,
+        postkod
+      };
+    }  
+  }
+}
 
 export const changePaymentFixedDeductible = (
   name: string,
@@ -121,13 +167,19 @@ export const changePaymentVariableDeductible = (
     },
   };
 };
+
 export const choosePaymentOption = (
   chooseOption: string,
+  choosenFixedDeducitble: PaymentOption["fixedDeductible"],
+  choosenvariableDeductible: PaymentOption['variableDeductible']
 ): PaymentActionTypes => {
   return {
     type: CHOOSE_PAYMENT_OPTION,
     data: {
       chooseOption,
+      choosenFixedDeducitble,
+      choosenvariableDeductible
+
     },
   };
 };
@@ -139,10 +191,43 @@ export const chooseSubDate = (dateOfSub: string): SubscriptionActionTypes => {
 };
 export const chooseSubscriptonInterval = (
   chooseSubInterval: string,
+  chooseCost: PaymentOption,
 ): SubscriptionActionTypes => {
   return {
-    type: CHOOSE_SUB_INTERVAL,
-    data: chooseSubInterval,
+    type: CHOOSE_SUB_INTERVAL, 
+    data: {
+      chooseSubInterval, // 'månad' / ... 
+      chooseCost
+    },
+  };
+};
+export const chooseSubscriptionCost = (
+  chooseSubCost: number,
+): SubscriptionActionTypes => {
+  return {
+    type: CHOOSE_COST,
+    data: chooseSubCost
+  }
+}
+
+export const submitToFirebase = (store: RootState): SubscriptionActionTypes => {
+  const {animalReducer: animal, subscriptionReducer: sub, paymentReducer: payment} = store;
+  
+
+  return {
+    type: FIREBASE_SUBMIT,
+    payload: firestore()
+      .collection('Insurance')
+      .add({
+        animal,
+        cost: sub.chooseCost,
+        subInterval: sub.chooseSubInterval,
+        subDate: sub.dateOfSub,
+        Sub: payment.chooseOption,
+        fixedDeductible: payment.choosenFixedDeducitble,
+        variableDeductible: payment.choosenvariableDeductible,
+        uid: auth().currentUser?.uid,
+      }),
   };
 };
 
@@ -172,3 +257,9 @@ export const chooseInsuranceCompanyTermination = (
     data: TerminationCompany,
   };
 };
+
+export const resetStore = (): ResetStoreAction => {
+  return {
+    type: RESET_STORE
+  }
+}

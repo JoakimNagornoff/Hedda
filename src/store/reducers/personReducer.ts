@@ -1,42 +1,109 @@
 import {
   PersonState,
   PersonActionTypes,
-  ADD_PERSON_NAME,
-  ADD_PERSON_LASTNAME,
+  ADD_PERSON_FULL_NAME,
   ADD_PERSON_EMAIL,
   ADD_PERSON_POSTKOD,
+  AUTH_PERSON_LOGIN,
+  AUTH_PERSON_LOGIN_PENDING,
+  AUTH_PERSON_LOGIN_REJECTED,
+  AUTH_PERSON_LOGIN_FULFILLED,
+  AUTH_PERSON_REGISTER_FULFILLED,
+  AUTH_PERSON_REGISTER_REJECTED,
+  AUTH_PERSON_REGISTER_PENDING,
+  AUTH_PERSON_REGISTER,
+  AUTH_PERSON_LOGOUT_PENDING,
+  AUTH_PERSON_LOGOUT,
+  AUTH_PERSON_LOGOUT_FULFILLED,
+  AUTH_PERSON_LOGOUT_REJECTED,
+  RESET_STORE,
 } from '../actions/types';
 
 const initialState: PersonState = {
-  name: '',
-  lastName: '',
+  fullName: '',
   email: '',
-  postkod: null,
+  postkod: '',
+  uid: '',
+  fireBasePending: false,
+  fireBaseSuccess: false,
+  fireBaseError: '',
 };
 const personReducer = (
   state = initialState,
   action: PersonActionTypes,
 ): PersonState => {
   switch (action.type) {
-    case ADD_PERSON_NAME:
+    case AUTH_PERSON_LOGIN_PENDING:
       return {
         ...state,
-        name: action.data,
+        fireBasePending: true,
       };
-    case ADD_PERSON_LASTNAME:
+    case AUTH_PERSON_LOGIN_REJECTED:
       return {
         ...state,
-        lastName: action.data,
+        fireBaseError: 'Något gick fel.',
+        fireBasePending: false,
       };
-    case ADD_PERSON_EMAIL:
+    case AUTH_PERSON_LOGIN_FULFILLED:
       return {
         ...state,
-        email: action.data,
+        fireBasePending: false,
+        fireBaseSuccess: true,
+        fullName: action.payload.name,
+        email: action.payload.email,
+        postkod: action.payload.postkod,
+        uid: action.payload.uid,
       };
-    case ADD_PERSON_POSTKOD:
+
+    case AUTH_PERSON_LOGOUT_PENDING:
       return {
         ...state,
-        postkod: action.data,
+        fireBasePending: true,
+      };
+    case AUTH_PERSON_LOGOUT_REJECTED:
+      return {
+        ...state,
+        fireBaseError: 'Något gick fel.',
+        fireBasePending: false,
+      };
+    case AUTH_PERSON_LOGOUT_FULFILLED:
+      return {
+        ...state,
+        fireBasePending: false,
+        fireBaseSuccess: true,
+        fullName: '',
+        email: '',
+        postkod: '',
+        uid: '',
+      };
+
+    case AUTH_PERSON_REGISTER_PENDING:
+      return {
+        ...state,
+        fireBasePending: true,
+      };
+    case AUTH_PERSON_REGISTER_REJECTED:
+      return {
+        ...state,
+        fireBaseError: 'Något gick fel.',
+        fireBasePending: false,
+      };
+    case AUTH_PERSON_REGISTER_FULFILLED:
+      return {
+        ...state,
+        fireBasePending: false,
+        fireBaseSuccess: true,
+        fullName: action.payload.name,
+        email: action.payload.email,
+        postkod: action.payload.postkod,
+        uid: action.payload.uid,
+      };
+    case RESET_STORE:
+      return {
+        ...state,
+        fireBaseError: '',
+        fireBasePending: false,
+        fireBaseSuccess: false,
       };
   }
   return state;

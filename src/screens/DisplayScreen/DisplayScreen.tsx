@@ -3,21 +3,22 @@ import {Text, View, StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '/store/index';
+import {submitToFirebase, addAnimalCastrated} from 'store/actions/action';
 
-import {submitAnimal} from 'store/actions/action';
 import ActivityIndicatorExample from '@components/ActivityIndicatorExample';
 
 class DisplayScreen extends Component<Props, {}> {
   handleSubmitClick() {
-    this.props.submitAnimal(true);
-    setTimeout(() => {
+    if (this.props.animalGender === 'Valack') {
+      this.props.addAnimalCastrated('ja');
       this.props.navigation.navigate('ShowScreen');
-    }, 6000);
-  }
-  render() {
-    if (this.props.animalisSubmit) {
-      return <ActivityIndicatorExample></ActivityIndicatorExample>;
+    } else {
+      this.props.navigation.navigate('ShowScreen');
     }
+  }
+
+  render() {
+    const {navigate} = this.props.navigation;
 
     return (
       <View style={style.container}>
@@ -30,15 +31,17 @@ class DisplayScreen extends Component<Props, {}> {
           </Text>
           <Text style={style.formText}>kön: {this.props.animalGender}</Text>
           <Text style={style.formText}>
-            kastrerad: {this.props.animalCastrated}
+            {this.props.animalType !== 'Häst' && (
+              <Text>
+                kastrerad: {this.props.animalCastrated ? 'ja' : 'nej'}
+              </Text>
+            )}
           </Text>
         </View>
         <View style={style.halfTwo}>
           <Text style={style.title}>Uppgifter Ägare</Text>
           <Text style={style.formText}>namn : {this.props.personName}</Text>
-          <Text style={style.formText}>
-            efternamn : {this.props.personLastName}
-          </Text>
+
           <Text style={style.formText}>Email : {this.props.personEmail}</Text>
           <Text style={style.formText}>
             Postkod : {this.props.personPostKod}
@@ -57,8 +60,7 @@ class DisplayScreen extends Component<Props, {}> {
 }
 function mapStateToProps(state: RootState) {
   return {
-    personName: state.personReducer.name,
-    personLastName: state.personReducer.lastName,
+    personName: state.personReducer.fullName,
     personEmail: state.personReducer.email,
     personPostKod: state.personReducer.postkod,
     animalType: state.animalReducer.type,
@@ -67,13 +69,20 @@ function mapStateToProps(state: RootState) {
     animalGender: state.animalReducer.gender,
     animalBirthday: state.animalReducer.birthday,
     animalCastrated: state.animalReducer.castrated,
-    animalisSubmit: state.animalReducer.isSubmit,
+    fireBasePending: state.subscriptionReducer.fireBasePending,
+    fireBaseSuccess: state.subscriptionReducer.fireBaseSuccess,
+    fireBaseError: state.subscriptionReducer.fireBaseError,
+    store: state,
   };
 }
 const mapDispatchToProps = {
-  submitAnimal,
+  submitToFirebase,
+  addAnimalCastrated,
 };
-const connector = connect(mapStateToProps, mapDispatchToProps);
+const connector = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux & {
   navigation: any;

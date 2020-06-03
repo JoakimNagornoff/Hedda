@@ -14,6 +14,7 @@ import {
   changePaymentFixedDeductible,
   changePaymentVariableDeductible,
   choosePaymentOption,
+  chooseSubscriptionCost,
 } from 'store/actions/action';
 import {calculateMonthlyCost} from 'utils';
 
@@ -84,7 +85,11 @@ class ShowScreen extends Component<Props, {}> {
                 this.props.changePaymentVariableDeductible
               }
               onButtonClick={() => {
-                this.props.choosePaymentOption(item.name);
+                this.props.choosePaymentOption(
+                  item.name,
+                  item.fixedDeductible,
+                  item.variableDeductible,
+                );
                 this.props.navigation.navigate('InsuranceScreen');
               }}
             />
@@ -99,12 +104,14 @@ class ShowScreen extends Component<Props, {}> {
 function mapStateToProps(state: RootState) {
   return {
     paymentOptions: state.paymentReducer.options,
+    animalType: state.animalReducer.type,
   };
 }
 const mapDispatchToProps = {
   changePaymentFixedDeductible,
   changePaymentVariableDeductible,
   choosePaymentOption,
+  chooseSubscriptionCost,
 };
 const connector = connect(
   mapStateToProps,
@@ -119,6 +126,7 @@ type Props = PropsFromRedux & {
 const style = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 40,
   },
   scrollContainer: {
     flex: 1,
