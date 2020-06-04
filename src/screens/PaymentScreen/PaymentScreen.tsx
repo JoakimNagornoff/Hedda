@@ -124,66 +124,9 @@ class PaymentScreen extends Component<Props, {}> {
               }}>
               <Text>{}</Text>
               <Text>per Vecka</Text>
-
-            <Text style={style.secondTitle}>
-              Hur vill du lägga upp betalningen?
-            </Text>
-            <View style={style.middle}>
-              <TouchableOpacity
-                style={style.chooseButton}
-                onPress={() => {
-                  this.props.chooseSubscriptonInterval('vecko');
-                }}>
-                <Text>
-                  {calculateWeeklyCost(
-                    this.props.choosen.baseCost,
-                    this.props.choosen.fixedDeductible,
-                    this.props.choosen.variableDeductible,
-                  )}
-                  Kr
-                </Text>
-                <Text>per Vecka</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={style.chooseButton}
-                onPress={() => {
-                  this.props.chooseSubscriptonInterval('månad');
-                }}>
-                <Text>
-                  {calculateMonthlyCost(
-                    this.props.choosen.baseCost,
-                    this.props.choosen.fixedDeductible,
-                    this.props.choosen.variableDeductible,
-                  )}
-                </Text>
-                <Text>per Månad</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={style.chooseButton}
-                onPress={() => {
-                  this.props.chooseSubscriptonInterval('år');
-                }}>
-                <Text>
-                  {calculateYearlyCost(
-                    this.props.choosen.baseCost,
-                    this.props.choosen.fixedDeductible,
-                    this.props.choosen.variableDeductible,
-                  )}
-                </Text>
-                <Text>per År</Text>
-              </TouchableOpacity>
-            </View>
 
-            <Text style={style.secondTitle}>Hur vill du betala?</Text>
-          </View>
-
-          <View style={style.halfTwo}>
-            <TouchableOpacity style={style.paymentButton}>
-              <Text style={style.paymentButtonText}>Bank</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={style.paymentButton}>
-              <Text style={style.paymentButtonText}>Swish</Text>
-            </TouchableOpacity>
+            
             <TouchableOpacity
               style={style.chooseButton}
               onPress={() => {
