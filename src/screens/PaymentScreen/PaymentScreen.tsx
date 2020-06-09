@@ -103,7 +103,6 @@ class PaymentScreen extends Component<Props, {}> {
             {}
           </Text>
           <Text style={style.title}>
-            {/* {this.calculateCost(this.props.subscriptonInterval)}*/}
             <Text style={style.secondTitle}>
               {' '}
               kr per {this.props.subscriptonInterval}
@@ -126,7 +125,6 @@ class PaymentScreen extends Component<Props, {}> {
               <Text>per Vecka</Text>
               </TouchableOpacity>
 
-            
             <TouchableOpacity
               style={style.chooseButton}
               onPress={() => {
@@ -146,11 +144,10 @@ class PaymentScreen extends Component<Props, {}> {
               <Text>{}</Text>
               <Text>per År</Text>
             </TouchableOpacity>
-          </View>
+            </View>
 
           <Text style={style.secondTitle}>Hur vill du betala?</Text>
-        </View>
-
+          </View>
         <View style={style.halfTwo}>
           <TouchableOpacity style={style.paymentButton}>
             <Text style={style.paymentButtonText}>Bank id</Text>
@@ -206,6 +203,7 @@ class PaymentScreen extends Component<Props, {}> {
     );
   }
 }
+
 
 function mapStateToProps(state: RootState) {
   return {
