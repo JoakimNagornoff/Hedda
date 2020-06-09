@@ -4,8 +4,10 @@
  *
  * @format
  */
-
 module.exports = {
+  resolver: {
+    blacklistRE: /#current-cloud-backend\/.*/
+  },
   transformer: {
     getTransformOptions: async () => ({
       transform: {

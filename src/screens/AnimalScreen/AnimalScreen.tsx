@@ -305,7 +305,6 @@ const validationSchema = Yup.object().shape({
     .required(),
   castrated: Yup.string()
     .label('castrated')
-    .required(),
 });
 
 function mapStateToProps(state: RootState) {

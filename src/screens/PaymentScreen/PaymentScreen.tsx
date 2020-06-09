@@ -124,6 +124,7 @@ class PaymentScreen extends Component<Props, {}> {
               <Text>{}</Text>
               <Text>per Vecka</Text>
               </TouchableOpacity>
+
             <TouchableOpacity
               style={style.chooseButton}
               onPress={() => {
